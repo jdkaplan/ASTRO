@@ -2,6 +2,10 @@
 
 #define CYCLES_PER_MS 1000
 
+void delay(unsigned int);
+void pin_on(int);
+void pin_off(int);
+
 void delay(unsigned int ms) {
     while(ms--) {
         __delay_cycles(CYCLES_PER_MS);
