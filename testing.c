@@ -2,9 +2,6 @@
 
 #define CYCLES_PER_MS 1000
 
-void delay(unsigned int);
-void pin_on(int);
-void pin_off(int);
 
 void delay(unsigned int ms) {
     while(ms--) {
@@ -27,112 +24,85 @@ void set_pins() {
   P4OUT = P4DIR;
 }
 
-/* void cycle_pin(int pin, unsigned int on, unsigned int off) { */
-/*   pin_on(pin); */
-/*   set_pins(); */
-/*   delay(on); */
-/*   pin_off(pin); */
-/*   set_pins(); */
-/*   delay(off); */
-/* } */
-
-/* void pin_on_2(int pin) { */
-/*   P1DIR |= pin; */
-/* } */
-
-/* void pin_off_2(int pin) { */
-/*   P2DIR &= ~pin; */
-/* } */
-
-/* void cycle_pin_2(int pin, unsigned int on, unsigned int off) { */
-/*   pin_on_2(pin); */
-/*   set_pins(); */
-/*   delay(on); */
-/*   pin_off_2(pin); */
-/*   set_pins(); */
-/*   delay(off); */
-/* } */
-
 // pin_01 = GND
 // pin_02 = VCC
 
-void pin_03(bool state) {
-  P2DIR |= ((int)state * 0x01);
-  P2DIR &= ~((1 - (int)state) * 0x01);
+void pin_03(int state) {
+  P2DIR |= (state * 0x01);
+  P2DIR &= ~((1 - state) * 0x01);
 }
 
-void pin_04(bool state) {
-  P2DIR |= ((int)state * 0x02);
-  P2DIR &= ~((1 - (int)state) * 0x02);
+void pin_04(int state) {
+  P2DIR |= (state * 0x02);
+  P2DIR &= ~((1 - state) * 0x02);
 }
 
-void pin_05(bool state) {
-  P2DIR |= ((int)state * 0x04);
-  P2DIR &= ~((1 - (int)state) * 0x04);
+void pin_05(int state) {
+  P2DIR |= (state * 0x04);
+  P2DIR &= ~((1 - state) * 0x04);
 }
 
-void pin_06(bool state) {
-  P2DIR |= ((int)state * 0x08);
-  P2DIR &= ~((1 - (int)state) * 0x08);
+void pin_06(int state) {
+  P2DIR |= (state * 0x08);
+  P2DIR &= ~((1 - state) * 0x08);
 }
 
-void pin_07(bool state) {
-  P2DIR |= ((int)state * 0x10);
-  P2DIR &= ~((1 - (int)state) * 0x10);
+void pin_07(int state) {
+  P2DIR |= (state * 0x10);
+  P2DIR &= ~((1 - state) * 0x10);
 }
 
-void pin_08(bool state) {
-  P4DIR |= ((int)state * 0x08);
-  P4DIR &= ~((1 - (int)state) * 0x08);
+void pin_08(int state) {
+  P4DIR |= (state * 0x08);
+  P4DIR &= ~((1 - state) * 0x08);
 }
 
-void pin_09(bool state) {
-  P4DIR |= ((int)state * 0x10);
-  P4DIR &= ~((1 - (int)state) * 0x10);
+void pin_09(int state) {
+  P4DIR |= (state * 0x10);
+  P4DIR &= ~((1 - state) * 0x10);
 }
 
-void pin_10(bool state) {
-  P4DIR |= ((int)state * 0x20);
-  P4DIR &= ~((1 - (int)state) * 0x20);
+void pin_10(int state) {
+  P4DIR |= (state * 0x20);
+  P4DIR &= ~((1 - state) * 0x20);
 }
 
-void pin_11(bool state) {
-  P4DIR |= ((int)state * 0x40);
-  P4DIR &= ~((1 - (int)state) * 0x40);
+void pin_11(int state) {
+  P4DIR |= (state * 0x40);
+  P4DIR &= ~((1 - state) * 0x40);
 }
 
 // pin_12 = GND
 
-void pin_13(bool state) {
-  P2DIR |= ((int)state * 0x40);
-  P2DIR &= ~((1 - (int)state) * 0x40);
+void pin_13(int state) {
+  P2DIR |= (state * 0x40);
+  P2DIR &= ~((1 - state) * 0x40);
 }
 
-void pin_14(bool state) {
-  P2DIR |= ((int)state * 0x80);
-  P2DIR &= ~((1 - (int)state) * 0x80);
+void pin_14(int state) {
+  P2DIR |= (state * 0x80);
+  P2DIR &= ~((1 - state) * 0x80);
 }
 
-void pin_15(bool state) {
-  P3DIR |= ((int)state * 0x04);
-  P3DIR &= ~((1 - (int)state) * 0x04);
+void pin_15(int state) {
+  P3DIR |= (state * 0x04);
+  P3DIR &= ~((1 - state) * 0x04);
 }
 
-void pin_16(bool state) {
-  P3DIR |= ((int)state * 0x08);
-  P3DIR &= ~((1 - (int)state) * 0x08);
+void pin_16(int state) {
+  P3DIR |= (state * 0x08);
+  P3DIR &= ~((1 - state) * 0x08);
 }
 
-void pin_17(bool state) {
-  P3DIR |= ((int)state * 0x01);
-  P3DIR &= ~((1 - (int)state) * 0x01);
+void pin_17(int state) {
+  P3DIR |= (state * 0x01);
+  P3DIR &= ~((1 - state) * 0x01);
 }
 
-void pin_18(bool state) {
-  P3DIR |= ((int)state * 0x02);
-  P3DIR &= ~((1 - (int)state) * 0x02);
+void pin_18(int state) {
+  P3DIR |= (state * 0x02);
+  P3DIR &= ~((1 - state) * 0x02);
 }
-
 
 int main(void) {
   // turn off watchdog timer
@@ -157,17 +127,44 @@ int main(void) {
   P2SEL = 0;
   while (1) {
     //cycle_pin_2(0x1, 1000, 1000);
-    P1DIR = 0x1;
-    P1OUT = P1DIR;
-    P2DIR = 0x1;
-    P2OUT = P2DIR;
-    delay(1000);
+
+    /* P1DIR = 0x1; */
+    /* P1OUT = P1DIR; */
+    /* P2DIR = 0x1; */
+    /* P2OUT = P2DIR; */
+    /* delay(1000); */
     
-    P1DIR = 0x0;
-    P1OUT = P1DIR;
-    P2DIR = 0x0;
-    P2OUT = P2DIR;
-    delay(1000);
+    /* P1DIR = 0x0; */
+    /* P1OUT = P1DIR; */
+    /* P2DIR = 0x0; */
+    /* P2OUT = P2DIR; */
+    /* delay(1000); */
     
+    // 3,5,7,9
+    int timing = 100;
+
+    // 1 0 1 0
+    pin_03(1);
+    pin_07(1);
+    set_pins();
+    delay(timing);
+
+    // 1 0 0 1
+    pin_07(0);
+    pin_09(1);
+    set_pins();
+    delay(timing);
+
+    // 0 0 1 1
+    pin_07(0);
+    pin_05(1);
+    set_pins();
+    delay(timing);
+
+    // 0 1 1 0
+    pin_09(0);
+    pin_07(1);
+    set_pins();
+    delay(timing);
   }
 }
