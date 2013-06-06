@@ -2,11 +2,29 @@
 
 #define CYCLES_PER_MS 1000
 
+void kill_watchdog() {
+  WDTCTL = WDTPW + WDTHOLD;
+}
+
+void reset() {
+  P1DIR = 0x00;
+  P1SEL = 0x00;
+  P2OUT = P1DIR;
+  P2DIR = 0x00;
+  P2SEL = 0x00;
+  P2OUT = P2DIR;
+  P3DIR = 0x00;
+  P3SEL = 0x00;
+  P3OUT = P3DIR;
+  P4DIR = 0x00;
+  P4SEL = 0x00;
+  P4OUT = P4DIR;
+}
 
 void delay(unsigned int ms) {
-    while(ms--) {
-        __delay_cycles(CYCLES_PER_MS);
-    }
+  while(ms--) {
+    __delay_cycles(CYCLES_PER_MS);
+  }
 }
 
 void pin_on(int pin) {
@@ -22,6 +40,16 @@ void set_pins() {
   P2OUT = P2DIR;
   P3OUT = P3DIR;
   P4OUT = P4DIR;
+}
+
+void red_led(int state) {
+  P1DIR |= (state * 0x1);
+  P1DIR &= ~((1 - state) * 0x1);
+}
+
+void green_led(int state) {
+  P1DIR |= (state * 0x2);
+  P1DIR &= ~((1 - state) * 0x2);
 }
 
 // pin_01 = GND
@@ -104,52 +132,65 @@ void pin_18(int state) {
   P3DIR &= ~((1 - state) * 0x02);
 }
 
-int main(void) {
-  // turn off watchdog timer
-  WDTCTL = WDTPW + WDTHOLD;
-  
-  // everything off
-  
-  P1DIR = 0x00;
-  P1SEL = 0x00;
-  P2OUT = P1DIR;
-  P2DIR = 0x00;
-  P2SEL = 0x00;
-  P2OUT = P2DIR;
-  P3DIR = 0x00;
-  P3SEL = 0x00;
-  P3OUT = P3DIR;
-  P4DIR = 0x00;
-  P4SEL = 0x00;
-  P4OUT = P4DIR;
-  
-  while (1) {
-    
+void motor_cycle() {
+  int i;
+  for (i=3 ; i>0 ; i--) {
     // 3,5,7,9
     int timing = 100;
 
     // 1 0 1 0
     pin_03(1);
+    pin_05(0);
     pin_07(1);
+    pin_09(0);
+
+    red_led(1);
+    green_led(0);
+
     set_pins();
     delay(timing);
 
     // 1 0 0 1
+    pin_03(1);
+    pin_05(0);
     pin_07(0);
     pin_09(1);
+
+    red_led(0);
+    green_led(1);
+
     set_pins();
     delay(timing);
 
-    // 0 0 1 1
-    pin_07(0);
+    // 0 1 0 1
+    pin_03(0);
     pin_05(1);
+    pin_07(0);
+    pin_09(1);
+
+    red_led(1);
+    green_led(1);
+
     set_pins();
     delay(timing);
 
     // 0 1 1 0
-    pin_09(0);
+    pin_03(0);
+    pin_05(1);
     pin_07(1);
+    pin_09(0);
+
+    red_led(0);
+    green_led(0);
+
     set_pins();
     delay(timing);
   }
+}
+
+int main(void) {
+  kill_watchdog();
+  reset();
+
+  motor_cycle();
 }
