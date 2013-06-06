@@ -109,7 +109,7 @@ int main(void) {
   WDTCTL = WDTPW + WDTHOLD;
   
   // everything off
-  /*
+  
   P1DIR = 0x00;
   P1SEL = 0x00;
   P2OUT = P1DIR;
@@ -122,23 +122,8 @@ int main(void) {
   P4DIR = 0x00;
   P4SEL = 0x00;
   P4OUT = P4DIR;
-  */
-
-  P2SEL = 0;
+  
   while (1) {
-    //cycle_pin_2(0x1, 1000, 1000);
-
-    /* P1DIR = 0x1; */
-    /* P1OUT = P1DIR; */
-    /* P2DIR = 0x1; */
-    /* P2OUT = P2DIR; */
-    /* delay(1000); */
-    
-    /* P1DIR = 0x0; */
-    /* P1OUT = P1DIR; */
-    /* P2DIR = 0x0; */
-    /* P2OUT = P2DIR; */
-    /* delay(1000); */
     
     // 3,5,7,9
     int timing = 100;
