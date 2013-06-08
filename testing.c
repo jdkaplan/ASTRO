@@ -134,9 +134,9 @@ void pin_18(int state) {
 
 void motor_cycle() {
   int i;
-  for (i=3 ; i>0 ; i--) {
+  for (i=0 ; i<3 ; i++) {
     // 3,5,7,9
-    int timing = 100;
+    int timing = 20;
 
     // 1 0 1 0
     pin_03(1);
