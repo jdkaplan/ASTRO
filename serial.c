@@ -1,13 +1,13 @@
 #include <msp430.h>
 #include "serial.h"
 
-#define N_BUF 3
+#define N_BUF 2
 
 // Globals
 char serialRecvFlag;
 char serialRecvType;
-char inputBuffers[N_BUF][150];
-char outputBuffers[N_BUF][30];
+char inputBuffers[N_BUF][30];
+char outputBuffers[N_BUF][150];
 char inpSel = 0;
 char outSel = 0;
 char *serialInpBuf;
@@ -34,6 +34,8 @@ char newMsgs = 0;
 void serialSend(char *str) {
   char oS;
   char *buf;
+
+  ++newMsgs;
   // Copy str to buffer
   oS = (outSel+1)%N_BUF;
   buf = outputBuffers[oS];
@@ -41,7 +43,7 @@ void serialSend(char *str) {
     *(buf++) = *(str++);
   }
   *(buf) = 0;
-  if(!newMsgs) {
+  if(newMsgs == 1) {
     // Wait for TX Buffer to be ready.
     while (!(IFG2&UCA0TXIFG));
 
@@ -49,10 +51,9 @@ void serialSend(char *str) {
     o = 0;
 
     // Enable TX interrupt and send first character
-    IE2 |= UCA0TXIE;
     UCA0TXBUF = outputBuffers[outSel][o++];
+    IE2 |= UCA0TXIE;
   }
-  ++newMsgs;
 }
 
 
@@ -87,6 +88,7 @@ void parseByte(char b) {
 
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void) {
+  // Wait for TX Buffer to be ready.
   UCA0TXBUF = outputBuffers[outSel][o++];
   if(outputBuffers[outSel][o-1] == 0) {
     --newMsgs;
