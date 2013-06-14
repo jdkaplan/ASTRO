@@ -11,6 +11,7 @@ int main() {
   long prev = 0;
   while(1) {
     if(timerMS/1000 > prev) {
+      serialSend("Hello, how are you?");
       P1OUT ^= 0x3;
       prev = timerMS/1000;
     }
