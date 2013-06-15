@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define HASP_LEN 122
 
@@ -18,14 +19,17 @@ typedef struct {
 // Note: global variable i contains the current byte's index (DO NOT CHANGE IT!).
 // Note: HASP_LEN is the length of the string, including the two initial characters.
 
-char gps_height []= ";;;;;;;"; // because range is -9999.9 to 99999.9 (7 chars)
-int digit = 0;
+char mul = 1;
+char heightEnded = 0;
+long int height;
+
 int comma_count = 0;
 int valid_gps;
 gpsOut res = {0,0};
 int chars_read = 0;
 
 gpsOut gpsParse(char b) {
+  res.ended = 0;
   // comma
   if (b == ',') {
     comma_count++;
@@ -35,16 +39,29 @@ gpsOut gpsParse(char b) {
     case 7: // <6> block = fix indicator
       valid_gps = b - '0'; break;
     case 10: // <9> block = MSL altitude
-      gps_height[digit++] = b; break;
+      switch(b) {
+      case '-':
+	mul = -1;
+	break;
+      case '.':
+	heightEnded = 1;
+	break;
+      default:
+	height = heightEnded?height:(height*10 + (b-'0'));
+      }
+      break;
     case 11: // <9> block over
       if (valid_gps > 0)
-        res.height = strtol(gps_height,NULL,10); break;// store
+        res.height = height*mul; break;// store
     }
   }
-  if (chars_read++ == HASP_LEN) {
+  if (++chars_read == HASP_LEN) {
     res.ended = 1;
-    char gps_height [] = ";;;;;;;"; 
-    digit = 0;
+    
+    height = 0;
+    heightEnded = 0;
+    mul = 1;
+    
     comma_count = 0;
     chars_read = 0;
   }
@@ -53,16 +70,27 @@ gpsOut gpsParse(char b) {
 
 
 // TESTING
-int main() {
-  char *input_string = "1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,-9999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  
+void test(char *input_string) {
   int j;
   gpsOut out;
-  for (j=0; j<HASP_LEN; j++) {
+  for (j=0; j<strlen(input_string); j++) {
     out = gpsParse(input_string[j]);
   }
-  printf(gps_height);
-  printf("\n");
-  printf("%ld",out.height);
-  printf("\n");
+  if(!out.ended) {
+    printf("DIE DIE DIE\n");
+  }
+  printf("%ld\n",out.height);
+}
+
+int main() {
+  char input_string1[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  input_string1[0] = 0x1;
+  input_string1[0] = 0x3;
+  
+  char input_string2[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  input_string2[0] = 0x1;
+  input_string2[0] = 0x3;
+
+  test(input_string1);
+  test(input_string2);
 }
