@@ -1,10 +1,3 @@
-//NOTE: WILL ONLY BE ACCURATE TO WITHIN A METER BECAUSE USE OF LONGS INSTEAD OF DOUBLES
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #define HASP_LEN 122
 
 typedef struct {
@@ -67,7 +60,6 @@ gpsOut gpsParse(char b) {
   }
   return res;
 }
-
 
 // TESTING
 void test(char *input_string) {

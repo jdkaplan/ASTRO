@@ -99,7 +99,7 @@ void serialSend(char *str) {
    Commands from ground never start with 0x1, and are two bytes long.
    Have a flag variable on whether we already started receiving a message, and a type variable.
    messageType is 0 for messages from HASP and 1 for messages from ground.
- */
+*/
 char messageStarted = 0;
 char messageType = 0;
 char gpsSend[] = ";;;;\n";
@@ -130,10 +130,15 @@ void parseByte(char b) {
     if(i == GROUND_LEN) {
       messageStarted = 0;
       if(inputBuffers[inpSel][0] == inputBuffers[inpSel][1]) {
-	doCommand(inputBuffers[inpSel][0]);
+        doCommand(inputBuffers[inpSel][0]);
       }
     }
   }
+}
+
+// Does the command indicated by the command byte.
+void doCommand(char comm) {
+  serialSend("A command was received!\n");
 }
 
 #pragma vector=USCIAB0TX_VECTOR
