@@ -105,7 +105,7 @@ void serialSend(char *str) {
    Commands from ground never start with 0x1, and are two bytes long.
    Have a flag variable on whether we already started receiving a message, and a type variable.
    messageType is 0 for messages from HASP and 1 for messages from ground.
- */
+*/
 char messageStarted = 0;
 char messageType = 0;
 char gpsSend[] = "    \n";
@@ -135,22 +135,10 @@ void parseByte(char b) {
     if(i == GROUND_LEN) {
       messageStarted = 0;
       if(inputBuffers[inpSel][0] == inputBuffers[inpSel][1]) {
-	doCommand(inputBuffers[inpSel][0]);
+        doCommand(inputBuffers[inpSel][0]);
       }
     }
   }
-}
-
-// Gets byte by byte the GPS string. Parses it, and maintains a state.
-// When finished, it should return the reported height and flag saying the string
-//   ended, in the gpsOut format.
-// While not finished, it should return the ended flag as false (just return {0,0}).
-// Note: global variable i contains the current byte's index (DO NOT CHANGE IT!).
-// Note: HASP_LEN is the length of the string, including the two initial characters.
-
-gpsOut gpsParse(char b) {
-  gpsOut res = {0,0};
-  return res;
 }
 
 // Does the command indicated by the command byte.
