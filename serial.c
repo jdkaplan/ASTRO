@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "serial.h"
 #include "motors.h"
+#include "parsing.h"
 
 #define N_BUF 2
 
@@ -15,12 +16,6 @@ char *serialInpBuf;
 char i,o;
 
 #define GROUND_LEN 2
-#define HASP_LEN 122
-
-typedef struct {
-  long int height;
-  char ended;
-} gpsOut;
 
 void sleepMode();
 void wakeUp();
@@ -29,7 +24,6 @@ gpsOut gpsParse(char);
 void doCommand(char);
 
 void serialStart() {
-  
   if (CALBC1_1MHZ==0xFF) {// If calibration constant erased
     while(1); // do not load, trap CPU!!
   }
@@ -108,7 +102,7 @@ void serialSend(char *str) {
 */
 char messageStarted = 0;
 char messageType = 0;
-char gpsSend[] = "    \n";
+char gpsSend[] = ";;;;\n";
 
 void parseByte(char b) {
   gpsOut g;
