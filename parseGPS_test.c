@@ -83,6 +83,7 @@ void test(char *input_string) {
 }
 
 int main() {
+  printf("%d\n", 0xFF0E7961);
   char input_string1[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
   input_string1[0] = 0x1;
   input_string1[0] = 0x3;

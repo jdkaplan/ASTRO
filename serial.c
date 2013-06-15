@@ -105,6 +105,7 @@ char messageType = 0;
 char gpsSend[] = ";;;;\n";
 
 void parseByte(char b) {
+  P1OUT ^= 0x3;
   gpsOut g;
   if(!messageStarted) {
     messageStarted = 1;
@@ -112,7 +113,7 @@ void parseByte(char b) {
     inpSel = (inpSel+1)%N_BUF;
     messageType = b-1;
   }
-  if(messageType) {
+  if(!messageType) {
     g = gpsParse(b);
     if(g.ended) {
       gpsSend[0] = g.height>>(3*8);
