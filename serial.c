@@ -1,5 +1,6 @@
 #include <msp430.h>
 #include "serial.h"
+#include "motors.h"
 
 #define N_BUF 2
 
@@ -21,11 +22,14 @@ typedef struct {
   char ended;
 } gpsOut;
 
+void sleepMode();
+void wakeUp();
 void parseByte(char);
 gpsOut gpsParse(char);
 void doCommand(char);
 
 void serialStart() {
+  
   if (CALBC1_1MHZ==0xFF) {// If calibration constant erased
     while(1); // do not load, trap CPU!!
   }
@@ -38,7 +42,30 @@ void serialStart() {
   UCA0BR1 = 0x3; // 1MHz 1200
   UCA0MCTL = 0x92; // Modulation UCBRSx = 1
   UCA0CTL1 &= ~UCSWRST; // **Initialize USCI state machine**
+  sleepMode();
   IE2 |= UCA0RXIE; // Enable USCI_A0 RX interrupt
+
+  // Set EN and FORCEON to OUTPUT
+  P3DIR |= (1<<6);
+  P2DIR |= (1<<3);
+  // Set EN to LOW
+  P2OUT &= ~(1<<3);
+}
+
+/*
+  FORCEON 3.6
+  ENABLE 2.3
+*/
+void sleepMode() {
+  // Set ENABLE to LOW -- already done
+  // Set FORCEON to LOW
+  P3OUT &= ~(1<<6);
+}
+
+void wakeUp() {
+  // Set FORCEON to HIGH
+  P3OUT |= (1<<6);
+  // Set EN to LOW -- already done
 }
 
 // Send a string through serial.
@@ -63,6 +90,7 @@ void serialSend(char *str) {
     o = 0;
 
     // Enable TX interrupt and send first character
+    wakeUp();
     UCA0TXBUF = outputBuffers[outSel][o++];
     IE2 |= UCA0TXIE;
   }
@@ -137,6 +165,7 @@ __interrupt void USCI0TX_ISR(void) {
   if(outputBuffers[outSel][o] == 0) {
     --newMsgs;
     if(!newMsgs) {
+      sleepMode();
       IE2 &= ~UCA0TXIE;
     }
     else {
