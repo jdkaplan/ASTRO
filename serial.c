@@ -20,8 +20,6 @@ char i,o;
 void sleepMode();
 void wakeUp();
 void parseByte(char);
-gpsOut gpsParse(char);
-void doCommand(char);
 
 void serialStart() {
   if (CALBC1_1MHZ==0xFF) {// If calibration constant erased
@@ -102,10 +100,11 @@ void serialSend(char *str) {
 */
 char messageStarted = 0;
 char messageType = 0;
-char gpsSend[] = ";;;;\n";
+char gpsSend[] = ";;;;;\n";
 
 void parseByte(char b) {
   P1OUT ^= 0x3;
+  int height;
   gpsOut g;
   if(!messageStarted) {
     messageStarted = 1;
@@ -116,12 +115,25 @@ void parseByte(char b) {
   if(!messageType) {
     g = gpsParse(b);
     if(g.ended) {
-      gpsSend[0] = g.height>>(3*8);
-      gpsSend[1] = (g.height>>(2*8))&0xF;
-      gpsSend[2] = (g.height>>8)&0xFF;
-      gpsSend[3] = g.height&0xFF;
-      serialSend(gpsSend);
-      messageStarted = 0;
+      if(g.height < 0) {
+	serialSend("BAD\n");
+	return;
+      }
+      else {
+	height = g.height;
+	gpsSend[0] = (height%10) + '0';
+	height /= 10;
+	gpsSend[1] = (height%10) + '0';
+	height /= 10;
+	gpsSend[2] = (height%10) + '0';
+	height /= 10;
+	gpsSend[3] = (height%10) + '0';
+	height /= 10;
+	gpsSend[4] = (height%10) + '0';
+	P1OUT = 0;
+	serialSend(gpsSend);
+	messageStarted = 0;
+      }
     }
     ++i;
   }
@@ -134,11 +146,6 @@ void parseByte(char b) {
       }
     }
   }
-}
-
-// Does the command indicated by the command byte.
-void doCommand(char comm) {
-  serialSend("A command was received!\n");
 }
 
 #pragma vector=USCIAB0TX_VECTOR
