@@ -13,6 +13,18 @@ char outSel = 0;
 char *serialInpBuf;
 char i,o;
 
+#define GROUND_LEN 2
+#define HASP_LEN 122
+
+typedef struct {
+  long int height;
+  char ended;
+} gpsOut;
+
+void parseByte(char);
+gpsOut gpsParse(char);
+void doCommand(char);
+
 void serialStart() {
   if (CALBC1_1MHZ==0xFF) {// If calibration constant erased
     while(1); // do not load, trap CPU!!
@@ -68,29 +80,61 @@ void serialSend(char *str) {
  */
 char messageStarted = 0;
 char messageType = 0;
-#define HASP_LEN 122
-#define GROUND_LEN 2
+char gpsSend[] = "    \n";
+
 void parseByte(char b) {
+  gpsOut g;
   if(!messageStarted) {
     messageStarted = 1;
     i = 0;
     inpSel = (inpSel+1)%N_BUF;
     messageType = b-1;
   }
-  inputBuffers[inpSel][i++] = b;
-  if((messageType && i == GROUND_LEN) || i == HASP_LEN) {
-    messageStarted = 0;
-    serialInpBuf = inputBuffers[inpSel];
-    serialRecvFlag = 1;
-    serialRecvType = messageType;
+  if(messageType) {
+    g = gpsParse(b);
+    if(g.ended) {
+      gpsSend[0] = g.height>>(3*8);
+      gpsSend[1] = (g.height>>(2*8))&0xF;
+      gpsSend[2] = (g.height>>8)&0xFF;
+      gpsSend[3] = g.height&0xFF;
+      serialSend(gpsSend);
+      messageStarted = 0;
+    }
+    ++i;
   }
+  else {
+    inputBuffers[inpSel][i++] = b;
+    if(i == GROUND_LEN) {
+      messageStarted = 0;
+      if(inputBuffers[inpSel][0] == inputBuffers[inpSel][1]) {
+	doCommand(inputBuffers[inpSel][0]);
+      }
+    }
+  }
+}
+
+// Gets byte by byte the GPS string. Parses it, and maintains a state.
+// When finished, it should return the reported height and flag saying the string
+//   ended, in the gpsOut format.
+// While not finished, it should return the ended flag as false (just return {0,0}).
+// Note: global variable i contains the current byte's index (DO NOT CHANGE IT!).
+// Note: HASP_LEN is the length of the string, including the two initial characters.
+
+gpsOut gpsParse(char b) {
+  gpsOut res = {0,0};
+  return res;
+}
+
+// Does the command indicated by the command byte.
+void doCommand(char comm) {
+  serialSend("A command was received!\n");
 }
 
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void) {
   // Wait for TX Buffer to be ready.
   UCA0TXBUF = outputBuffers[outSel][o++];
-  if(outputBuffers[outSel][o-1] == 0) {
+  if(outputBuffers[outSel][o] == 0) {
     --newMsgs;
     if(!newMsgs) {
       IE2 &= ~UCA0TXIE;
