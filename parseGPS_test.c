@@ -23,6 +23,7 @@ int digit = 0;
 int comma_count = 0;
 int valid_gps;
 gpsOut res = {0,0};
+int chars_read = 0;
 
 gpsOut gpsParse(char b) {
   // comma
@@ -37,10 +38,15 @@ gpsOut gpsParse(char b) {
       gps_height[digit++] = b; break;
     case 11: // <9> block over
       if (valid_gps > 0)
-        res.height = strtol(gps_height,NULL); break;
-    case 15: // *15 --> ended
-      res.ended = 1; break;
+        res.height = strtol(gps_height,NULL,10); break;// store
     }
+  }
+  if (chars_read++ == HASP_LEN) {
+    res.ended = 1;
+    char gps_height [] = ";;;;;;;"; 
+    digit = 0;
+    comma_count = 0;
+    chars_read = 0;
   }
   return res;
 }
