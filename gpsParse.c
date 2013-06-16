@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <string.h>
+
 #define HASP_LEN 122
 
 typedef struct {
@@ -75,7 +78,9 @@ void test(char *input_string) {
 }
 
 int main() {
-  printf("%d\n", 0xFF0E7961);
+  char gpsSend[] = ";;;;;\n";
+  long int height;
+
   char input_string1[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
   input_string1[0] = 0x1;
   input_string1[0] = 0x3;
@@ -86,4 +91,16 @@ int main() {
 
   test(input_string1);
   test(input_string2);
+
+  height = 123456;
+  gpsSend[4] = (height%10) + '0';
+  height /= 10;
+  gpsSend[3] = (height%10) + '0';
+  height /= 10;
+  gpsSend[2] = (height%10) + '0';
+  height /= 10;
+  gpsSend[1] = (height%10) + '0';
+  height /= 10;
+  gpsSend[0] = (height%10) + '0';
+  printf("%s", gpsSend);
 }
