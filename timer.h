@@ -3,7 +3,7 @@
 
 #define T_CLK (1000000l)
 #define DIV (8l)
-#define TICKS_PER_MS (T_CLK/(DIV*1000))
+#define TICKS_PER_MS ((int)(T_CLK/(DIV*1000)))
 
 extern long int timerMS;
 

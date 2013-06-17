@@ -120,7 +120,6 @@ void parseByte(char b) {
       }
       else {
 	height = g.height;
-	P1OUT ^= 0x3;
 	gpsSend[4] = (height%10) + '0';
 	height /= 10;
 	gpsSend[3] = (height%10) + '0';
@@ -130,7 +129,6 @@ void parseByte(char b) {
 	gpsSend[1] = (height%10) + '0';
 	height /= 10;
 	gpsSend[0] = (height%10) + '0';
-	P1OUT = 0;
 	serialSend(gpsSend);
 	messageStarted = 0;
       }

@@ -60,5 +60,6 @@ gpsOut gpsParse(char b) {
 
 // Does the command indicated by the command byte.
 void doCommand(char comm) {
+  startTwo();
   serialSend("A command was received!\n");
 }

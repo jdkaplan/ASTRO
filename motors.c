@@ -21,6 +21,7 @@ int n_pulses;
 
 char prevDirOne = COUNTER_CLOCKWISE;
 void startOne() {
+  reset();
   port = &PORTONE;
   flip = FLIP_START;
   shift = SHIFTONE;
@@ -31,6 +32,7 @@ void startOne() {
 
 char prevDirTwo = COUNTER_CLOCKWISE;
 void startTwo() {
+  reset();
   port = &PORTTWO;
   flip = FLIP_START;
   shift = SHIFTTWO;
@@ -41,6 +43,7 @@ void startTwo() {
 
 char prevDirThree = COUNTER_CLOCKWISE;
 void startThree() {
+  reset();
   port = &PORTTHREE;
   flip = FLIP_START;
   shift = SHIFTTHREE;
@@ -59,7 +62,7 @@ void startThree() {
   (reverse for other direction)
 */
 void turn() {
-  (*port) &= (current<<shift) & 0xFF;
+  (*port) &= (0xF0>>shift);
   (*port) |= (current<<shift);
   
   current ^= flip;

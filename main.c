@@ -5,9 +5,9 @@
 int main() {
   // Stop watchdog timer
   WDTCTL = WDTPW + WDTHOLD;
-  P1DIR = 0x3;
-  P1OUT = 0x1;
   _EINT();
+  setupMotors();
+  P1OUT = 0x1;
   serialStart();
   timerStart();
 
