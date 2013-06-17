@@ -25,7 +25,8 @@ void startOne() {
   port = &PORTONE;
   flip = FLIP_START;
   shift = SHIFTONE;
-  current = prevDirOne^(0b1100);
+  prevDirOne ^= 0b1100;
+  current = prevDirOne;
   n_pulses = 0;
   turn();
 }
@@ -36,7 +37,8 @@ void startTwo() {
   port = &PORTTWO;
   flip = FLIP_START;
   shift = SHIFTTWO;
-  current = prevDirTwo^(0b1100);  
+  prevDirTwo ^= 0b1100;
+  current = prevDirTwo;
   n_pulses = 0;
   turn();
 }
@@ -47,7 +49,8 @@ void startThree() {
   port = &PORTTHREE;
   flip = FLIP_START;
   shift = SHIFTTHREE;
-  current = prevDirThree^(0b1100);
+  prevDirThree ^= 0b1100;
+  current = prevDirThree;
   n_pulses = 0;
   turn();
 }
@@ -67,11 +70,13 @@ void turn() {
   
   current ^= flip;
   flip ^= 0xF;
+
   ++n_pulses;
   if(n_pulses != N_PULSES) {
     executeAfterMS(T_PULSE_MS,&turn);
   }
   else {
+    serialSend("Finished turning motor\n");
     reset();
   }
 }

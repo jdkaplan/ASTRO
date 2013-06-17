@@ -42,7 +42,7 @@ __interrupt void Timer_B(void) {
     case  2: break; // TBCCR1 not used
     case  4: break; // TBCCR2 not used
     case 10:
-      TBCTL = 0;
+      TBCTL = 0;      
       if(!overflow) {
 	(*executable)();
       }

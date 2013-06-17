@@ -60,5 +60,14 @@ gpsOut gpsParse(char b) {
 
 // Does the command indicated by the command byte.
 void doCommand(char comm) {
-  serialSend("A command was received!\n");
+  switch(comm) {
+  case 2:
+    serialSend("Starting to turn Motor One now\n");
+    startOne();
+    break;
+  case 3:
+    serialSend("Starting to turn Motor Two now\n");
+    startTwo();
+    break;
+  }
 }
