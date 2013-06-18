@@ -47,15 +47,18 @@ gpsOut gpsParse(char b) {
   }
   if (++chars_read == HASP_LEN) {
     res.ended = 1;
-    
-    height = 0;
-    heightEnded = 0;
-    mul = 1;
-    
-    comma_count = 0;
-    chars_read = 0;
+    resetGPS();
   }
   return res;
+}
+
+void resetGPS() {
+  height = 0;
+  heightEnded = 0;
+  mul = 1;
+    
+  comma_count = 0;
+  chars_read = 0;  
 }
 
 // Does the command indicated by the command byte.

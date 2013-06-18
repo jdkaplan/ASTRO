@@ -105,6 +105,18 @@ char gpsSend[] = ";;;;;\n";
 void parseByte(char b) {
   long int height;
   gpsOut g;
+  /*
+    We might get a ground command/gps Start and think we are in a GPS string.
+    Could happen in case of lost byte in GPS string.
+    All commands/GPS string are started by bytes in [0x01,0x09]
+    These never appear in the GPS string (except byte 0x03), so we just reset it
+      in case we find them.
+   */
+  if(!messageType && b != 0x03 && b <= 0x09) {
+    resetGPS();
+    messageStarted = 0;
+  }
+
   if(!messageStarted) {
     messageStarted = 1;
     i = 0;
