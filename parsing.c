@@ -64,7 +64,7 @@ void resetGPS() {
 // Does the command indicated by the command byte.
 void doCommand(char comm) {
   switch(comm) {
-  case 2:
+  case 0:
     serialSend("Starting to turn Motor One now\n");
     startOne();
     break;
