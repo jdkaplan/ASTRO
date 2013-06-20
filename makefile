@@ -1,4 +1,4 @@
 SOURCES = main.c motors.c parsing.c serial.c timer.c
 
 main: $(SOURCES)
-	gcc $(SOURCES) -o main.o
+	msp430-gcc -mmcu=msp430f2274 $(SOURCES) -o main.o
