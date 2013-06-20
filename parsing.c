@@ -19,6 +19,15 @@ int valid_gps;
 gpsOut res = {0,0};
 int chars_read = 0;
 
+void resetGPS() {
+  height = 0;
+  heightEnded = 0;
+  mul = 1;
+    
+  comma_count = 0;
+  chars_read = 0;  
+}
+
 gpsOut gpsParse(char b) {
   res.ended = 0;
   // comma
@@ -51,15 +60,6 @@ gpsOut gpsParse(char b) {
     resetGPS();
   }
   return res;
-}
-
-void resetGPS() {
-  height = 0;
-  heightEnded = 0;
-  mul = 1;
-    
-  comma_count = 0;
-  chars_read = 0;  
 }
 
 // Does the command indicated by the command byte.

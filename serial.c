@@ -2,6 +2,7 @@
 #include "serial.h"
 #include "motors.h"
 #include "parsing.h"
+#include "timer.h"
 
 #define N_BUF 2
 
@@ -182,7 +183,7 @@ __interrupt void USCI0RX_ISR(void) {
 }
 
 // Sends a message with format we specified.
-char message = "1234567890";
+char message [] = "1234567890";
 void sendLog(char command, long int height) {
   // MS since startup
   message[0] = (char)(timerMS>>24);
