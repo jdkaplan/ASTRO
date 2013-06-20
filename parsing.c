@@ -2,7 +2,6 @@
 #include "parsing.h"
 #include "serial.h"
 
-
 // Gets byte by byte the GPS string. Parses it, and maintains a state.
 // When finished, it should return the reported height and flag saying the string
 //   ended, in the gpsOut format.
