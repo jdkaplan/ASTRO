@@ -64,43 +64,43 @@ gpsOut gpsParse(char b) {
   return res;
 }
 
-// TESTING
-void test(char *input_string) {
-  int j;
-  gpsOut out;
-  for (j=0; j<strlen(input_string); j++) {
-    out = gpsParse(input_string[j]);
-  }
-  if(!out.ended) {
-    printf("DIE DIE DIE\n");
-  }
-  printf("%ld\n",out.height);
-}
+/* // TESTING */
+/* void test(char *input_string) { */
+/*   int j; */
+/*   gpsOut out; */
+/*   for (j=0; j<strlen(input_string); j++) { */
+/*     out = gpsParse(input_string[j]); */
+/*   } */
+/*   if(!out.ended) { */
+/*     printf("DIE DIE DIE\n"); */
+/*   } */
+/*   printf("%ld\n",out.height); */
+/* } */
 
-int main() {
-  char gpsSend[] = ";;;;;\n";
-  long int height;
+/* int main() { */
+/*   char gpsSend[] = ";;;;;\n"; */
+/*   long int height; */
 
-  char input_string1[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  input_string1[0] = 0x1;
-  input_string1[0] = 0x3;
+/*   char input_string1[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"; */
+/*   input_string1[0] = 0x1; */
+/*   input_string1[0] = 0x3; */
   
-  char input_string2[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  input_string2[0] = 0x1;
-  input_string2[0] = 0x3;
+/*   char input_string2[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"; */
+/*   input_string2[0] = 0x1; */
+/*   input_string2[0] = 0x3; */
 
-  test(input_string1);
-  test(input_string2);
+/*   test(input_string1); */
+/*   test(input_string2); */
 
-  height = 123456;
-  gpsSend[4] = (height%10) + '0';
-  height /= 10;
-  gpsSend[3] = (height%10) + '0';
-  height /= 10;
-  gpsSend[2] = (height%10) + '0';
-  height /= 10;
-  gpsSend[1] = (height%10) + '0';
-  height /= 10;
-  gpsSend[0] = (height%10) + '0';
-  printf("%s", gpsSend);
-}
+/*   height = 123456; */
+/*   gpsSend[4] = (height%10) + '0'; */
+/*   height /= 10; */
+/*   gpsSend[3] = (height%10) + '0'; */
+/*   height /= 10; */
+/*   gpsSend[2] = (height%10) + '0'; */
+/*   height /= 10; */
+/*   gpsSend[1] = (height%10) + '0'; */
+/*   height /= 10; */
+/*   gpsSend[0] = (height%10) + '0'; */
+/*   printf("%s", gpsSend); */
+/* } */
