@@ -10,11 +10,9 @@
 
 #define PORTONE P1OUT
 #define PORTTWO P1OUT
-#define PORTTHREE P4OUT
 
 #define SHIFTONE 0
 #define SHIFTTWO 4
-#define SHIFTTHREE 0
 
 void setupMotors();
 

@@ -9,7 +9,6 @@ void reset();
 
 void setupMotors() {
   P1DIR = 0xFF;
-  P4DIR |= 0x0F;
   reset();
 }
 
@@ -39,18 +38,6 @@ void startTwo() {
   shift = SHIFTTWO;
   prevDirTwo ^= 0b1100;
   current = prevDirTwo;
-  n_pulses = 0;
-  turn();
-}
-
-char prevDirThree = COUNTER_CLOCKWISE;
-void startThree() {
-  reset();
-  port = &PORTTHREE;
-  flip = FLIP_START;
-  shift = SHIFTTHREE;
-  prevDirThree ^= 0b1100;
-  current = prevDirThree;
   n_pulses = 0;
   turn();
 }
