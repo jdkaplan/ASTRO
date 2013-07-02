@@ -2,6 +2,7 @@
 #include "serial.h"
 #include "timer.h"
 #include "motors.h"
+#include "hard.h"
 
 int main() {
   // Stop watchdog timer
@@ -9,6 +10,9 @@ int main() {
   setupMotors();
   serialStart();
   timerStart();
+  adcStart();
+
+  _EINT();
 
   __bis_SR_register(LPM0_bits + GIE);
 }

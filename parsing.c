@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "parsing.h"
 #include "serial.h"
+#include "hard.h"
 
 // Gets byte by byte the GPS string. Parses it, and maintains a state.
 // When finished, it should return the reported height and flag saying the string
@@ -11,7 +12,7 @@
 
 char mul = 1;
 char heightEnded = 0;
-long int height;
+static long int height;
 
 int comma_count = 0;
 int valid_gps;
@@ -64,13 +65,27 @@ gpsOut gpsParse(char b) {
 // Does the command indicated by the command byte.
 void doCommand(char comm) {
   switch(comm) {
+  case 2:
+    sendLog(2);
+    startOne(1);
+    break;
+  case 4:
+    sendLog(4);
+    startTwo(1);
+    break;
+  case 5:
+    sendLog(5);
+    // shutdown()
+    break;
   case 0:
-    serialSend("Starting to turn Motor One now\n");
-    startOne();
+    sendLog(0);
     break;
-  case 3:
-    serialSend("Starting to turn Motor Two now\n");
-    startTwo();
+  case 6:
+    sendLog(6);
+    startOne(0);
     break;
+  case 7:
+    sendLog(7);
+    serialSend((char*)(&temperature),2);
   }
 }

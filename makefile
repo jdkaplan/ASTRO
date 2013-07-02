@@ -1,9 +1,9 @@
 CC=msp430-gcc
 CFLAGS=-c -Wall
 LDFLAGS=-mmcu=msp430f2274
-SOURCES=motors.c timer.c parsing.c serial.c main.c
+SOURCES=motors.c timer.c parsing.c serial.c main.c hard.c
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=hello
+EXECUTABLE=main
 
 all: $(SOURCES) $(EXECUTABLE)
 

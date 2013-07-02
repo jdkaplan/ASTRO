@@ -11,10 +11,14 @@ char serialRecvFlag;
 char serialRecvType;
 char inputBuffers[N_BUF][30];
 char outputBuffers[N_BUF][150];
+char lengths[N_BUF];
 char inpSel = 0;
 char outSel = 0;
+char length = 0;
 char *serialInpBuf;
 char i,o;
+
+static long int height = 0;
 
 #define GROUND_LEN 2
 
@@ -38,32 +42,26 @@ void serialStart() {
   sleepMode();
   IE2 |= UCA0RXIE; // Enable USCI_A0 RX interrupt
 
-  // Set EN and FORCEON to OUTPUT
-  P3DIR |= (1<<6);
-  P2DIR |= (1<<3);
-  // Set EN to LOW
-  P2OUT &= ~(1<<3);
+  // Set FORCEON to OUTPUT
+  P3DIR |= (1<<2);
 }
 
 /*
-  FORCEON 3.6
-  ENABLE 2.3
+  FORCEON 3.2
 */
 void sleepMode() {
-  // Set ENABLE to LOW -- already done
   // Set FORCEON to LOW
-  P3OUT &= ~(1<<6);
+  P3OUT |= (1<<2);
 }
 
 void wakeUp() {
   // Set FORCEON to HIGH
-  P3OUT |= (1<<6);
-  // Set EN to LOW -- already done
+  P3OUT |= (1<<2);
 }
 
 // Send a string through serial.
 char newMsgs = 0;
-void serialSend(char *str) {
+void serialSend(char *str, char length) {
   char oS;
   char *buf;
 
@@ -71,10 +69,11 @@ void serialSend(char *str) {
   // Copy str to buffer
   oS = (outSel+1)%N_BUF;
   buf = outputBuffers[oS];
-  while(*str) {
+  lengths[oS] = length;
+  
+  while((buf - outputBuffers[oS]) != length) {
     *(buf++) = *(str++);
   }
-  *(buf) = 0;
   if(newMsgs == 1) {
     // Wait for TX Buffer to be ready.
     while (!(IFG2&UCA0TXIFG));
@@ -104,7 +103,6 @@ char messageType = 0;
 char gpsSend[] = ";;;;;\n";
 
 void parseByte(char b) {
-  long int height;
   gpsOut g;
   /*
     We might get a ground command/gps Start and think we are in a GPS string.
@@ -127,22 +125,9 @@ void parseByte(char b) {
   if(!messageType) {
     g = gpsParse(b);
     if(g.ended) {
-      if(g.height < 0) {
-	serialSend("BAD\n");
-	return;
-      }
-      else {
+      if(g.height >= 0) {
 	height = g.height;
-	gpsSend[4] = (height%10) + '0';
-	height /= 10;
-	gpsSend[3] = (height%10) + '0';
-	height /= 10;
-	gpsSend[2] = (height%10) + '0';
-	height /= 10;
-	gpsSend[1] = (height%10) + '0';
-	height /= 10;
-	gpsSend[0] = (height%10) + '0';
-	serialSend(gpsSend);
+	sendLog(0);
 	messageStarted = 0;
       }
     }
@@ -163,7 +148,7 @@ void parseByte(char b) {
 __interrupt void USCI0TX_ISR(void) {
   // Wait for TX Buffer to be ready.
   UCA0TXBUF = outputBuffers[outSel][o++];
-  if(outputBuffers[outSel][o] == 0) {
+  if(o == lengths[outSel]) {
     --newMsgs;
     if(!newMsgs) {
       sleepMode();
@@ -184,20 +169,22 @@ __interrupt void USCI0RX_ISR(void) {
 
 // Sends a message with format we specified.
 char message [] = "1234567890";
-void sendLog(char command, long int height) {
+void sendLog(char command) {
   // MS since startup
   message[0] = (char)(timerMS>>24);
-  message[1] = (char)((timerMS>>16)&0xF);
-  message[2] = (char)((timerMS>>8)&0xF);
-  message[3] = (char)(timerMS&0xF);
+  message[1] = (char)((timerMS>>16)&0xFF);
+  message[2] = (char)((timerMS>>8)&0xFF);
+  message[3] = (char)(timerMS&0xFF);
   // Height
   message[4] = (char)(height>>24);
-  message[5] = (char)((height>>16)&0xF);
-  message[6] = (char)((height>>8)&0xF);
-  message[7] = (char)(height&0xF);
+  message[5] = (char)((height>>16)&0xFF);
+  message[6] = (char)((height>>8)&0xFF);
+  message[7] = (char)(height&0xFF);
   message[8] = command;
   // Parity byte checksum
   message[9] =
     message[0]^message[1]^message[2]^message[3]^message[4]
     ^message[5]^message[6]^message[7]^message[8];
+
+  serialSend(message,10);
 }

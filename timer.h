@@ -5,7 +5,7 @@
 #define DIV (8l)
 #define TICKS_PER_MS ((int)(T_CLK/(DIV*1000)))
 
-extern long int timerMS;
+extern volatile long int timerMS;
 
 void timerStart();
 void executeAfterMS(int,void (*)());

@@ -2,7 +2,7 @@
 #include "timer.h"
 #include "serial.h"
 
-long int timerMS;
+volatile long int timerMS;
 
 void timerStart() {
   timerMS = 0;
@@ -32,6 +32,9 @@ __interrupt void Timer_A(void) {
     case 10:
       TAR = 0;
       ++timerMS;
+      /*if((timerMS%1000) == 0) {
+	serialSend("Second",6);
+	}*/
       break;
     }
 }

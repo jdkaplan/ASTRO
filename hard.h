@@ -21,4 +21,7 @@ void turnHDVC2Off();
 void turnHeaterOn();
 void turnHeaterOff();
 
+extern int temperature;
+void adcStart();
+
 #endif

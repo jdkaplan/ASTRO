@@ -2,7 +2,8 @@
 #define SERIAL_H
 
 void serialStart();
-void serialSend(char *);
+void serialSend(char *,char);
+void sendLog(char);
 extern char serialRecvFlag;
 extern char serialRecvType;
 extern char *serialInpBuf;

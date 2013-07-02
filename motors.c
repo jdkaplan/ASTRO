@@ -8,7 +8,8 @@ void turn();
 void reset();
 
 void setupMotors() {
-  P1DIR = 0xFF;
+  DIRONE |= 0xF<<SHIFTONE;
+  DIRTWO |= 0xF<<SHIFTTWO;
   reset();
 }
 
@@ -18,26 +19,36 @@ volatile char *port;
 char shift;
 int n_pulses;
 
-char prevDirOne = COUNTER_CLOCKWISE;
-void startOne() {
+/*
+  dir selects which direction we want to turn
+  (clockwise or counterclockwise)
+  0 - clockwise
+  1 - counterclockwise
+*/
+void startOne(char dir) {
   reset();
   port = &PORTONE;
   flip = FLIP_START;
+  current = dir?CLOCKWISE:COUNTER_CLOCKWISE;
+  //flip = dir?FLIP_CLOCK:FLIP_COUNTER;
+  //current = START_DIR;
   shift = SHIFTONE;
-  prevDirOne ^= 0b1100;
-  current = prevDirOne;
   n_pulses = 0;
   turn();
 }
 
-char prevDirTwo = COUNTER_CLOCKWISE;
-void startTwo() {
+/*
+  dir selects which direction we want to turn
+  (clockwise or counterclockwise)
+  0 - clockwise
+  1 - counterclockwise
+*/
+void startTwo(char dir) {
   reset();
   port = &PORTTWO;
   flip = FLIP_START;
+  current = dir?CLOCKWISE:COUNTER_CLOCKWISE;
   shift = SHIFTTWO;
-  prevDirTwo ^= 0b1100;
-  current = prevDirTwo;
   n_pulses = 0;
   turn();
 }
@@ -52,24 +63,26 @@ void startTwo() {
   (reverse for other direction)
 */
 void turn() {
-  (*port) &= (0xF0>>shift);
-  (*port) |= (current<<shift);
+  char portstate = (*port);
+  ++n_pulses;
+  if(n_pulses == N_PULSES) {
+    reset();
+    return;
+  }
   
+  portstate &= ~(0xF<<shift);
+  portstate |= (current<<shift);
+  (*port) = portstate;
+
   current ^= flip;
   flip ^= 0xF;
 
-  ++n_pulses;
-  if(n_pulses != N_PULSES) {
-    executeAfterMS(T_PULSE_MS,&turn);
-  }
-  else {
-    serialSend("Finished turning motor\n");
-    reset();
-  }
+  executeAfterMS(T_PULSE_MS,&turn);
 }
 
 void reset() {
   // Everything LOW
-  P1OUT = 0x00;
-  P4OUT &= 0xF0;
+  
+  PORTONE &= ~(0xF<<SHIFTONE);
+  PORTTWO &= ~(0xF<<SHIFTTWO);
 }
