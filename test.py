@@ -9,3 +9,14 @@ def status(conn):
     print 'Height (GPS):', ord(r[4])*0xFFFFFF + ord(r[5])*0xFFFF + ord(r[6])*0xFF + ord(r[7])
     print 'Command:',ord(r[8])
     print 'Checks?'
+
+import time
+def showTemp(s):
+   for i in xrange(10000):
+     a = s.write('\x07\x07')
+     a = s.read(10)
+     a = s.read()
+     b = s.read()
+     t = ord(b)*256 + ord(a)
+     print float(t)/(1024.)*3.6,t
+     time.sleep(1)

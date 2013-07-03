@@ -21,6 +21,8 @@ void turnHDVC2Off();
 void turnHeaterOn();
 void turnHeaterOff();
 
+#define TEMP_SHIFT 6
+#define N_MEASURE (1<<TEMP_SHIFT)
 extern int temperature;
 void adcStart();
 
