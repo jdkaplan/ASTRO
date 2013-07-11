@@ -5,6 +5,7 @@
 
 typedef struct {
   long int height;
+  long int timestamp;
   char ended;
 } gpsOut;
 
@@ -24,6 +25,10 @@ int valid_gps;
 gpsOut res = {0,0};
 int chars_read = 0;
 
+long int time;
+int tau[8];
+int t = 0;
+
 gpsOut gpsParse(char b) {
   res.ended = 0;
   // comma
@@ -32,18 +37,29 @@ gpsOut gpsParse(char b) {
   }
   else {
     switch (comma_count) {
+    case 2: // <1> block = timestamp
+      tau[t++] = b - '0'; 
+      if (t == 8) {
+        // my constants are probably wrong
+        time = 3600000*tau[0] + 360000*tau[1] + // hour = 60 * 60 * 100
+          60000*tau[2] + 6000*tau[3] +          // minute = 60 * 100
+          1000*tau[4] + 100*tau[5] +            // second = 100
+          10*tau[6] + 1*tau[7];                 // centisecond = 1
+        res.timestamp = time;
+      }
+      break;
     case 7: // <6> block = fix indicator
       valid_gps = b - '0'; break;
     case 10: // <9> block = MSL altitude
       switch(b) {
       case '-':
-	mul = -1;
-	break;
+        mul = -1;
+        break;
       case '.':
-	heightEnded = 1;
-	break;
+        heightEnded = 1;
+        break;
       default:
-	height = heightEnded?height:(height*10 + (b-'0'));
+        height = heightEnded?height:(height*10 + (b-'0'));
       }
       break;
     case 11: // <9> block over
