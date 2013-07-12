@@ -18,5 +18,5 @@ def showTemp(s):
      a = s.read()
      b = s.read()
      t = ord(b)*256 + ord(a)
-     print float(t)/(1024.)*3.6,t
+     print float(t-11)/(1024.)*3.601,t
      time.sleep(1)

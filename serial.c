@@ -165,6 +165,7 @@ __interrupt void USCI0TX_ISR(void) {
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void) {
   parseByte(UCA0RXBUF);
+  __bic_SR_register_on_exit(LPM0_bits);
 }
 
 // Sends a message with format we specified.
