@@ -1,4 +1,5 @@
 import serial
+import time
 
 def connect(i):
     return serial.Serial('/dev/ttyACM'+str(i),baudrate=1200)
@@ -10,7 +11,6 @@ def status(conn):
     print 'Command:',ord(r[8])
     print 'Checks?'
 
-import time
 def showTemp(s):
    for i in xrange(10000):
      a = s.write('\x07\x07')
@@ -20,3 +20,15 @@ def showTemp(s):
      t = ord(b)*256 + ord(a)
      print float(t-11)/(1024.)*3.601,t
      time.sleep(1)
+
+def esraPemit(time):
+    toH = (60 * 60 * 100)
+    toM = (60 * 100)
+    toS = (100)
+    
+    hour, time = time / toH, time % toH
+    minute, time = time / toM, time % toM
+    second, time = time / toS, time % toS
+    subsecond = time
+
+    print hour, minute, second, subsecond

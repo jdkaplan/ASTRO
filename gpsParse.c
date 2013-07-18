@@ -38,7 +38,9 @@ gpsOut gpsParse(char b) {
   else {
     switch (comma_count) {
     case 2: // <1> block = timestamp
-      tau[t++] = b - '0'; 
+      if (b != '.') {
+        tau[t++] = b - '0'; 
+      }
       if (t == 8) {
         // my constants are probably wrong
         time = 3600000*tau[0] + 360000*tau[1] + // hour = 60 * 60 * 100
@@ -73,6 +75,8 @@ gpsOut gpsParse(char b) {
     height = 0;
     heightEnded = 0;
     mul = 1;
+
+    t = 0;
     
     comma_count = 0;
     chars_read = 0;
@@ -90,23 +94,29 @@ void test(char *input_string) {
   if(!out.ended) {
     printf("DIE DIE DIE\n");
   }
-  printf("%ld\n",out.height);
+  printf("%ld ",out.height);
+  printf("%ld\n",out.timestamp);
 }
 
 int main() {
   char gpsSend[] = ";;;;;\n";
   long int height;
 
-  char input_string1[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  char input_string1[] = ";;1234470131.649,$GPGGA,000000.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
   input_string1[0] = 0x1;
   input_string1[0] = 0x3;
   
-  char input_string2[] = ";;1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  char input_string2[] = ";;1234470131.649,$GPGGA,185304.20,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
   input_string2[0] = 0x1;
   input_string2[0] = 0x3;
 
+  char input_string3[] = ";;1234470131.649,$GPGGA,235959.99,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  input_string3[0] = 0x1;
+  input_string3[0] = 0x3;
+
   test(input_string1);
   test(input_string2);
+  test(input_string3);
 
   height = 123456;
   gpsSend[4] = (height%10) + '0';
