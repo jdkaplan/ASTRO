@@ -24,7 +24,9 @@ void resetGPS() {
   height = 0;
   heightEnded = 0;
   mul = 1;
-    
+  
+  t = 0;
+
   comma_count = 0;
   chars_read = 0;  
 }
@@ -37,6 +39,19 @@ gpsOut gpsParse(char b) {
   }
   else {
     switch (comma_count) {
+    case 2: // <1> block = timestamp
+      if (b != '.') {
+        tau[t++] = b - '0'; 
+      }
+      if (t == 8) {
+        // my constants are probably wrong
+        time = 3600000*tau[0] + 360000*tau[1] + // hour = 60 * 60 * 100
+          60000*tau[2] + 6000*tau[3] +          // minute = 60 * 100
+          1000*tau[4] + 100*tau[5] +            // second = 100
+          10*tau[6] + 1*tau[7];                 // centisecond = 1
+        res.timestamp = time;
+      }
+      break;
     case 7: // <6> block = fix indicator
       valid_gps = b - '0'; break;
     case 10: // <9> block = MSL altitude
