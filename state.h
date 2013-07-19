@@ -1,6 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
+#define DEBUG_MODE 1
+
 typedef struct {
   short currentStepOne;
   short desiredStepOne;
@@ -8,7 +10,7 @@ typedef struct {
 
   short currentStepTwo;
   short desiredStepTwo;
-  byte prevSignalTwo;
+  char prevSignalTwo;
 
   long internalTime;
   long externalTime;
@@ -19,7 +21,7 @@ typedef struct {
 
 } stateVec;
 
-extern volatile stateVec globalState;
+extern stateVec globalState;
 
 void saveState();
 void retrieveState();
