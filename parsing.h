@@ -5,6 +5,7 @@
 
 typedef struct {
   long int height;
+  long int timestamp;
   char ended;
 } gpsOut;
 

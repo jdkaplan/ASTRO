@@ -22,7 +22,7 @@ long int height;
 
 int comma_count = 0;
 int valid_gps;
-gpsOut res = {0,0};
+gpsOut res = {0,0,0};
 int chars_read = 0;
 
 long int time;
