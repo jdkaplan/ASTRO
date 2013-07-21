@@ -223,30 +223,30 @@ void sendLog(char command) {
   }
 
   // reserved
-  message[16] = 0;
-  message[17] = 0;
-  message[18] = 0;
-  message[19] = 0;
-  message[20] = 0;
-  message[21] = 0;
-  message[22] = 0;
-  message[23] = 0;
-  message[24] = 0;
-  message[25] = 0;
-  message[26] = 0;
-  message[27] = 0;
-  message[28] = 0;
-  message[29] = 0;
-  message[30] = 0;
-  message[31] = 0;
-  message[32] = 0;
+  message[16] = 0xFF;
+  message[17] = 0xFF;
+  message[18] = 0xFF;
+  message[19] = 0xFF;
+  message[20] = 0xFF;
+  message[21] = 0xFF;
+  message[22] = 0xFF;
+  message[23] = 0xFF;
+  message[24] = 0xFF;
+  message[25] = 0xFF;
+  message[26] = 0xFF;
+  message[27] = 0xFF;
+  message[28] = 0xFF;
+  message[29] = 0xFF;
+  message[30] = 0xFF;
+  message[31] = 0xFF;
+  message[32] = 0xFF;
 
   // padding
-  message[33] = 0;
-  message[34] = 0;
-  message[35] = 0;
-  message[36] = 0;
-  message[37] = 0;
+  message[33] = 0xFF;
+  message[34] = 0xFF;
+  message[35] = 0xFF;
+  message[36] = 0xFF;
+  message[37] = 0xFF;
   
   serialSend(message,38);
 }
