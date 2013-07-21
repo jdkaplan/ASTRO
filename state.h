@@ -18,6 +18,8 @@ typedef struct {
   short temperature;
 
   char safemode;
+  
+  long height;
 
 } stateVec;
 

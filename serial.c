@@ -169,23 +169,84 @@ __interrupt void USCI0RX_ISR(void) {
 }
 
 // Sends a message with format we specified.
-char message [] = "1234567890";
+char message [] = "0123456789abcdefghijklmnopqrstuvwxyzAB";
 void sendLog(char command) {
-  // MS since startup
-  message[0] = (char)(timerMS>>24);
-  message[1] = (char)((timerMS>>16)&0xFF);
-  message[2] = (char)((timerMS>>8)&0xFF);
-  message[3] = (char)(timerMS&0xFF);
-  // Height
-  message[4] = (char)(height>>24);
-  message[5] = (char)((height>>16)&0xFF);
-  message[6] = (char)((height>>8)&0xFF);
-  message[7] = (char)(height&0xFF);
-  message[8] = command;
-  // Parity byte checksum
-  message[9] =
-    message[0]^message[1]^message[2]^message[3]^message[4]
-    ^message[5]^message[6]^message[7]^message[8];
+  /* // MS since startup */
+  /* message[0] = (char)(timerMS>>24); */
+  /* message[1] = (char)((timerMS>>16)&0xFF); */
+  /* message[2] = (char)((timerMS>>8)&0xFF); */
+  /* message[3] = (char)(timerMS&0xFF); */
+  /* // Height */
+  /* message[4] = (char)(height>>24); */
+  /* message[5] = (char)((height>>16)&0xFF); */
+  /* message[6] = (char)((height>>8)&0xFF); */
+  /* message[7] = (char)(height&0xFF); */
+  /* message[8] = command; */
+  /* // Parity byte checksum */
+  /* message[9] = */
+  /*   message[0]^message[1]^message[2]^message[3]^message[4] */
+  /*   ^message[5]^message[6]^message[7]^message[8]; */
 
-  serialSend(message,10);
+  /* serialSend(message,10); */
+
+  // command
+  message[0]  = command;
+  
+  // internal time
+  message[1]  = (char)((globalState.internalTime>>24)     );
+  message[2]  = (char)((globalState.internalTime>>16)&0xFF);
+  message[3]  = (char)((globalState.internalTime>> 8)&0xFF);
+  message[4]  = (char)((globalState.internalTime     &0xFF));
+  
+  // external time
+  message[6]  = (char)((globalState.externalTime>>24)     );
+  message[7]  = (char)((globalState.externalTime>>16)&0xFF);
+  message[8]  = (char)((globalState.externalTime>> 8)&0xFF);
+  message[9]  = (char)((globalState.externalTime    )&0xFF);
+  
+  // height
+  message[9]  = (char)((globalState.height>>24)     );
+  message[10] = (char)((globalState.height>>16)&0xFF);
+  message[11] = (char)((globalState.height>> 8)&0xFF);
+  message[12] = (char)((globalState.height    )&0xFF);
+  
+  // temperature
+  message[13] = (char)((globalState.temperature>>8)     );
+  message[14] = (char)((globalState.temperature   )&0xFF);
+  
+  // checksum
+  checkbyte = 15;
+  message[checkbyte] = 0;
+  int i;
+  for (i=0 ; i < checkbyte ; i++) {
+    message[checkbyte] ^= message[i]
+  }
+
+  // reserved
+  message[16] = 0;
+  message[17] = 0;
+  message[18] = 0;
+  message[19] = 0;
+  message[20] = 0;
+  message[21] = 0;
+  message[22] = 0;
+  message[23] = 0;
+  message[24] = 0;
+  message[25] = 0;
+  message[26] = 0;
+  message[27] = 0;
+  message[28] = 0;
+  message[29] = 0;
+  message[30] = 0;
+  message[31] = 0;
+  message[32] = 0;
+
+  // padding
+  message[33] = 0;
+  message[34] = 0;
+  message[35] = 0;
+  message[36] = 0;
+  message[37] = 0;
+  
+  serialSend(message,38);
 }
