@@ -47,7 +47,7 @@ def parsePong(data):
     height = sum([ord(height[i]) * 2**(2*i)-1 for i in range(len(height))])
     temperature = sum([ord(temperature[i]) * 2**(2*i)-1 for i in range(len(temperature))])
     checksum = sum([ord(checksum[i]) * 2**(2*i)-1 for i in range(len(checksum))])
-    return "command" + command + '\n' + "internalTime" + internalTime + '\n' + "externalTime" + externalTime + '\n' + "height" + height + '\n' + "temperature" + temperature + '\n' + "checksum" + checksum
+    return "command " + str(command) + '\n' + "internalTime " + str(internalTime) + '\n' + "externalTime " + str(externalTime) + '\n' + "height " + str(height) + '\n' + "temperature " + str(temperature) + '\n' + "checksum " + str(checksum)
 
 def pingPong(conn):
     data = conn.read(16)
