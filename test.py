@@ -21,7 +21,7 @@ def showTemp(s):
      print float(t-11)/(1024.)*3.601,t
      time.sleep(1)
 
-def esraPemit(time):
+def esraPemit(time): # timeParse backwards
     toH = (60 * 60 * 100)
     toM = (60 * 100)
     toS = (100)
@@ -32,3 +32,9 @@ def esraPemit(time):
     subsecond = time
 
     print hour, minute, second, subsecond
+
+def parsePong(conn):
+    data = conn.read(16)
+    command = data[0]
+    internalTime = data[1:5]
+    externalTime = data[]

@@ -215,7 +215,7 @@ void sendLog(char command) {
   message[14] = (char)((globalState.temperature   )&0xFF);
   
   // checksum
-  checkbyte = 15;
+  char checkbyte = 15;
   message[checkbyte] = 0;
   int i;
   for (i=0 ; i < checkbyte ; i++) {
