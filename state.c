@@ -145,7 +145,9 @@ long generateChecksum(stateVec *state) {
 
     state->temperature^
 
-    state->safemode;
+    state->safemode^
+
+    state->temperature;
 }
 
 char checkChecksum(long checksum, stateVec *state) {

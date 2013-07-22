@@ -3,6 +3,7 @@
 #include "motors.h"
 #include "parsing.h"
 #include "timer.h"
+#include "state.h"
 
 #define N_BUF 2
 
@@ -215,11 +216,11 @@ void sendLog(char command) {
   message[14] = (char)((globalState.temperature   )&0xFF);
   
   // checksum
-  checkbyte = 15;
+  char checkbyte = 15;
   message[checkbyte] = 0;
   int i;
   for (i=0 ; i < checkbyte ; i++) {
-    message[checkbyte] ^= message[i]
+    message[checkbyte] ^= message[i];
   }
 
   // reserved
