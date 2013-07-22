@@ -43,10 +43,10 @@ def parsePong(data):
 
     command = ord(command)
     internalTime = sum([ord(internalTime[i]) * (2**(8*i)-1) for i in reversed(range(len(internalTime)))])
-    externalTime = esraPemit(sum([ord(externalTime[i]) * (2**(8*i)-1) for i in reversed(range(len(externalTime))]))
+    externalTime = esraPemit(sum([ord(externalTime[i]) * (2**(8*i)-1) for i in reversed(range(len(externalTime)))]))
     height = sum([ord(height[i]) * (2**(8*i)-1) for i in reversed(range(len(height)))])
     temperature = sum([ord(temperature[i]) * (2**(8*i)-1) for i in reversed(range(len(temperature)))])
-    checksum = sum([ord(checksum[i]) * (2**(8*i)-1) for i in reversed(range(len(checksum))])
+    checksum = sum([ord(checksum[i]) * (2**(8*i)-1) for i in reversed(range(len(checksum)))])
     return "command " + str(command) + '\n' + "internalTime " + str(internalTime) + '\n' + "externalTime " + str(externalTime) + '\n' + "height " + str(height) + '\n' + "temperature " + str(temperature) + '\n' + "checksum " + str(checksum)
 
 def pingPong(conn):
