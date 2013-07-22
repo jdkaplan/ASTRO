@@ -31,7 +31,7 @@ def esraPemit(time): # timeParse backwards
     second, time = time / toS, time % toS
     subsecond = time
 
-    print hour, minute, second, subsecond
+    return hour, minute, second, subsecond
 
 def parsePong(data):
     command = data[0]
@@ -42,11 +42,11 @@ def parsePong(data):
     checksum = data[15]
 
     command = ord(command)
-    internalTime = sum([ord(internalTime[i]) * 2**(8*i)-1 for i in range(len(internalTime))])
-    externalTime = esraPemit(sum([ord(externalTime[i]) * 2**(8*i)-1 for i in range(len(externalTime))]))
-    height = sum([ord(height[i]) * 2**(8*i)-1 for i in range(len(height))])
-    temperature = sum([ord(temperature[i]) * 2**(8*i)-1 for i in range(len(temperature))])
-    checksum = sum([ord(checksum[i]) * 2**(8*i)-1 for i in range(len(checksum))])
+    internalTime = sum([ord(internalTime[i]) * (2**(8*i)-1) for i in reversed(range(len(internalTime)))])
+    externalTime = esraPemit(sum([ord(externalTime[i]) * (2**(8*i)-1) for i in reversed(range(len(externalTime))]))
+    height = sum([ord(height[i]) * (2**(8*i)-1) for i in reversed(range(len(height)))])
+    temperature = sum([ord(temperature[i]) * (2**(8*i)-1) for i in reversed(range(len(temperature)))])
+    checksum = sum([ord(checksum[i]) * (2**(8*i)-1) for i in reversed(range(len(checksum))])
     return "command " + str(command) + '\n' + "internalTime " + str(internalTime) + '\n' + "externalTime " + str(externalTime) + '\n' + "height " + str(height) + '\n' + "temperature " + str(temperature) + '\n' + "checksum " + str(checksum)
 
 def pingPong(conn):
