@@ -33,8 +33,25 @@ def esraPemit(time): # timeParse backwards
 
     print hour, minute, second, subsecond
 
-def parsePong(conn):
-    data = conn.read(16)
+def parsePong(conn, data):
     command = data[0]
     internalTime = data[1:5]
-    externalTime = data[]
+    externalTime = data[5:9]
+    height = data[9:13]
+    temperature = data[13:15]
+    checksum = data[15]
+    return "command" + command + '\n' + "internalTime" + internalTime + '\n' + "externalTime" + externalTime + '\n' + "height" + height + '\n' + "temperature" + temperature + '\n' + "checksum" + checksum
+
+def pingPong(conn):
+    data = conn.read(16)
+    print parsePong(conn,data)
+    time.sleep(1)
+    
+    while True:
+        c = conn.read()
+        while c == 0xFF:
+            c = conn.read()
+        
+        data = [c] + conn.read(15)
+        print parsePong(conn,data)
+        time.sleep(1)
