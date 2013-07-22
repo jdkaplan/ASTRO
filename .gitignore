@@ -20,4 +20,4 @@
 *~
 
 # Python compiled
-~.pyc
+*.pyc
