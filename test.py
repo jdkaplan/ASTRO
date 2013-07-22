@@ -33,13 +33,20 @@ def esraPemit(time): # timeParse backwards
 
     print hour, minute, second, subsecond
 
-def parsePong(conn, data):
+def parsePong(data):
     command = data[0]
     internalTime = data[1:5]
     externalTime = data[5:9]
     height = data[9:13]
     temperature = data[13:15]
     checksum = data[15]
+
+    command = ord(command)
+    internalTime = sum([ord(internalTime[i]) * 2**(2*i)-1 for i in range(len(internalTime))])
+    externalTime = esraPemit(sum([ord(externalTime[i]) * 2**(2*i)-1 for i in range(len(externalTime))]))
+    height = sum([ord(height[i]) * 2**(2*i)-1 for i in range(len(height))])
+    temperature = sum([ord(temperature[i]) * 2**(2*i)-1 for i in range(len(temperature))])
+    checksum = sum([ord(checksum[i]) * 2**(2*i)-1 for i in range(len(checksum))])
     return "command" + command + '\n' + "internalTime" + internalTime + '\n' + "externalTime" + externalTime + '\n' + "height" + height + '\n' + "temperature" + temperature + '\n' + "checksum" + checksum
 
 def pingPong(conn):
