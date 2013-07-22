@@ -3,6 +3,7 @@
 #include "motors.h"
 #include "parsing.h"
 #include "timer.h"
+#include "state.h"
 
 #define N_BUF 2
 
@@ -219,7 +220,7 @@ void sendLog(char command) {
   message[checkbyte] = 0;
   int i;
   for (i=0 ; i < checkbyte ; i++) {
-    message[checkbyte] ^= message[i]
+    message[checkbyte] ^= message[i];
   }
 
   // reserved

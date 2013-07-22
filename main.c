@@ -4,6 +4,7 @@
 #include "motors.h"
 #include "hard.h"
 #include "mainActions.h"
+#include "state.h"
 
 int main() {
   // Stop watchdog timer
