@@ -200,11 +200,11 @@ void sendLog(char command) {
   message[4]  = (char)((globalState.internalTime     &0xFF));
   
   // external time
-  message[6]  = (char)((globalState.externalTime>>24)     );
-  message[7]  = (char)((globalState.externalTime>>16)&0xFF);
-  message[8]  = (char)((globalState.externalTime>> 8)&0xFF);
-  message[9]  = (char)((globalState.externalTime    )&0xFF);
-  
+  message[5]  = (char)((globalState.externalTime>>24)     );
+  message[6]  = (char)((globalState.externalTime>>16)&0xFF);
+  message[7]  = (char)((globalState.externalTime>> 8)&0xFF);
+  message[8]  = (char)((globalState.externalTime    )&0xFF);
+ 
   // height
   message[9]  = (char)((globalState.height>>24)     );
   message[10] = (char)((globalState.height>>16)&0xFF);
