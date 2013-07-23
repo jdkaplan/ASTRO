@@ -95,7 +95,20 @@ void test(char *input_string) {
     printf("DIE DIE DIE\n");
   }
   printf("%ld ",out.height);
-  printf("%ld\n",out.timestamp);
+  printf("%ld ",out.timestamp);
+  long a = ((out.timestamp>>24)     );
+  long b = ((out.timestamp>>16)&0xFF);
+  long c = ((out.timestamp>> 8)&0xFF);
+  long d = ((out.timestamp    )&0xFF);
+  printf("(%x, ", a);
+  printf( "%x, ", b);
+  printf( "%x, ", c);
+  printf( "%x) " , d);
+  long k = (a<<24) + (b<<16) + (c<<8) + d;
+  long l = a*0x1000000 + b*0x10000 + c*0x100 + d;
+  printf("%ld ", k);
+  printf("%ld ", l);
+  printf("\n");
 }
 
 int main() {
@@ -128,5 +141,5 @@ int main() {
   gpsSend[1] = (height%10) + '0';
   height /= 10;
   gpsSend[0] = (height%10) + '0';
-  printf("%s", gpsSend);
+  /* printf("%s", gpsSend); */
 }

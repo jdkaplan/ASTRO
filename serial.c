@@ -176,7 +176,7 @@ void sendLog(char command) {
   message[1]  = (char)((globalState.internalTime>>24)     );
   message[2]  = (char)((globalState.internalTime>>16)&0xFF);
   message[3]  = (char)((globalState.internalTime>> 8)&0xFF);
-  message[4]  = (char)((globalState.internalTime     &0xFF));
+  message[4]  = (char)((globalState.internalTime    )&0xFF);
   
   // external time
   message[5]  = (char)((globalState.externalTime>>24)     );

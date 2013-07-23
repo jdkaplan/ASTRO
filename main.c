@@ -17,7 +17,8 @@ int main() {
   retrieveState();
   _EINT();
 
-  P1DIR |= 0x1;
+  P1DIR |= 0x3;
+  P1OUT = 0;
   
   while(1) {
     while(nQueued) {
