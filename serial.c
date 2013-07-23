@@ -8,15 +8,9 @@
 #define N_BUF 2
 
 // Globals
-char serialRecvFlag;
-char serialRecvType;
-char inputBuffers[N_BUF][30];
 char outputBuffers[N_BUF][150];
 char lengths[N_BUF];
-char inpSel = 0;
 char outSel = 0;
-char length = 0;
-char *serialInpBuf;
 char i,o;
 
 #define GROUND_LEN 2
@@ -92,54 +86,59 @@ void serialSend(char *str, char length) {
 // It keeps internal state through global variables.
 
 /* Notes about the parsing:
-   HASP information comes in the format 0x1 0x3 +120 bytes.
-   Commands from ground never start with 0x1, and are two bytes long.
-   Have a flag variable on whether we already started receiving a message, and a type variable.
-   messageType is 0 for messages from HASP and 1 for messages from ground.
+   HASP information comes in the format 0x1 0x30 +120 bytes + 0x30 + .
+   Commands from ground never start with 0x3 or above 0x9 (7 possible), and are two bytes long.
 */
 char messageStarted = 0;
-char messageType = 0;
-char gpsSend[] = ";;;;;\n";
+unsigned char first;
 
 void parseByte(char b) {
   gpsOut g;
-  /*
-    We might get a ground command/gps Start and think we are in a GPS string.
-    Could happen in case of lost byte in GPS string.
-    All commands/GPS string are started by bytes in [0x01,0x09]
-    These never appear in the GPS string (except byte 0x03), so we just reset it
-      in case we find them.
-   */
-  if(!messageType && b != 0x03 && b <= 0x09) {
-    resetGPS();
-    messageStarted = 0;
-  }
-
-  if(!messageStarted) {
+  // First byte, with error checking
+  if(!messageStarted || b == 0x1) {
+    first = b;
     messageStarted = 1;
-    i = 0;
-    inpSel = (inpSel+1)%N_BUF;
-    messageType = b-1;
   }
-  if(!messageType) {
+  // Second byte
+  else if(messageStarted == 1) {
+    // GPS data
+    if(first == 0x1 && b == 0x30) {
+      messageStarted = 3;
+    }
+    // Command
+    else if(b == first) {
+      messageStarted = 0;
+      doCommand(b);
+    }
+    // If valid start byte, assume out of frame error -- corrects itself in case of garbling
+    else if(b <= 0x9) {
+      first = b;
+    }
+    else {
+      messageStarted = 0;
+    }
+  }
+  // We're in GPS data
+  else if(messageStarted == 3) {
     g = gpsParse(b);
     if(g.ended) {
       if(g.height >= 0) {
 	globalState.height = g.height;
-	messageStarted = 0;
-	globalState.externalTime = g.timestamp;
 	doCommand(0);
       }
+      globalState.externalTime = g.timestamp;
+      resetGPS();
+      messageStarted = 4;
     }
-    ++i;
   }
-  else {
-    inputBuffers[inpSel][i++] = b;
-    if(i == GROUND_LEN) {
+  // We're in GPS tail
+  else if(messageStarted == 4) {
+    // Not in GPS tail? Data corruption or bytes dropped maybe.
+    if(b != 0x3 && b != 0xD && b != 0xA) {
       messageStarted = 0;
-      if(inputBuffers[inpSel][0] == inputBuffers[inpSel][1]) {
-        doCommand(inputBuffers[inpSel][0]);
-      }
+    }
+    if(b == 0xA) {
+      messageStarted = 0;
     }
   }
 }

@@ -1,7 +1,7 @@
 #ifndef PARSING_H
 #define PARSING_H
 
-#define HASP_LEN 122
+#define HASP_LEN 120
 
 typedef struct {
   long int height;
