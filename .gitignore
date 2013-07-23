@@ -21,3 +21,6 @@
 
 # Python compiled
 *.pyc
+
+# makefile-made file
+derpacopter
