@@ -19,8 +19,6 @@ char length = 0;
 char *serialInpBuf;
 char i,o;
 
-static long int height = 0;
-
 #define GROUND_LEN 2
 
 void sleepMode();
@@ -127,9 +125,10 @@ void parseByte(char b) {
     g = gpsParse(b);
     if(g.ended) {
       if(g.height >= 0) {
-	height = g.height;
-	sendLog(0);
+	globalState.height = g.height;
 	messageStarted = 0;
+	globalState.externalTime = g.timestamp;
+	doCommand(0);
       }
     }
     ++i;
@@ -162,7 +161,6 @@ __interrupt void USCI0TX_ISR(void) {
   }
 }
 
-//  Echo back RXed character, confirm TX buffer is ready first
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void) {
   parseByte(UCA0RXBUF);
@@ -172,24 +170,6 @@ __interrupt void USCI0RX_ISR(void) {
 // Sends a message with format we specified.
 char message [] = "0123456789abcdefghijklmnopqrstuvwxyzAB";
 void sendLog(char command) {
-  /* // MS since startup */
-  /* message[0] = (char)(timerMS>>24); */
-  /* message[1] = (char)((timerMS>>16)&0xFF); */
-  /* message[2] = (char)((timerMS>>8)&0xFF); */
-  /* message[3] = (char)(timerMS&0xFF); */
-  /* // Height */
-  /* message[4] = (char)(height>>24); */
-  /* message[5] = (char)((height>>16)&0xFF); */
-  /* message[6] = (char)((height>>8)&0xFF); */
-  /* message[7] = (char)(height&0xFF); */
-  /* message[8] = command; */
-  /* // Parity byte checksum */
-  /* message[9] = */
-  /*   message[0]^message[1]^message[2]^message[3]^message[4] */
-  /*   ^message[5]^message[6]^message[7]^message[8]; */
-
-  /* serialSend(message,10); */
-
   // command
   message[0]  = command;
   

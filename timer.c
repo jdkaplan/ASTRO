@@ -1,6 +1,8 @@
 #include <msp430.h>
 #include "timer.h"
 #include "serial.h"
+#include "state.h"
+#include "mainActions.h"
 
 volatile long int timerMS;
 
@@ -31,12 +33,13 @@ __interrupt void Timer_A(void) {
     case  4: break;                         // TACCR2 not used
     case 10:
       TAR = 0;
-      ++timerMS;
-      /*if((timerMS%1000) == 0) {
-	serialSend("Second",6);
+      ++globalState.internalTime;
+      /*if(!(globalState.internalTime&0x1F)) {
+	doAction(&saveState);
+	__bic_SR_register_on_exit(LPM0_bits);
 	}*/
       break;
-    }
+  }
 }
 
 #pragma vector=TIMERB1_VECTOR
@@ -47,10 +50,11 @@ __interrupt void Timer_B(void) {
     case 10:
       TBCTL = 0;      
       if(!overflow) {
-	(*executable)();
+	doAction(executable);
       }
       else {
 	executeAfterMS(overflow/TICKS_PER_MS,executable);
+	__bic_SR_register_on_exit(LPM0_bits);
       }
       break;
     }
