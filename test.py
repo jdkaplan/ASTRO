@@ -59,7 +59,7 @@ def pingPong(conn):
         while c == 0xFF:
             c = conn.read()
         
-        data = [c] + conn.read(15)
+        data = c + conn.read(15)
         print parsePong(conn,data)
         time.sleep(1)
 
