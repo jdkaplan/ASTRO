@@ -5,12 +5,15 @@
 #include "timer.h"
 #include "state.h"
 
+#define START_ATOMIC() __bic_SR_register(GIE)
+#define END_ATOMIC() __bis_SR_register(GIE)
+
 // Globals
-char outputBuffers[N_OUT_BUF][LEN_OUT_BUF];
-char inputBuffer[LEN_INP_BUF];
-char lengths[N_OUT_BUF];
-char outSel = 0,inpSel = 0,inputTop = 0;
-char i,o;
+volatile char outputBuffers[N_OUT_BUF][LEN_OUT_BUF];
+volatile unsigned char inputBuffer[LEN_INP_BUF];
+volatile int lengths[N_OUT_BUF];
+volatile int outSel = 0,inpSel = 0,inputTop = 0;
+volatile int currentOutByte;
 
 void sleepMode();
 void wakeUp();
@@ -24,10 +27,16 @@ void serialStart() {
   BCSCTL1 = CALBC1_1MHZ; // Set DCO
   DCOCTL = CALDCO_1MHZ;
   P3SEL = 0x30; // P3.4,5 = USCI_A0 TXD/RXD
+  // 1MHz SMCLK
   UCA0CTL1 |= UCSSEL_2; // SMCLK
   UCA0BR0 = 0x41; // 1MHz 1200
   UCA0BR1 = 0x3; // 1MHz 1200
   UCA0MCTL = 0x92; // Modulation UCBRSx = 1
+  // 32khz ACLK
+  /*UCA0CTL1 |= UCSSEL_1;
+  UCA0BR0 = 0x1b;
+  UCA0BR1 = 0x0;
+  UCA0MCTL = 0x12;*/
   UCA0CTL1 &= ~UCSWRST; // **Initialize USCI state machine**
   sleepMode();
   IE2 |= UCA0RXIE; // Enable USCI_A0 RX interrupt
@@ -50,30 +59,39 @@ void wakeUp() {
 }
 
 // Send a string through serial.
+// Always run from main
+// Concurrency safe
 char newMsgs = 0;
 void serialSend(char *str, char length) {
   char oS;
-  char *buf;
+  volatile char *buf;
+  char startMsgCount;
 
-  ++newMsgs;
+  START_ATOMIC();
+  startMsgCount = ++newMsgs;
   // Copy str to buffer
   oS = (outSel+1)%N_OUT_BUF;
   buf = outputBuffers[oS];
   lengths[oS] = length;
-  
+  END_ATOMIC();
+
+  // Note: did not make copying string to buffer atomic because if there are concurrency
+  //  issues, it means we are overwriting a buffer in use, which indicates bigger problems
+  //  (and a need for more buffers)
   while((buf - outputBuffers[oS]) != length) {
     *(buf++) = *(str++);
   }
-  if(newMsgs == 1) {
+  // Not atomic because these variables MUST NOT be touched if newMsgs is 1 here.
+  if(startMsgCount == 1) {
     // Wait for TX Buffer to be ready.
     while (!(IFG2&UCA0TXIFG));
 
     outSel = oS;
-    o = 0;
+    currentOutByte = 0;
 
     // Enable TX interrupt and send first character
     wakeUp();
-    UCA0TXBUF = outputBuffers[outSel][o++];
+    UCA0TXBUF = outputBuffers[outSel][currentOutByte++];
     IE2 |= UCA0TXIE;
   }
 }
@@ -86,16 +104,19 @@ void serialSend(char *str, char length) {
    HASP information comes in the format 0x1 0x30 +120 bytes + 0x30 + .
    Commands from ground never start with 0x3 or above 0x9 (7 possible), and are two bytes long.
 */
+// Always called from main
 char messageStarted = 0;
 unsigned char first;
 
 void parseByte() {
-  if(inpSel == inputTop) {
-    return;
-  }
-  char b = inputBuffer[inpSel];
-  inpSel = (inpSel+1)%LEN_INP_BUF;
+  P1OUT |= 0x1;
+  unsigned char b;
   gpsOut g;
+  START_ATOMIC();
+  b = inputBuffer[inpSel];
+  inpSel = (inpSel+1)%LEN_INP_BUF;
+  END_ATOMIC();
+
   // First byte, with error checking
   if(b <= 0x9 && (!messageStarted || b == 0x1 || (messageStarted != 1 && b != 0x3))) {
     first = b;
@@ -125,24 +146,27 @@ void parseByte() {
   else if(messageStarted == 2) {
     g = gpsParse(b);
     if(g.ended) {
+      START_ATOMIC();
       if(g.height >= 0) {
 	globalState.height = g.height;
       }
       globalState.externalTime = g.timestamp;
+      END_ATOMIC();
       doCommand(0);
-      messageStarted = 3;
+      //messageStarted = 3;
+      messageStarted = 0;
     }
   }
   // We're in GPS tail
-  else if(messageStarted == 3) {
-    // Not in GPS tail? Data corruption or bytes dropped maybe.
-    if(b != 0x3 && b != 0xD && b != 0xA) {
-      messageStarted = 0;
-    }
-    if(b == 0xA) {
-      messageStarted = 0;
-    }
-  }
+  /* else if(messageStarted == 3) { */
+  /*   // Not in GPS tail? Data corruption or bytes dropped maybe. */
+  /*   if(b != 0x3 && b != 0xD && b != 0xA) { */
+  /*     messageStarted = 0; */
+  /*   } */
+  /*   if(b == 0xA) { */
+  /*     messageStarted = 0; */
+  /*   } */
+  /* } */
   P1OUT &= ~0x3;
   P1OUT |= messageStarted;
 }
@@ -150,15 +174,15 @@ void parseByte() {
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void) {
   // Wait for TX Buffer to be ready.
-  UCA0TXBUF = outputBuffers[outSel][o++];
-  if(o == lengths[outSel]) {
+  UCA0TXBUF = outputBuffers[outSel][currentOutByte++];
+  if(currentOutByte == lengths[outSel]) {
     --newMsgs;
     if(!newMsgs) {
       sleepMode();
       IE2 &= ~UCA0TXIE;
     }
     else {
-      o = 0;
+      currentOutByte = 0;
       outSel = (outSel+1)%N_OUT_BUF;
     }
   }
@@ -168,8 +192,9 @@ __interrupt void USCI0TX_ISR(void) {
 __interrupt void USCI0RX_ISR(void) {
   inputBuffer[inputTop] = UCA0RXBUF;
   inputTop = (inputTop+1)%LEN_INP_BUF;
-  doAction(&parseByte);
-  __bic_SR_register_on_exit(LPM0_bits);
+  //doAction(&parseByte);
+  parseByte();
+  __bic_SR_register_on_exit(LPM3_bits);
 }
 
 // Sends a message with format we specified.
@@ -179,31 +204,39 @@ void sendLog(char command) {
   message[0]  = command;
   
   // internal time
+  START_ATOMIC();
   message[1]  = (char)((globalState.internalTime>>24)     );
   message[2]  = (char)((globalState.internalTime>>16)&0xFF);
   message[3]  = (char)((globalState.internalTime>> 8)&0xFF);
   message[4]  = (char)((globalState.internalTime    )&0xFF);
+  END_ATOMIC();
   
   // external time
+  START_ATOMIC();
   message[5]  = (char)((globalState.externalTime>>24)     );
   message[6]  = (char)((globalState.externalTime>>16)&0xFF);
   message[7]  = (char)((globalState.externalTime>> 8)&0xFF);
   message[8]  = (char)((globalState.externalTime    )&0xFF);
+  END_ATOMIC();
  
   // height
+  START_ATOMIC();
   message[9]  = (char)((globalState.height>>24)     );
   message[10] = (char)((globalState.height>>16)&0xFF);
   message[11] = (char)((globalState.height>> 8)&0xFF);
   message[12] = (char)((globalState.height    )&0xFF);
+  END_ATOMIC();
   
   // temperature
+  START_ATOMIC();
   message[13] = (char)((globalState.temperature>>8)     );
   message[14] = (char)((globalState.temperature   )&0xFF);
+  END_ATOMIC();
   
   // checksum
   char checkbyte = 15;
   message[checkbyte] = 0;
-  int i;
+  char i;
   for (i=0 ; i < checkbyte ; i++) {
     message[checkbyte] ^= message[i];
   }

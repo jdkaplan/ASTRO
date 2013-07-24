@@ -3,11 +3,10 @@
 
 #define N_ACTIONS 30
 
-extern int bottom,top;
-extern int nQueued;
-extern void (*mainActionsQ[])();
+extern volatile int bottom,top;
+extern volatile int nQueued;
+extern void (* volatile mainActionsQ[])();
 
 void doAction(void (*)());
-void changeStatus();
 
 #endif

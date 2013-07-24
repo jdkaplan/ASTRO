@@ -6,13 +6,17 @@
 #include "mainActions.h"
 #include "state.h"
 
+#define START_ATOMIC() __bic_SR_register(GIE)
+#define END_ATOMIC() __bis_SR_register(GIE)
+
 int main() {
+  int local_nQueued;
   // Stop watchdog timer
   void (*action)();
   WDTCTL = WDTPW + WDTHOLD;
   //setupMotors();
   serialStart();
-  timerStart();
+  //timerStart();
   //adcStart();
   retrieveState();
   _EINT();
@@ -21,12 +25,18 @@ int main() {
   P1OUT = 0;
   
   while(1) {
-    while(nQueued) {
+    START_ATOMIC();
+    local_nQueued = nQueued;
+    END_ATOMIC();
+    while(local_nQueued) {
+      START_ATOMIC();
       --nQueued;
+      local_nQueued = nQueued;
       action = mainActionsQ[bottom];
       bottom = (bottom+1)%N_ACTIONS;
+      END_ATOMIC();
       (*action)();
     }
-    __bis_SR_register(LPM0_bits | GIE);
+    __bis_SR_register(LPM3_bits | GIE);
   }
 }

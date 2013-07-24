@@ -55,17 +55,18 @@ def parsePong(data):
 
 def pingPong(conn):
     while True:
+        conn.write('\x00\x00')
         c = conn.read()
-        while c == 0xFF:
+        while c == '\xff':
             c = conn.read()
-        
+
         data = c + conn.read(15)
-        print parsePong(conn,data)
+        print parsePong(data)
+        print 'Checksum correct?:', str(not checkChecksum(data))
         time.sleep(1)
 
-def makeChecksum(data):
-    length = 16
+def checkChecksum(data):
     checksum = 0
-    for i in xrange(length):
-        checksum ^= data[i]
+    for i in xrange(len(data)):
+        checksum ^= ord(data[i])
     return checksum
