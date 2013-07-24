@@ -29,11 +29,16 @@ void parseByte() {
     // expecting HASP data, 0x30 is second byte of HASP string
     if (first == 0x01 && b == 0x30) {
       messageStarted = 2;
+      resetGPS();
     }
     // expecting command, commands are pairs of identical bytes
     else if (b == first) {
       messageStarted = 0;
       doCommand(b);
+    }
+    // If valid start byte, assume out of frame error -- corrects itself in case of garbling
+    else if (b <= 0x9 && b != 0x03) {
+      first = b;
     }
     // invalid second byte
     else {
@@ -57,7 +62,7 @@ void parseByte() {
       globalState.externalTime = g.timestamp;
       // pong
       doCommand(0);
-      messageStarted = 3;
+      messageStarted = 0;
     }
     
     // gps string hasn't ended yet

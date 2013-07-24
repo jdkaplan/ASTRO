@@ -111,62 +111,75 @@ unsigned char first;
 void parseByte() {
   P1OUT |= 0x1;
   unsigned char b;
-  gpsOut g;
   START_ATOMIC();
   b = inputBuffer[inpSel];
   inpSel = (inpSel+1)%LEN_INP_BUF;
   END_ATOMIC();
 
-  // First byte, with error checking
-  if(b <= 0x9 && (!messageStarted || b == 0x1 || (messageStarted != 1 && b != 0x3))) {
-    first = b;
-    messageStarted = 1;
-  }
-  // Second byte
-  else if(messageStarted == 1) {
-    // GPS data
-    if(first == 0x1 && b == 0x30) {
-      messageStarted = 2;
-      resetGPS();
-    }
-    // Command
-    else if(b == first) {
-      messageStarted = 0;
-      doCommand(b);
-    }
-    // If valid start byte, assume out of frame error -- corrects itself in case of garbling
-    else if(b <= 0x9) {
+  if((b <= 0x9 && messageStarted != 1) || messageStarted == 0) {
+    // valid start bytes are 0x0 thru 0x9 except for 0x3
+    if (b <= 0x09 && b != 0x03) {
+      messageStarted = 1;
       first = b;
     }
+    // In case of corrupt data/dropped bytes
     else {
       messageStarted = 0;
     }
   }
-  // We're in GPS data
-  else if(messageStarted == 2) {
-    g = gpsParse(b);
-    if(g.ended) {
-      START_ATOMIC();
-      if(g.height >= 0) {
-	globalState.height = g.height;
-      }
-      globalState.externalTime = g.timestamp;
-      END_ATOMIC();
-      doCommand(0);
-      //messageStarted = 3;
+  
+  // expecting second byte of message
+  else if (messageStarted == 1) {
+    // expecting HASP data, 0x30 is second byte of HASP string
+    if (first == 0x01 && b == 0x30) {
+      messageStarted = 2;
+      resetGPS();
+    }
+    // expecting command, commands are pairs of identical bytes
+    else if (b == first) {
+      messageStarted = 0;
+      doCommand(b);
+    }
+    // If valid start byte, assume out of frame error -- corrects itself in case of garbling
+    else if (b <= 0x9 && b != 0x03) {
+      first = b;
+    }
+    // invalid second byte
+    else {
       messageStarted = 0;
     }
   }
-  // We're in GPS tail
-  /* else if(messageStarted == 3) { */
-  /*   // Not in GPS tail? Data corruption or bytes dropped maybe. */
-  /*   if(b != 0x3 && b != 0xD && b != 0xA) { */
-  /*     messageStarted = 0; */
-  /*   } */
-  /*   if(b == 0xA) { */
-  /*     messageStarted = 0; */
-  /*   } */
-  /* } */
+
+  // parsing GPS stuff
+  else if (messageStarted == 2) {
+    // run it through the gpsParse state machine
+    gpsOut g = gpsParse(b);
+    
+    // b was the last byte expected by gpsParse
+    if (g.ended) {
+      // positive altitude!
+      if (g.height >= 0) {
+        // store it!
+        globalState.height = g.height;
+      }
+      // because I am a clock
+      globalState.externalTime = g.timestamp;
+      // pong
+      doCommand(0);
+      messageStarted = 0;
+    }
+    
+    // gps string hasn't ended yet
+    else {
+      // pass
+    }
+  }
+
+  else {
+    // How the fuck did you get here?
+    // Probably GPS tail :P or corrupted dick
+  }
+
   P1OUT &= ~0x3;
   P1OUT |= messageStarted;
 }
@@ -192,8 +205,7 @@ __interrupt void USCI0TX_ISR(void) {
 __interrupt void USCI0RX_ISR(void) {
   inputBuffer[inputTop] = UCA0RXBUF;
   inputTop = (inputTop+1)%LEN_INP_BUF;
-  //doAction(&parseByte);
-  parseByte();
+  doAction(&parseByte);
   __bic_SR_register_on_exit(LPM3_bits);
 }
 
