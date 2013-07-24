@@ -216,11 +216,11 @@ long generateChecksum(stateVec *state) {
   return
     state->currentStepOne^
     state->desiredStepOne^
-    state->prevSignalOne^
+    state->curSignalOne^
 
     state->currentStepTwo^
     state->desiredStepTwo^
-    state->prevSignalTwo^
+    state->curSignalTwo^
 
     state->internalTime^
     state->externalTime^

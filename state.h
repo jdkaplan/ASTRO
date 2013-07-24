@@ -6,11 +6,11 @@
 typedef struct {
   short currentStepOne;
   short desiredStepOne;
-  char prevSignalOne;
+  char curSignalOne;
 
   short currentStepTwo;
   short desiredStepTwo;
-  char prevSignalTwo;
+  char curSignalTwo;
 
   long internalTime;
   long externalTime;
