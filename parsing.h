@@ -7,6 +7,7 @@ typedef struct {
   long int height;
   long int timestamp;
   char ended;
+  int checkedsum;
 } gpsOut;
 
 gpsOut gpsParse(char);
