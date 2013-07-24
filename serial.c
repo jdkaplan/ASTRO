@@ -5,19 +5,16 @@
 #include "timer.h"
 #include "state.h"
 
-#define N_BUF 2
-
 // Globals
-char outputBuffers[N_BUF][150];
-char lengths[N_BUF];
-char outSel = 0;
+char outputBuffers[N_OUT_BUF][LEN_OUT_BUF];
+char inputBuffer[LEN_INP_BUF];
+char lengths[N_OUT_BUF];
+char outSel = 0,inpSel = 0,inputTop = 0;
 char i,o;
-
-#define GROUND_LEN 2
 
 void sleepMode();
 void wakeUp();
-void parseByte(char);
+void parseByte();
 
 void serialStart() {
   if (CALBC1_1MHZ==0xFF) {// If calibration constant erased
@@ -36,20 +33,20 @@ void serialStart() {
   IE2 |= UCA0RXIE; // Enable USCI_A0 RX interrupt
 
   // Set FORCEON to OUTPUT
-  P3DIR |= (1<<2);
+  FORCEON_DIR |= FORCEON_PIN;
 }
 
 /*
-  FORCEON 3.2
+  FORCEON 2.1
 */
 void sleepMode() {
   // Set FORCEON to LOW
-  P3OUT |= (1<<2);
+  FORCEON_OUT &= ~FORCEON_PIN;
 }
 
 void wakeUp() {
   // Set FORCEON to HIGH
-  P3OUT |= (1<<2);
+  FORCEON_OUT |= FORCEON_PIN;
 }
 
 // Send a string through serial.
@@ -60,7 +57,7 @@ void serialSend(char *str, char length) {
 
   ++newMsgs;
   // Copy str to buffer
-  oS = (outSel+1)%N_BUF;
+  oS = (outSel+1)%N_OUT_BUF;
   buf = outputBuffers[oS];
   lengths[oS] = length;
   
@@ -92,10 +89,15 @@ void serialSend(char *str, char length) {
 char messageStarted = 0;
 unsigned char first;
 
-void parseByte(char b) {
+void parseByte() {
+  if(inpSel == inputTop) {
+    return;
+  }
+  char b = inputBuffer[inpSel];
+  inpSel = (inpSel+1)%LEN_INP_BUF;
   gpsOut g;
   // First byte, with error checking
-  if(!messageStarted || b == 0x1) {
+  if(b <= 0x9 && (!messageStarted || b == 0x1 || (messageStarted != 1 && b != 0x3))) {
     first = b;
     messageStarted = 1;
   }
@@ -103,7 +105,8 @@ void parseByte(char b) {
   else if(messageStarted == 1) {
     // GPS data
     if(first == 0x1 && b == 0x30) {
-      messageStarted = 3;
+      messageStarted = 2;
+      resetGPS();
     }
     // Command
     else if(b == first) {
@@ -119,20 +122,19 @@ void parseByte(char b) {
     }
   }
   // We're in GPS data
-  else if(messageStarted == 3) {
+  else if(messageStarted == 2) {
     g = gpsParse(b);
     if(g.ended) {
       if(g.height >= 0) {
 	globalState.height = g.height;
-	doCommand(0);
       }
       globalState.externalTime = g.timestamp;
-      resetGPS();
-      messageStarted = 4;
+      doCommand(0);
+      messageStarted = 3;
     }
   }
   // We're in GPS tail
-  else if(messageStarted == 4) {
+  else if(messageStarted == 3) {
     // Not in GPS tail? Data corruption or bytes dropped maybe.
     if(b != 0x3 && b != 0xD && b != 0xA) {
       messageStarted = 0;
@@ -141,6 +143,8 @@ void parseByte(char b) {
       messageStarted = 0;
     }
   }
+  P1OUT &= ~0x3;
+  P1OUT |= messageStarted;
 }
 
 #pragma vector=USCIAB0TX_VECTOR
@@ -155,14 +159,16 @@ __interrupt void USCI0TX_ISR(void) {
     }
     else {
       o = 0;
-      outSel = (outSel+1)%N_BUF;
+      outSel = (outSel+1)%N_OUT_BUF;
     }
   }
 }
 
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void) {
-  parseByte(UCA0RXBUF);
+  inputBuffer[inputTop] = UCA0RXBUF;
+  inputTop = (inputTop+1)%LEN_INP_BUF;
+  doAction(&parseByte);
   __bic_SR_register_on_exit(LPM0_bits);
 }
 

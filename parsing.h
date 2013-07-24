@@ -11,5 +11,6 @@ typedef struct {
 
 gpsOut gpsParse(char);
 void doCommand(char);
+void resetGPS();
 
 #endif

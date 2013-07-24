@@ -10,10 +10,10 @@ int main() {
   // Stop watchdog timer
   void (*action)();
   WDTCTL = WDTPW + WDTHOLD;
-  setupMotors();
+  //setupMotors();
   serialStart();
   timerStart();
-  adcStart();
+  //adcStart();
   retrieveState();
   _EINT();
 

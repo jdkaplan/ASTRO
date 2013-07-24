@@ -8,14 +8,14 @@
 #define COUNTER_CLOCKWISE 0b0110
 #define FLIP_START 0b11
 
-#define DIRONE P2DIR
-#define DIRTWO P4DIR
+#define DIRONE P1DIR
+#define DIRTWO P1DIR
 
-#define PORTONE P2OUT
-#define PORTTWO P4OUT
+#define PORTONE P1OUT
+#define PORTTWO P1OUT
 
-#define SHIFTONE 1
-#define SHIFTTWO 3
+#define SHIFTONE 0
+#define SHIFTTWO 4
 
 void setupMotors();
 

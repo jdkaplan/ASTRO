@@ -20,8 +20,8 @@ int valid_gps;
 gpsOut res = {0,0,0};
 int chars_read = 0;
 
-long int time;
-int tau[8];
+long time;
+long tau[8];
 int t = 0;
 
 void resetGPS() {
@@ -72,7 +72,10 @@ gpsOut gpsParse(char b) {
       break;
     case 11: // <9> block over
       if (valid_gps > 0)
-        res.height = height*mul; break;// store
+        res.height = height*mul; // store
+      else
+	res.height = -1000;
+      break;
     }
   }
   if (++chars_read == HASP_LEN) {
@@ -99,7 +102,6 @@ void doCommand(char comm) {
     break;
   case 0:
     sendLog(0);
-    doAction(&changeStatus);
     break;
   case 6:
     sendLog(6);
@@ -107,6 +109,5 @@ void doCommand(char comm) {
     break;
   case 7:
     sendLog(7);
-    serialSend((char*)(&temperature),2);
   }
 }
