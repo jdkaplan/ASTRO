@@ -1,10 +1,11 @@
 #include <msp430.h>
 #include "mainActions.h"
 
-int bottom,top;
-int nQueued = 0;
-void (*mainActionsQ[N_ACTIONS])();
+volatile int bottom,top;
+volatile int nQueued = 0;
+void (*volatile mainActionsQ[N_ACTIONS])();
 
+// Always called inside interrupt - schedules a function to be run on main.
 void doAction(void (*action)()) {
   ++nQueued;
   if(nQueued == N_ACTIONS)  {
@@ -12,8 +13,4 @@ void doAction(void (*action)()) {
   }
   mainActionsQ[top] = action;
   top = (top+1)%N_ACTIONS;
-}
-
-void changeStatus() {
-  P1OUT ^= 0x1;
 }

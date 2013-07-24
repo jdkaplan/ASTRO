@@ -11,18 +11,18 @@
 // Note: global variable i contains the current byte's index (DO NOT CHANGE IT!).
 // Note: HASP_LEN is the length of the string, including the two initial characters.
 
-char mul = 1;
-char heightEnded = 0;
-static long int height;
+volatile char mul = 1;
+volatile char heightEnded = 0;
+volatile long height;
 
-int comma_count = 0;
-int valid_gps;
-gpsOut res = {0,0,0};
-int chars_read = 0;
+volatile int comma_count = 0;
+volatile int valid_gps;
+volatile gpsOut res = {0,0,0};
+volatile int chars_read = 0;
 
-long time;
-long tau[8];
-int t = 0;
+volatile long time;
+volatile long tau[8];
+volatile int t = 0;
 
 void resetGPS() {
   height = 0;
@@ -78,7 +78,8 @@ gpsOut gpsParse(char b) {
       break;
     }
   }
-  if (++chars_read == HASP_LEN) {
+  ++chars_read;
+  if (chars_read == HASP_LEN) {
     res.ended = 1;
     resetGPS();
   }
