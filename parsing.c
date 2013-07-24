@@ -80,7 +80,7 @@ gpsOut gpsParse(char b) {
   }
   if (++chars_read == HASP_LEN) {
     res.ended = 1;
-    resetGPS();
+    resetGPS(); // TODO: remove
   }
   return res;
 }

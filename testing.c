@@ -15,7 +15,7 @@ void delay(unsigned int ms) {
 void motor_cycle() {
   int i;
   for (i=0 ; i<100 ; i++) {
-    int timing = 20;
+    int timing = 100;
 
     // 1 0 1 0
     P1OUT = 0b1010;
