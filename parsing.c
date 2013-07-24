@@ -121,11 +121,9 @@ void doCommand(char comm) {
   switch(comm) {
   case 2:
     sendLog(2);
-    startOne(1);
     break;
   case 4:
     sendLog(4);
-    startTwo(1);
     break;
   case 5:
     sendLog(5);
@@ -136,7 +134,6 @@ void doCommand(char comm) {
     break;
   case 6:
     sendLog(6);
-    startOne(0);
     break;
   case 7:
     sendLog(7);

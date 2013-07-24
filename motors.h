@@ -4,22 +4,20 @@
 #define N_PULSES 90*4
 #define T_PULSE_MS 100
 
-#define CLOCKWISE 0b0101
-#define COUNTER_CLOCKWISE 0b0110
-#define FLIP_START 0b11
-
 #define DIRONE P1DIR
-#define DIRTWO P1DIR
-
 #define PORTONE P1OUT
-#define PORTTWO P1OUT
-
 #define SHIFTONE 0
+
+#define DIRTWO P1DIR
+#define PORTTWO P1OUT
 #define SHIFTTWO 4
 
-void setupMotors();
+void turnOne(char);
+void turnTwo(char);
 
-void startOne(char);
-void startTwo(char);
+#define LEFT 1
+#define RIGHT 0
+
+void setupMotors();
 
 #endif

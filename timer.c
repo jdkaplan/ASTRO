@@ -38,7 +38,7 @@ __interrupt void Timer_A(void) {
       if(!(globalState.internalTime&0x100)) {
 	//P1OUT ^= 0x1;
 	//doAction(&saveState);
-	__bic_SR_register_on_exit(LPM0_bits);
+	//__bic_SR_register_on_exit(LPM0_bits);
       }
       break;
   }
@@ -52,11 +52,10 @@ __interrupt void Timer_B(void) {
     case 10:
       TBCTL = 0;      
       if(!overflow) {
-	doAction(executable);
+	(*executable)();
       }
       else {
 	executeAfterMS(overflow/TICKS_PER_MS,executable);
-	__bic_SR_register_on_exit(LPM0_bits);
       }
       break;
     }
