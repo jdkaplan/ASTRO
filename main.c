@@ -14,15 +14,15 @@ int main() {
   // Stop watchdog timer
   void (*action)();
   WDTCTL = WDTPW + WDTHOLD;
+  startFlash();
   //setupMotors();
   serialStart();
-  //timerStart();
+  timerStart();
   //adcStart();
-  retrieveState();
   _EINT();
 
   P1DIR |= 0x3;
-  P1OUT = 0;
+  P1OUT = 0x1;
   
   while(1) {
     START_ATOMIC();
@@ -36,7 +36,8 @@ int main() {
       bottom = (bottom+1)%N_ACTIONS;
       END_ATOMIC();
       (*action)();
+      P1OUT ^= 0x3;
     }
-    __bis_SR_register(LPM3_bits | GIE);
+    __bis_SR_register(LPM0_bits | GIE);
   }
 }

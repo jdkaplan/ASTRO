@@ -1,7 +1,7 @@
 #ifndef MAIN_ACTIONS_H
 #define MAIN_ACTIONS_H
 
-#define N_ACTIONS 30
+#define N_ACTIONS 100
 
 extern volatile int bottom,top;
 extern volatile int nQueued;

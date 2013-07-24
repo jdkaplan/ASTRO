@@ -1,7 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 typedef struct {
   short currentStepOne;
@@ -25,7 +25,7 @@ typedef struct {
 
 extern stateVec globalState;
 
+void startFlash();
 void saveState();
-void retrieveState();
 
 #endif

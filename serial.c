@@ -109,7 +109,7 @@ char messageStarted = 0;
 unsigned char first;
 
 void parseByte() {
-  P1OUT |= 0x1;
+  //P1OUT |= 0x1;
   unsigned char b;
   START_ATOMIC();
   b = inputBuffer[inpSel];
@@ -180,8 +180,8 @@ void parseByte() {
     // Probably GPS tail :P or corrupted dick
   }
 
-  P1OUT &= ~0x3;
-  P1OUT |= messageStarted;
+  //P1OUT &= ~0x3;
+  //P1OUT |= messageStarted;
 }
 
 #pragma vector=USCIAB0TX_VECTOR
@@ -206,7 +206,7 @@ __interrupt void USCI0RX_ISR(void) {
   inputBuffer[inputTop] = UCA0RXBUF;
   inputTop = (inputTop+1)%LEN_INP_BUF;
   doAction(&parseByte);
-  __bic_SR_register_on_exit(LPM3_bits);
+  __bic_SR_register_on_exit(LPM0_bits);
 }
 
 // Sends a message with format we specified.
