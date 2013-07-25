@@ -242,8 +242,25 @@ void sendLog(char command) {
   message[14] = (char)((globalState.temperature   )&0xFF);
   END_ATOMIC();
   
+  // motor one
+  START_ATOMIC();
+  message[15] = (char)((globalState.desiredStepOne>>8)     );
+  message[16] = (char)((globalState.desiredStepOne   )&0xFF);
+  END_ATOMIC();
+  
+  // motor two
+  START_ATOMIC();
+  message[17] = (char)((globalState.desiredStepTwo>>8)     );
+  message[18] = (char)((globalState.desiredStepTwo   )&0xFF);
+  END_ATOMIC();
+
+  // safemode
+  START_ATOMIC();
+  message[19] = (char)((globalState.safemode));
+  END_ATOMIC();
+
   // checksum
-  char checkbyte = 15;
+  char checkbyte = 20;
   message[checkbyte] = 0;
   char i;
   for (i=0 ; i < checkbyte ; i++) {
@@ -251,11 +268,6 @@ void sendLog(char command) {
   }
 
   // reserved
-  message[16] = 0xFF;
-  message[17] = 0xFF;
-  message[18] = 0xFF;
-  message[19] = 0xFF;
-  message[20] = 0xFF;
   message[21] = 0xFF;
   message[22] = 0xFF;
   message[23] = 0xFF;
