@@ -159,12 +159,18 @@ void parseByte() {
     if (g.ended) {
       if(g.checkedsum) {
 	// positive altitude!
+	START_ATOMIC();
 	if (g.height >= 0) {
 	  // store it!
+	  for(i = 1; i < N_HEIGHTS; ++i) {
+	    globalState.previousHeights[i-1] = globalState.previousHeights[i];
+	  }
+	  globalState.previousHeights[i] = globalState.height;
 	  globalState.height = g.height;
 	}
 	// because I am a clock
 	globalState.externalTime = g.timestamp;
+	END_ATOMIC();
       }
       // pong
       doCommand(0);
