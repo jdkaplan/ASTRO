@@ -4,6 +4,10 @@
 #include "hard.h"
 #include "mainActions.h"
 
+#define START_ATOMIC() __bic_SR_register(GIE)
+#define END_ATOMIC() __bis_SR_register(GIE)
+
+
 // Gets byte by byte the GPS string. Parses it, and maintains a state.
 // When finished, it should return the reported height and flag saying the string
 //   ended, in the gpsOut format.
@@ -126,68 +130,88 @@ void doCommand(char comm) {
   // 0x01 is reserved for HASP data
 
   case 0x02:
+    START_ATOMIC();
+    globalState.safemode = 1;
+    END_ATOMIC();
+
     sendLog(0x02);
     break;
 
   // 0x03 is reserved for HASP data
 
   case 0x04:
+    turnOne(OPEN);
     sendLog(0x04);
     break;
 
   case 0x05:
+    turnOne(CLOSE);
     sendLog(0x05);
     break;
 
   case 0x06:
+    turnTwo(OPEN);
     sendLog(0x06);
     break;
 
   case 0x07:
+    turnTwo(CLOSE);
     sendLog(0x07);
     break;
 
   case 0x08:
+    turnHVDC1On();
     sendLog(0x08);
     break;
 
   case 0x09:
+    turnHVDC1Off();
     sendLog(0x09);
     break;
 
   // 0x0A reserved for HASP data
 
   case 0x0B:
+    turnHVDC2On();
     sendLog(0x0B);
     break;
 
   case 0x0C:
+    turnHVDC2Off();
     sendLog(0x0C);
     break;
 
   // 0x0D reserved for HASP data
 
   case 0x0E:
+    turnHeater1On();
     sendLog(0x0E);
     break;
 
   case 0x0F:
+    turnHeater1Off();
     sendLog(0x0F);
     break;
 
   case 0x10:
+    turnHeater2On();
     sendLog(0x10);
     break;
 
   case 0x11:
+    turnHeater2Off();
     sendLog(0x11);
     break;
 
   case 0x12:
+    // TODO: shutdown command
     sendLog(0x12);
     break;
 
   case 0x13:
+    START_ATOMIC();
+    globalState.safemode = 0;
+    END_ATOMIC();
     sendLog(0x13);
     break;
 
