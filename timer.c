@@ -36,9 +36,9 @@ __interrupt void Timer_A(void) {
       ++globalState.internalTime;
       /* Store state every 0x100 millis (256 millis) */
       if(!(globalState.internalTime&0x100)) {
-	//P1OUT ^= 0x1;
-	//doAction(&saveState);
-	//__bic_SR_register_on_exit(LPM0_bits);
+	P1OUT ^= 0x3;
+	doAction(&saveState);
+	__bic_SR_register_on_exit(LPM0_bits);
       }
       break;
   }
