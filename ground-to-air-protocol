@@ -1,0 +1,32 @@
+0x00    NUL    ping
+0x01    SOH            RESERVED BY HASP
+0x02    STX    ride
+0x03    ETX            RESERVED BY HASP
+0x04    EOT    open1
+0x05    ENQ    shut1
+0x06    ACK    open2
+0x07    BEL    shut2
+0x08    BS     lite1
+0x09    HT     kill1
+0x0A    LF             RESERVED BY HASP
+0x0B    VT     lite2
+0x0C    FF     kill2
+0x0D    CR             RESERVED BY HASP
+0x0E    SO     heat1
+0x0F    SI     cool1
+0x10    DLE    heat2
+0x11    DC1    cool2
+0x12    DC2    down
+0x13    DC3    safe
+0x14    DC4
+0x15    NAX
+0x16    SYN
+0x17    ETB
+0x18    CAN
+0x19    EM 
+0x1A    SUB
+0x1B    ESC
+0x1C    FS 
+0x1D    GS 
+0x1E    RS 
+0x1F    US 
