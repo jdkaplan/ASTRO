@@ -15,15 +15,15 @@ int main() {
   while(CALBC1_1MHZ==0xFF);
   int local_nQueued;
   void (*action)();
-  startFlash();
+  //startFlash();
   //setupMotors();
-  //serialStart();
-  timerStart();
+  serialStart();
+  //timerStart();
   //adcStart();
   _EINT();
 
   P1DIR |= 0x3;
-  P1OUT = 0x1;
+  P1OUT = 0x0;
   
   while(1) {
     START_ATOMIC();

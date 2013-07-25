@@ -18,57 +18,10 @@ void startFlash() {
   BCSCTL1 = CALBC1_1MHZ;                    // Set DCO to 1MHz
   DCOCTL = CALDCO_1MHZ;
   FCTL2 = FWKEY + FSSEL0 + FN1;             // MCLK/3 for Flash Timing Generator
-  //retrieveState();
+  retrieveState();
 }
 
 void saveState() {
-  char *segC,*segD;
-  unsigned char i;
-  long checksum;
-  char *checksumPtr = (char*)(&checksum);
-  char newData[sizeof(stateVec)];
-
-  // Copy globalState to a local variable - atomic operation. Also generate checksum.
-  checksum = generateChecksum(&globalState);
-
-  char *Flash_ptr;                          // Flash pointer
-  Flash_ptr = (char *)0x1040;               // Initialize Flash pointer
-  
-  FCTL3 = FWKEY;                       // Clear Lock bit
-  FCTL1 = FWKEY | ERASE | EEI;               // Set Erase bit
-  *Flash_ptr = 0;                           // Dummy write to erase Flash segment
-  while(BUSY & FCTL3);                 // Check if Flash being used
-  FCTL1 = FWKEY+WRT;
-  *Flash_ptr = 0x10;
-  FCTL1 = FWKEY;                       // Clear WRT bit
-  FCTL3 = FWKEY | LOCK;                // Set LOCK bit
-
-  /*  
-  segC = (char *)0x1040;
-  segD = (char *)0x1000;
-
-  // Clear lock bit
-  FCTL3 = FWKEY;
-
-  // First write to segment D
-  // Erase
-  FCTL1 = FWKEY + ERASE;
-  *segD = 0;
-  // Write data
-  //FCTL1 = FWKEY + WRT;
-  for(i = 0; i < sizeof(stateVec); ++i) {
-    *(segD++) = data[i];
-  }
-  for(i = sizeof(stateVec); i < 64; ++i) {
-    *(segD++) = 0x00;
-  }
-
-  FCTL1 = FWKEY;
-  FCTL3 = FWKEY+LOCK;
-  */
-}
-
-void saveState_() {
   char *segC,*segD;
   char i;
   long checksum;
@@ -81,7 +34,6 @@ void saveState_() {
   for(i = 0; i < sizeof(stateVec); ++i) {
     newData[i] = data[i];
   }
-  END_ATOMIC();
 
   segC = (char *)0x1040;
   segD = (char *)0x1000;
@@ -91,10 +43,10 @@ void saveState_() {
 
   // First write to segment D
   // Erase
-  FCTL1 = FWKEY + ERASE;
+  FCTL1 = FWKEY | ERASE | EEI;
   *segD = 0;
   // Write data
-  FCTL1 = FWKEY + WRT;
+  FCTL1 = FWKEY | WRT;
   for(i = 0; i < sizeof(stateVec); ++i) {
     *segD++ = newData[i];
   }
@@ -107,10 +59,10 @@ void saveState_() {
   
   // Now write to segment C
   // Erase
-  FCTL1 = FWKEY + ERASE;
+  FCTL1 = FWKEY | ERASE | EEI;
   *segC = 0;
   // Write data
-  FCTL1 = FWKEY + WRT;
+  FCTL1 = FWKEY | WRT;
   for(i = 0; i < sizeof(stateVec); ++i) {
     *segC++ = newData[i];
   }
@@ -123,7 +75,8 @@ void saveState_() {
   // Clear write bit
   FCTL1 = FWKEY;
   // Set lock bit
-  FCTL3 = FWKEY+LOCK;
+  FCTL3 = FWKEY | LOCK;
+  END_ATOMIC();
 }
 
 void retrieveState() {
