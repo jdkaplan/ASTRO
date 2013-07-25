@@ -148,9 +148,11 @@ int main() {
   char input_string4[] = "1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*71";
   char input_string5[] = "1234567890.098,$GPGGA,092750.000,5321.6802,N,00630.3372,W,1,8,1.03,61.7,M,55.2,M,,*76";
   char input_string6[] = "1374772186.61,$GPGGA,235959.99,,,,,1,,,10000,,,,,*79";
+  char input_string7[] = "1374784467.87,$GPGGA,002000.00,,,,,1,,,1100,,,,,*4b";
 
   test(input_string4);
   test(input_string5);
   test(input_string6);
+  test(input_string7);
   return 0;
 }

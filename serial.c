@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "state.h"
 
-#define START_ATOMIC() _DINT();__no_operation(); __no_operation
+#define START_ATOMIC() _DINT();__no_operation(); __no_operation()
 #define END_ATOMIC() _EINT()
 
 // Globals
