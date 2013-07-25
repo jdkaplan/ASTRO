@@ -10,30 +10,40 @@ def connect(i):
     return serial.Serial('/dev/ttyACM'+str(i),baudrate=1200)
 
 def checkChecksum(data):
-    checksum = 0
-    for i in xrange(len(data)):
-        checksum ^= ord(data[i])
+    # checksum = 0
+    # for i in xrange(len(data)):
+    #     checksum ^= ord(data[i])
+    checksum = reduce(lambda x,y: x^ord(y), data, 0)
     return checksum
 
 def generateChecksum(gps):
     return '*{:0>2X}'.format(reduce(lambda x,y: x^ord(y), gps, 0))
 
+def makeNumber(bytes_):
+    rev = bytes_[::-1]
+    return sum([ord(rev[j]) * (2**(8*j)) for j in range(len(rev))])
+
 def parsePong(data):
-    command = data[0][::-1]
-    internalTime = data[1:5][::-1]
-    externalTime = data[5:9][::-1]
-    height = data[9:13][::-1]
-    temperature = data[13:15][::-1]
-    checksum = data[15][::-1]
+    command = data[0]
+    internalTime = data[1:5]
+    externalTime = data[5:9]
+    height = data[9:13]
+    temperature = data[13:15]
+    motorOne = data[15:17]
+    motorTwo = data[17:19]
+    safemode = data[19]
+    checksum = data[20]
 
     command = ord(command)
-
-    internalTime = sum([ord(internalTime[i]) * (2**(8*i)) for i in range(len(internalTime))])
-    externalTime = esraPemit(sum([ord(externalTime[i]) * (2**(8*i)) for i in range(len(externalTime))]))
-    height = sum([ord(height[i]) * (2**(8*i)) for i in range(len(height))])
-    temperature = sum([ord(temperature[i]) * (2**(8*i)) for i in range(len(temperature))])
-    checksum = sum([ord(checksum[i]) * (2**(8*i)) for i in range(len(checksum))])
-
+    internalTime = makeNumber(internalTime)
+    externalTime = esraPemit(makeNumber(externalTime))
+    height = makeNumber(height)
+    temperature = makeNumber(temperature)
+    motorOne = makeNumber(motorOne)
+    motorTwo = makeNumber(motorTwo)
+    safemode = makeNumber(safemode)
+    checksum = makeNumber(checksum)
+    
     return "command " + str(command) + '\n' + "internalTime " + str(internalTime) + '\n' + "externalTime " + str(externalTime) + '\n' + "height " + str(height) + '\n' + "temperature " + str(temperature) + '\n' + "checksum " + str(checksum)
 
 def esraPemit(time): # timeParse backwards
