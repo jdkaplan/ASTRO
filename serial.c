@@ -5,15 +5,14 @@
 #include "timer.h"
 #include "state.h"
 
-#define START_ATOMIC() __bic_SR_register(GIE)
-#define END_ATOMIC() __bis_SR_register(GIE)
+#define START_ATOMIC() _DINT();__no_operation(); __no_operation
+#define END_ATOMIC() _EINT()
 
 // Globals
-volatile char outputBuffers[N_OUT_BUF][LEN_OUT_BUF];
+volatile unsigned char outputBuffer[LEN_OUT_BUF];
 volatile unsigned char inputBuffer[LEN_INP_BUF];
-volatile int lengths[N_OUT_BUF];
-volatile int outSel = 0,inpSel = 0,inputTop = 0;
-volatile int currentOutByte;
+volatile int inpSel = 0,inputTop = 0;
+volatile unsigned char outTop=0,outSel=0;
 
 void sleepMode();
 void wakeUp();
@@ -28,15 +27,15 @@ void serialStart() {
   DCOCTL = CALDCO_1MHZ;
   P3SEL = 0x30; // P3.4,5 = USCI_A0 TXD/RXD
   // 1MHz SMCLK
-  /*UCA0CTL1 |= UCSSEL_2; // SMCLK
+  UCA0CTL1 |= UCSSEL_2; // SMCLK
   UCA0BR0 = 0x41; // 1MHz 1200
   UCA0BR1 = 0x3; // 1MHz 1200
-  UCA0MCTL = 0x92; // Modulation UCBRSx = 1*/
+  UCA0MCTL = 0x92; // Modulation UCBRSx = 1
   // 32khz ACLK
-  UCA0CTL1 |= UCSSEL_1;
+  /*UCA0CTL1 |= UCSSEL_1;
   UCA0BR0 = 0x1b;
   UCA0BR1 = 0x0;
-  UCA0MCTL = 0x12;
+  UCA0MCTL = 0x12;*/
   UCA0CTL1 &= ~UCSWRST; // **Initialize USCI state machine**
   sleepMode();
   IE2 |= UCA0RXIE; // Enable USCI_A0 RX interrupt
@@ -61,37 +60,33 @@ void wakeUp() {
 // Send a string through serial.
 // Always run from main
 // Concurrency safe
-char newMsgs = 0;
-void serialSend(char *str, char length) {
-  char oS;
-  volatile char *buf;
-  char startMsgCount;
+volatile int newMsgs = 0;
+void serialSend(char *str, int length) {
+  int i;
+  char newMsg;
+
+  if(length == 0) {
+    return;
+  }
 
   START_ATOMIC();
-  startMsgCount = ++newMsgs;
-  // Copy str to buffer
-  oS = (outSel+1)%N_OUT_BUF;
-  buf = outputBuffers[oS];
-  lengths[oS] = length;
+  newMsg = (outTop == outSel);
   END_ATOMIC();
-
-  // Note: did not make copying string to buffer atomic because if there are concurrency
-  //  issues, it means we are overwriting a buffer in use, which indicates bigger problems
-  //  (and a need for more buffers)
-  while((buf - outputBuffers[oS]) != length) {
-    *(buf++) = *(str++);
+  // Copy str to buffer
+  for(i = 0; i < length; ++i) {
+    START_ATOMIC();
+    outputBuffer[outTop++] = str[i];
+    END_ATOMIC();
   }
+
   // Not atomic because these variables MUST NOT be touched if newMsgs is 1 here.
-  if(startMsgCount == 1) {
+  if(newMsg) {
     // Wait for TX Buffer to be ready.
     while (!(IFG2&UCA0TXIFG));
 
-    outSel = oS;
-    currentOutByte = 0;
-
     // Enable TX interrupt and send first character
     wakeUp();
-    UCA0TXBUF = outputBuffers[outSel][currentOutByte++];
+    UCA0TXBUF = outputBuffer[outSel++];
     IE2 |= UCA0TXIE;
   }
 }
@@ -119,7 +114,7 @@ void parseByte() {
 
   if((b <= 0x9 && messageStarted != 1) || messageStarted == 0) {
     // valid start bytes are 0x0 thru 0x9 except for 0x3
-    if (b <= 0x09 && b != 0x03) {
+    if (b <= 0x14 && b != 0x03 && b != 0x0A && b != 0x0D) {
       messageStarted = 1;
       first = b;
     }
@@ -196,17 +191,10 @@ void parseByte() {
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void) {
   // Wait for TX Buffer to be ready.
-  UCA0TXBUF = outputBuffers[outSel][currentOutByte++];
-  if(currentOutByte == lengths[outSel]) {
-    --newMsgs;
-    if(!newMsgs) {
-      sleepMode();
-      IE2 &= ~UCA0TXIE;
-    }
-    else {
-      currentOutByte = 0;
-      outSel = (outSel+1)%N_OUT_BUF;
-    }
+  UCA0TXBUF = outputBuffer[outSel++];
+  if(outSel == outTop) {
+    sleepMode();
+    IE2 &= ~UCA0TXIE;
   }
 }
 

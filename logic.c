@@ -2,6 +2,7 @@
 #include "state.h"
 #include "motors.h"
 #include "hard.h"
+#include "logic.h"
 
 void turnMotorsOnThreshold();
 int aboveheight(long);
@@ -55,7 +56,7 @@ int aboveHeight(long threshold) {
   int above = 1;
   int i;
   for (i=0 ; above && i<N_HEIGHTS ; i++) {
-    above = above && (globalState.prevHeights[i] > threshold);
+    above = above && (globalState.prevHeights[i] >= threshold);
   }
   return above;
 }

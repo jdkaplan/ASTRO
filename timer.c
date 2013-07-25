@@ -35,10 +35,9 @@ __interrupt void Timer_A(void) {
     case 10:
       TAR = 0;
       ++globalState.internalTime;
-      /* Store state every 0x10 millis (2048 millis) */
+      /* Store state every 0x800 millis (2048 millis) */
       if(!(globalState.internalTime&0x800)) {
-	doAction(&logisticalize);
-	__bic_SR_register_on_exit(LPM0_bits);
+	logisticalize();
       }
       break;
   }

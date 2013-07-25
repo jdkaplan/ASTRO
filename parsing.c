@@ -6,7 +6,7 @@
 #include "state.h"
 #include "motors.h"
 
-#define START_ATOMIC() __bic_SR_register(GIE)
+#define START_ATOMIC() __bic_SR_register(GIE); __no_operation(); __no_operation();
 #define END_ATOMIC() __bis_SR_register(GIE)
 
 
