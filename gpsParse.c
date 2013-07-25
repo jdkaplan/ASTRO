@@ -48,7 +48,9 @@ gpsOut gpsParse(char b) {
   // second character of checksum
   if (checking == 3) {
     checksum += b - '0';
-    checking = 0;
+    res.checkedsum = (checksum == res.checkedsum) ? 1 : 0;
+    res.ended = 1;
+    resetGPS();
   }
   // first character of checksum
   if (checking == 2) {
@@ -110,11 +112,6 @@ gpsOut gpsParse(char b) {
       break;
     }
   }
-  ++chars_read;
-  if (chars_read == HASP_LEN) {
-    res.ended = 1;
-    resetGPS();
-  }
   return res;
 }
 
@@ -139,8 +136,7 @@ void test(char *input_string) {
   }
   printf("Height: %ld\n",out.height);
   printf("Time: %ld\n",out.timestamp);
-  printf("Checksum (calc): %02X\n",out.checkedsum);
-  printf("checksum (data): %02X\n",checksum);
+  printf("Check: %s\n\n",out.checkedsum ? "true" : "false");
 }
 
 int main() {
@@ -150,17 +146,9 @@ int main() {
   char input_string1[] = "1234470131.649,$GPGGA,000000.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
   char input_string2[] = "1234470131.649,$GPGGA,185304.20,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
   char input_string3[] = "1234470131.649,$GPGGA,235959.99,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  char input_string4[] = "1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*71,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  char input_string5[] = "1234567890.098,$GPGGA,092750.000,5321.6802,N,00630.3372,W,1,8,1.03,61.7,M,55.2,M,,*76,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  char input_string6[] = "1234567890.098,$GPRMC,092751.000,A,5321.6802,N,00630.3371,W,0.06,31.66,280511,,,A*45,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  char input_string4[] = "1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*71";
+  char input_string5[] = "1234567890.098,$GPGGA,092750.000,5321.6802,N,00630.3372,W,1,8,1.03,61.7,M,55.2,M,,*76";
 
   test(input_string4);
-  char* fuck = "GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,";
-  printf("%02X\n",check(fuck));
   test(input_string5);
-  fuck = "GPGGA,092750.000,5321.6802,N,00630.3372,W,1,8,1.03,61.7,M,55.2,M,,";
-  printf("%02X\n",check(fuck));
-  test(input_string6);
-  fuck = "GPRMC,092751.000,A,5321.6802,N,00630.3371,W,0.06,31.66,280511,,,A";
-  printf("%02X\n",check(fuck));
 }

@@ -24,6 +24,9 @@ volatile long time;
 volatile long tau[8];
 volatile int t = 0;
 
+int checksum = 0;
+short checking = 0;
+
 void resetGPS() {
   height = 0;
   heightEnded = 0;
@@ -33,10 +36,42 @@ void resetGPS() {
 
   comma_count = 0;
   chars_read = 0;  
+
+  checking = 0;
 }
 
 gpsOut gpsParse(char b) {
   res.ended = 0;
+
+  // checksum calculation between $ and * exclusive
+  // logic is backwards for a good reason (byte-by-byte parsing)
+
+  // second character of checksum
+  if (checking == 3) {
+    checksum += b - '0';
+    res.checkedsum = (checksum == res.checkedsum) ? 1 : 0;
+    res.ended = 1;
+    resetGPS();
+  }
+  // first character of checksum
+  if (checking == 2) {
+    checksum = 0x10 * (b - '0');
+    checking = 3;
+  }
+  // stop calculating, start reading included checksum
+  if (b == '*') {
+    checking = 2;
+  }
+  // calculate checksum
+  if (checking == 1) {
+    res.checkedsum ^= b;
+  }
+  // start calculating checksum
+  if (b == '$') {
+    checking = 1;
+    res.checkedsum = 0;
+  }
+
   // comma
   if (b == ',') {
     comma_count++;
@@ -77,11 +112,6 @@ gpsOut gpsParse(char b) {
 	res.height = -1000;
       break;
     }
-  }
-  ++chars_read;
-  if (chars_read == HASP_LEN) {
-    res.ended = 1;
-    resetGPS(); // TODO: remove
   }
   return res;
 }
