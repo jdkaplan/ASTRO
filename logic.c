@@ -1,5 +1,6 @@
 #include <msp430.h>
 #include "state.h"
+#include "logic.h"
 
 void turnMotorsOnThreshold();
 int aboveheight(long);
