@@ -119,23 +119,100 @@ gpsOut gpsParse(char b) {
 // Does the command indicated by the command byte.
 void doCommand(char comm) {
   switch(comm) {
-  case 2:
-    sendLog(2);
+  case 0x00:
+    sendLog(0x00);
     break;
-  case 4:
-    sendLog(4);
+
+  // 0x01 is reserved for HASP data
+
+  case 0x02:
+    sendLog(0x02);
     break;
-  case 5:
-    sendLog(5);
-    // shutdown()
+
+  // 0x03 is reserved for HASP data
+
+  case 0x04:
+    sendLog(0x04);
     break;
-  case 0:
-    sendLog(0);
+
+  case 0x05:
+    sendLog(0x05);
     break;
-  case 6:
-    sendLog(6);
+
+  case 0x06:
+    sendLog(0x06);
     break;
-  case 7:
-    sendLog(7);
-  }
+
+  case 0x07:
+    sendLog(0x07);
+    break;
+
+  case 0x08:
+    sendLog(0x08);
+    break;
+
+  case 0x09:
+    sendLog(0x09);
+    break;
+
+  // 0x0A reserved for HASP data
+
+  case 0x0B:
+    sendLog(0x0B);
+    break;
+
+  case 0x0C:
+    sendLog(0x0C);
+    break;
+
+  // 0x0D reserved for HASP data
+
+  case 0x0E:
+    sendLog(0x0E);
+    break;
+
+  case 0x0F:
+    sendLog(0x0F);
+    break;
+
+  case 0x10:
+    sendLog(0x10);
+    break;
+
+  case 0x11:
+    sendLog(0x11);
+    break;
+
+  case 0x12:
+    sendLog(0x12);
+    break;
+
+  case 0x13:
+    sendLog(0x13);
+    break;
+
+  /* case 0x14: */
+  /*   sendLog(0x14); */
+  /*   break; */
+
+  /* case 0x15: */
+  /*   sendLog(0x15); */
+  /*   break; */
+
+  /* case 0x16: */
+  /*   sendLog(0x16); */
+  /*   break; */
+
+  /* case 0x17: */
+  /*   sendLog(0x17); */
+  /*   break; */
+
+  /* case 0x18: */
+  /*   sendLog(0x18); */
+  /*   break; */
+
+  /* case 0x19: */
+  /*   sendLog(0x19); */
+  /*   break; */
+  /* } */
 }
