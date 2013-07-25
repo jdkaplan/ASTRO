@@ -3,6 +3,8 @@
 #include "serial.h"
 #include "hard.h"
 #include "mainActions.h"
+#include "state.h"
+#include "motors.h"
 
 #define START_ATOMIC() __bic_SR_register(GIE)
 #define END_ATOMIC() __bis_SR_register(GIE)
@@ -214,6 +216,7 @@ void doCommand(char comm) {
     END_ATOMIC();
     sendLog(0x13);
     break;
+  }
 
   /* case 0x14: */
   /*   sendLog(0x14); */

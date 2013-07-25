@@ -111,6 +111,7 @@ unsigned char first;
 void parseByte() {
   P1OUT |= 0x1;
   unsigned char b;
+  int i;
   START_ATOMIC();
   b = inputBuffer[inpSel];
   inpSel = (inpSel+1)%LEN_INP_BUF;
@@ -163,9 +164,9 @@ void parseByte() {
 	if (g.height >= 0) {
 	  // store it!
 	  for(i = 1; i < N_HEIGHTS; ++i) {
-	    globalState.previousHeights[i-1] = globalState.previousHeights[i];
+	    globalState.prevHeights[i-1] = globalState.prevHeights[i];
 	  }
-	  globalState.previousHeights[i] = globalState.height;
+	  globalState.prevHeights[i] = globalState.height;
 	  globalState.height = g.height;
 	}
 	// because I am a clock
