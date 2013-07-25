@@ -92,14 +92,16 @@ def sendGPS():
     global data, SLEEP_TIME
     for t,h,l in data:
         gps = generateGPS(t,h,l)
-        s.write(gps)
+        with inputLock:
+            s.write(gps)
         time.sleep(SLEEP_TIME)
 
 def userCommand():
     while True:
         try:        
             comm = int(raw_input('> '),16)
-            s.write(chr(comm) + chr(comm))
+            with inputLock:
+                s.write(chr(comm) + chr(comm))
         except:
             pass
     
