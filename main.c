@@ -5,20 +5,22 @@
 #include "hard.h"
 #include "mainActions.h"
 #include "state.h"
+#include "parsing.h"
 
-#define START_ATOMIC() __bic_SR_register(GIE)
+#define START_ATOMIC() __bic_SR_register(GIE); __no_operation(); __no_operation()
 #define END_ATOMIC() __bis_SR_register(GIE)
 
 int main() {
   // Stop watchdog timer
   WDTCTL = WDTPW + WDTHOLD;
   while(CALBC1_1MHZ==0xFF);
-  int local_nQueued;
+  volatile int local_nQueued;
   void (*action)();
+  //startHard();
   //startFlash();
   //setupMotors();
   serialStart();
-  //timerStart();
+  timerStart();
   //adcStart();
   _EINT();
 
@@ -37,7 +39,6 @@ int main() {
       bottom = (bottom+1)%N_ACTIONS;
       END_ATOMIC();
       (*action)();
-      //P1OUT ^= 0x3;
     }
     __bis_SR_register(LPM0_bits | GIE);
   }
