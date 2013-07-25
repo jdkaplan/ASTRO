@@ -10,13 +10,14 @@
 #define END_ATOMIC() __bis_SR_register(GIE)
 
 int main() {
-  int local_nQueued;
   // Stop watchdog timer
-  void (*action)();
   WDTCTL = WDTPW + WDTHOLD;
+  while(CALBC1_1MHZ==0xFF);
+  int local_nQueued;
+  void (*action)();
   startFlash();
   //setupMotors();
-  serialStart();
+  //serialStart();
   timerStart();
   //adcStart();
   _EINT();
@@ -36,7 +37,7 @@ int main() {
       bottom = (bottom+1)%N_ACTIONS;
       END_ATOMIC();
       (*action)();
-      P1OUT ^= 0x3;
+      //P1OUT ^= 0x3;
     }
     __bis_SR_register(LPM0_bits | GIE);
   }
