@@ -3,6 +3,7 @@
 #include "serial.h"
 #include "state.h"
 #include "mainActions.h"
+#include "logic.h"
 
 volatile long int timerMS;
 
@@ -34,9 +35,9 @@ __interrupt void Timer_A(void) {
     case 10:
       TAR = 0;
       ++globalState.internalTime;
-      /* Store state every 0x100 millis (256 millis) */
-      if(!(globalState.internalTime&0x100)) {
-	doAction(&saveState);
+      /* Store state every 0x10 millis (2048 millis) */
+      if(!(globalState.internalTime&0x800)) {
+	doAction(&logisticalize);
 	__bic_SR_register_on_exit(LPM0_bits);
       }
       break;
