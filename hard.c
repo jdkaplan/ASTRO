@@ -3,30 +3,30 @@
 #include "state.h"
 
 void startHard() {
-  turnHDVC1Off();
-  turnHDVC2Off();
+  turnHVDC1Off();
+  turnHVDC2Off();
   turnHeater1Off();
   turnHeater2On();
-  HDVC1DIR |= HDVC1PIN;
-  HDVC2DIR |= HDVC2PIN;
+  HVDC1DIR |= HVDC1PIN;
+  HVDC2DIR |= HVDC2PIN;
   HEATER1DIR |= HEATER1PIN;
   HEATER2DIR |= HEATER2PIN;
 }
 
-void turnHDVC1On() {
-  HDVC1OUT |= HDVC1PIN;
+void turnHVDC1On() {
+  HVDC1OUT |= HVDC1PIN;
 }
 
-void turnHDVC1Off() {
-  HDVC1OUT &= ~(HDVC1PIN);
+void turnHVDC1Off() {
+  HVDC1OUT &= ~(HVDC1PIN);
 }
 
-void turnHDVC2On() {
-  HDVC2OUT |= HDVC2PIN;
+void turnHVDC2On() {
+  HVDC2OUT |= HVDC2PIN;
 }
 
-void turnHDVC2Off() {
-  HDVC2OUT &= ~HDVC2PIN;
+void turnHVDC2Off() {
+  HVDC2OUT &= ~HVDC2PIN;
 }
 
 void turnHeater1On() {

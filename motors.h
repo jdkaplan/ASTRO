@@ -15,8 +15,8 @@
 void turnOne(char);
 void turnTwo(char);
 
-#define LEFT 1
-#define RIGHT 0
+#define OPEN 1
+#define CLOSE 0
 
 void setupMotors();
 
