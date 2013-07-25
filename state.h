@@ -2,6 +2,7 @@
 #define STATE_H
 
 #define DEBUG_MODE 1
+#define N_HEIGHTS 5
 
 typedef struct {
   short currentStepOne;
@@ -20,6 +21,7 @@ typedef struct {
   char safemode;
   
   long height;
+  long prevHeights[N_HEIGHTS];
 
 } stateVec;
 
