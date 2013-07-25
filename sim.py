@@ -6,11 +6,17 @@ inputLock=threading.Lock()
 PORT=0
 FILE="gpsData"
 
+def connect(i):
+    return serial.Serial('/dev/ttyACM'+str(i),baudrate=1200)
+
 def checkChecksum(data):
     checksum = 0
     for i in xrange(len(data)):
         checksum ^= ord(data[i])
     return checksum
+
+def generateChecksum(gps):
+    return '*{:0>2X}'.format(reduce(lambda x,y: x^ord(y), gps, 0))
 
 def parsePong(data):
     command = data[0][::-1]
@@ -52,9 +58,8 @@ def generateGPS(gpsTime,height,fix):
     s += ',,' + str(height) + ','
     s += ',,,,'
     checkString = s[s.find('$')+1:]
-    print checkString
-    checksum = reduce(lambda x,y: x^y, [ord(a) for a in checkString])
-    s += '*' + hex(checksum)[2:].upper()
+    checksum = generateChecksum(checkString)
+    s += checksum
     s += ','*(122-len(s))
     s += '\x03\x0D\x0A'
     return s
@@ -88,7 +93,6 @@ def sendGPS():
     for t,h,l in data:
         gps = generateGPS(t,h,l)
         s.write(gps)
-        print gps
         time.sleep(SLEEP_TIME)
 
 def userCommand():

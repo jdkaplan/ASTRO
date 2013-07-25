@@ -1,9 +1,10 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#define T_CLK (1000000l)
-#define DIV (8l)
-#define TICKS_PER_MS ((int)(T_CLK/(DIV*1000)))
+#define T_CLK (32768l)
+#define DIV (1l)
+// New MS: 1/1024th of a second
+#define TICKS_PER_MS ((int)(T_CLK/(DIV*1024)))
 
 extern volatile long int timerMS;
 

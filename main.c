@@ -17,16 +17,13 @@ int main() {
   volatile int local_nQueued;
   void (*action)();
   //startHard();
-  //startFlash();
+  startFlash();
   //setupMotors();
   serialStart();
   timerStart();
   //adcStart();
   _EINT();
 
-  P1DIR |= 0x3;
-  P1OUT = 0x0;
-  
   while(1) {
     START_ATOMIC();
     local_nQueued = nQueued;
@@ -40,6 +37,6 @@ int main() {
       END_ATOMIC();
       (*action)();
     }
-    __bis_SR_register(LPM0_bits | GIE);
+    __bis_SR_register(LPM3_bits | GIE);
   }
 }

@@ -11,7 +11,6 @@ void temperatureControl();
 void logisticalize() {
   turnMotorsOnThreshold();
   temperatureControl();
-  P1OUT ^= 0x3;
 }
 
 void turnMotorsOnThreshold() {
