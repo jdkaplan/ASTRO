@@ -54,7 +54,7 @@ gpsOut gpsParse(char b) {
 
   // second character of checksum
   if (checking == 3) {
-    char val = (b>'9')?((b>'F')?(b-'a'):(b-'A')):(b-'0');
+    char val = (b>'9')?(((b>'F')?(b-'a'):(b-'A'))+0xA):(b-'0');
     checksum += val;
     res.checkedsum = (checksum == res.checkedsum) ? 1 : 0;
     res.ended = 1;
@@ -62,7 +62,7 @@ gpsOut gpsParse(char b) {
   }
   // first character of checksum
   if (checking == 2) {
-    char val = (b>'9')?((b>'F')?(b-'a'):(b-'A')):(b-'0');
+    char val = (b>'9')?(((b>'F')?(b-'a'):(b-'A'))+0xA):(b-'0');
     checksum = 0x10 * val;
     checking = 3;
   }

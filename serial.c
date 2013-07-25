@@ -27,15 +27,15 @@ void serialStart() {
   DCOCTL = CALDCO_1MHZ;
   P3SEL = 0x30; // P3.4,5 = USCI_A0 TXD/RXD
   // 1MHz SMCLK
-  UCA0CTL1 |= UCSSEL_2; // SMCLK
+  /*UCA0CTL1 |= UCSSEL_2; // SMCLK
   UCA0BR0 = 0x41; // 1MHz 1200
   UCA0BR1 = 0x3; // 1MHz 1200
-  UCA0MCTL = 0x92; // Modulation UCBRSx = 1
+  UCA0MCTL = 0x92; // Modulation UCBRSx = 1*/
   // 32khz ACLK
-  /*UCA0CTL1 |= UCSSEL_1;
+  UCA0CTL1 |= UCSSEL_1;
   UCA0BR0 = 0x1b;
   UCA0BR1 = 0x0;
-  UCA0MCTL = 0x12;*/
+  UCA0MCTL = 0x12;
   UCA0CTL1 &= ~UCSWRST; // **Initialize USCI state machine**
   sleepMode();
   IE2 |= UCA0RXIE; // Enable USCI_A0 RX interrupt
@@ -203,7 +203,7 @@ __interrupt void USCI0RX_ISR(void) {
   inputBuffer[inputTop] = UCA0RXBUF;
   inputTop = (inputTop+1)%LEN_INP_BUF;
   doAction(&parseByte);
-  __bic_SR_register_on_exit(LPM0_bits);
+  __bic_SR_register_on_exit(LPM3_bits);
 }
 
 // Sends a message with format we specified.
