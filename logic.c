@@ -1,5 +1,7 @@
 #include <msp430.h>
 #include "state.h"
+#include "motors.h"
+#include "hard.h"
 
 void turnMotorsOnThreshold();
 int aboveheight(long);
@@ -17,20 +19,32 @@ void turnMotorsOnThreshold() {
   }
 
   if (aboveHeight(HEIGHT3)) {
-    doCommand(0x05); // shut1
-    doCommand(0x06); // open2
+    turnOne(CLOSE);
+    turnTwo(OPEN);
+
+    turnHVDC1Off();
+    turnHVDC2On();
   }
   else if (aboveHeight(HEIGHT2)) {
-    doCommand(0x05); // shut1
-    doCommand(0x07); // shut2
+    turnOne(CLOSE);
+    turnTwo(CLOSE);
+
+    turnHVDC1Off();
+    turnHVDC2Off();
   }
   else if (aboveHeight(HEIGHT1)) {
-    doCommand(0x04); // open1
-    doCommand(0x07); // shut2
+    turnOne(OPEN);
+    turnTwo(CLOSE);
+
+    turnHVDC1On();
+    turnHVDC2Off();
   }  
   else if (aboveHeight(HEIGHT0)) {
-    doCommand(0x05); // shut1
-    doCommand(0x07); // shut2
+    turnOne(CLOSE);
+    turnTwo(CLOSE);
+
+    turnHVDC1Off();
+    turnHVDC2Off();
   } 
   else {
     // negative height?
@@ -53,11 +67,11 @@ void temperatureControl() {
   }
   
   if (globalState.temperature < TEMP0) {
-    doCommand(0x0E);  // heat1
-    doCommand(0x10);  // heat2
+    turnHeater1On();
+    turnHeater2On();
   }
   else {
-    doCommand(0x0F);  // cool1
-    doCommand(0x11);  // cool2
+    turnHeater1Off();
+    turnHeater2Off();
   }
 }
