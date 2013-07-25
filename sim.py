@@ -44,7 +44,7 @@ def esraPemit(time): # timeParse backwards
 
 timeParse = esraPemit
 
-def generateSting(gpsTime,height,fix):
+def generateGPS(gpsTime,height,fix):
     s = '\x01\x30'
     s += str(time.time()) + ','
     s += '$GPGGA,' + str(gpsTime) +','
@@ -52,8 +52,9 @@ def generateSting(gpsTime,height,fix):
     s += ',,' + str(height) + ','
     s += ',,,,'
     checkString = s[s.find('$')+1:]
+    print checkString
     checksum = reduce(lambda x,y: x^y, [ord(a) for a in checkString])
-    s += '*' + hex(checksum)[2:]
+    s += '*' + hex(checksum)[2:].upper()
     s += ','*(122-len(s))
     s += '\x03\x0D\x0A'
     return s
@@ -65,16 +66,41 @@ data = [
     ('000010.00',100,1),
     ('000100.00',600,1),
     ('001000.00',1100,1),
-    ('002000.00',
+    ('002000.00',1100,1),
+    ('005900.00',1110,1),
+    ]
 
+def pingPong(port=0,baud=1200):
+    conn = serial.Serial('/dev/ttyACM'+str(port),baudrate=baud)
+    while True:
+        c = conn.read()
+        while c == '\xff':
+            c = conn.read()
+
+        data = c + conn.read(15)
+        print parsePong(data)
+        print 'Checksum correct?:', str(not checkChecksum(data))
+
+s = None
+SLEEP_TIME = 1.0
 def sendGPS():
-    
+    global data, SLEEP_TIME
+    for t,h,l in data:
+        gps = generateGPS(t,h,l)
+        s.write(gps)
+        print gps
+        time.sleep(SLEEP_TIME)
 
 def userCommand():
-    comm = raw_input('> ')
+    while True:
+        try:        
+            comm = int(raw_input('> '),16)
+            s.write(chr(comm) + chr(comm))
+        except:
+            pass
     
 def run(port = 0, baud=1200):
     global s
     s = serial.Serial('/dev/ttyACM'+str(port),baudrate=baud)
-
+    threading.Thread(target=sendGPS).start()
     userCommand()
