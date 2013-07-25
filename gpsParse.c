@@ -74,6 +74,13 @@ gpsOut gpsParse(char b) {
   // comma
   if (b == ',') {
     comma_count++;
+    if(comma_count == 11) { // <9> block over
+      if (valid_gps > 0)
+        res.height = height*mul; // store
+      else
+        res.height = -1000;
+    }
+
   }
   else {
     switch (comma_count) {
@@ -104,12 +111,6 @@ gpsOut gpsParse(char b) {
         height = heightEnded?height:(height*10 + (b-'0'));
       }
       break;
-    case 11: // <9> block over
-      if (valid_gps > 0)
-        res.height = height*mul; // store
-      else
-        res.height = -1000;
-      break;
     }
   }
   return res;
@@ -137,18 +138,19 @@ void test(char *input_string) {
   printf("Height: %ld\n",out.height);
   printf("Time: %ld\n",out.timestamp);
   printf("Check: %s\n\n",out.checkedsum ? "true" : "false");
+  resetGPS();
 }
 
 int main() {
-  char gpsSend[] = ";;;;;\n";
-  long int height;
-
-  char input_string1[] = "1234470131.649,$GPGGA,000000.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  char input_string2[] = "1234470131.649,$GPGGA,185304.20,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-  char input_string3[] = "1234470131.649,$GPGGA,235959.99,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  //char input_string1[] = "1234470131.649,$GPGGA,000000.00,3024.7205,N,09110.7264,W,1,06,1.69,-99999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  //char input_string2[] = "1234470131.649,$GPGGA,185304.20,3024.7205,N,09110.7264,W,1,06,1.69,123456.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+  //char input_string3[] = "1234470131.649,$GPGGA,235959.99,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
   char input_string4[] = "1234470131.649,$GPGGA,202212.00,3024.7205,N,09110.7264,W,1,06,1.69,999999.9,M,-025,M,,*71";
   char input_string5[] = "1234567890.098,$GPGGA,092750.000,5321.6802,N,00630.3372,W,1,8,1.03,61.7,M,55.2,M,,*76";
+  char input_string6[] = "1374772186.61,$GPGGA,235959.99,,,,,1,,,10000,,,,,*79";
 
   test(input_string4);
   test(input_string5);
+  test(input_string6);
+  return 0;
 }

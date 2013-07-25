@@ -48,9 +48,9 @@ void resetGPS() {
 
 gpsOut gpsParse(char b) {
   res.ended = 0;
-
+  
   // checksum calculation between $ and * exclusive
-  // logic is backwards for a good reason (byte-by-byte parsing)
+  // logic is for a good reason
 
   // second character of checksum
   if (checking == 3) {
@@ -81,6 +81,13 @@ gpsOut gpsParse(char b) {
   // comma
   if (b == ',') {
     comma_count++;
+    if(comma_count == 11) { // <9> block over
+      if (valid_gps > 0)
+        res.height = height*mul; // store
+      else
+        res.height = -1000;
+    }
+
   }
   else {
     switch (comma_count) {
@@ -102,20 +109,14 @@ gpsOut gpsParse(char b) {
     case 10: // <9> block = MSL altitude
       switch(b) {
       case '-':
-	mul = -1;
-	break;
+        mul = -1;
+        break;
       case '.':
-	heightEnded = 1;
-	break;
+        heightEnded = 1;
+        break;
       default:
-	height = heightEnded?height:(height*10 + (b-'0'));
+        height = heightEnded?height:(height*10 + (b-'0'));
       }
-      break;
-    case 11: // <9> block over
-      if (valid_gps > 0)
-        res.height = height*mul; // store
-      else
-	res.height = -1000;
       break;
     }
   }
