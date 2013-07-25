@@ -21,7 +21,7 @@ int main() {
   //setupMotors();
   serialStart();
   timerStart();
-  //adcStart();
+  adcStart();
   _EINT();
 
   while(1) {
