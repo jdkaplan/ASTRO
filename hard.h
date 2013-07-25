@@ -3,17 +3,17 @@
 
 void startHard();
 
-#define HDVC1DIR P4DIR
-#define HDVC1OUT P4OUT
-#define HDVC1PIN (1<<3)
-void turnHDVC1On();
-void turnHDVC1Off();
+#define HVDC1DIR P4DIR
+#define HVDC1OUT P4OUT
+#define HVDC1PIN (1<<3)
+void turnHVDC1On();
+void turnHVDC1Off();
 
-#define HDVC2DIR P4DIR
-#define HDVC2OUT P4OUT
-#define HDVC2PIN (1<<4)
-void turnHDVC2On();
-void turnHDVC2Off();
+#define HVDC2DIR P4DIR
+#define HVDC2OUT P4OUT
+#define HVDC2PIN (1<<4)
+void turnHVDC2On();
+void turnHVDC2Off();
 
 #define HEATER1DIR P4DIR
 #define HEATER1OUT P4OUT
