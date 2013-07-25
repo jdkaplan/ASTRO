@@ -207,7 +207,10 @@ void doCommand(char comm) {
     break;
 
   case 0x12:
-    // TODO: shutdown command
+    // shutdown = (safemode)
+    START_ATOMIC();
+    globalState.safemode = 1;
+    END_ATOMIC();
     sendLog(0x12);
     break;
 
