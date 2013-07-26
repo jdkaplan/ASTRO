@@ -6,7 +6,7 @@ void startHard() {
   turnHVDC1Off();
   turnHVDC2Off();
   turnHeater1Off();
-  turnHeater2On();
+  turnHeater2Off();
   HVDC1DIR |= HVDC1PIN;
   HVDC2DIR |= HVDC2PIN;
   HEATER1DIR |= HEATER1PIN;
