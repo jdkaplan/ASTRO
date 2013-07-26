@@ -43,14 +43,14 @@ void turnHeater1Off() {
   globalState.heaterOne = 0;
 }
 
-void turnHeater2Off() {
-  HEATER2OUT &= ~HEATER2PIN;
-  globalState.heaterTwo = 0;
-}
-
 void turnHeater2On() {
   HEATER2OUT |= HEATER2PIN;
   globalState.heaterTwo = 1;
+}
+
+void turnHeater2Off() {
+  HEATER2OUT &= ~HEATER2PIN;
+  globalState.heaterTwo = 0;
 }
 
 int temperature = 0;
