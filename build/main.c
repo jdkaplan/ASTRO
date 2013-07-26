@@ -16,9 +16,9 @@ int main() {
   while(CALBC1_1MHZ==0xFF);
   volatile int local_nQueued;
   void (*action)();
-  //startHard();
+  startHard();
   startFlash();
-  //setupMotors();
+  setupMotors();
   serialStart();
   timerStart();
   adcStart();

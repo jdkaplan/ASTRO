@@ -18,7 +18,7 @@ void turnOne(char dir) {
 }
 
 void turnTwo(char dir) {
-  globalState.desiredStepOne = dir*N_PULSES;
+  globalState.desiredStepTwo = dir*N_PULSES;
 }
 
 /*

@@ -61,7 +61,7 @@ __interrupt void ADC10_ISR (void) {
   temperature_big += ADC10MEM; // Saves measured value.
   ++currentMeasure;
   if(currentMeasure == N_MEASURE) {
-    globalState.temperature = temperature_big>>TEMP_SHIFT;
+    globalState.temperature = AVERAGE_TEMP(temperature_big);
     temperature_big = 0;
     currentMeasure = 0;
   }

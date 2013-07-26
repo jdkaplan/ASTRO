@@ -28,6 +28,7 @@ void turnHeater2On();
 void turnHeater2Off();
 
 #define TEMP_SHIFT 5
+#define AVERAGE_TEMP(T)  (T>>TEMP_SHIFT)
 #define N_MEASURE (1<<TEMP_SHIFT)
 void adcStart();
 

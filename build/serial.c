@@ -104,7 +104,6 @@ char messageStarted = 0;
 unsigned char first;
 
 void parseByte() {
-  P1OUT |= 0x1;
   unsigned char b;
   int i;
   START_ATOMIC();
@@ -183,9 +182,6 @@ void parseByte() {
     // How the fuck did you get here?
     // Probably GPS tail :P or corrupted dick
   }
-
-  P1OUT &= ~0x3;
-  P1OUT |= messageStarted;
 }
 
 #pragma vector=USCIAB0TX_VECTOR
