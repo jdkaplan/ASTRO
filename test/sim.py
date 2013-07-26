@@ -11,7 +11,7 @@ def connect(i, kind="ACM"):
 
 def checkChecksum(data):
     checksum = reduce(lambda x,y: x^ord(y), data, 0)
-    return checksum
+    return not checksum
 
 def generateChecksum(gps):
     return '*{:0>2X}'.format(reduce(lambda x,y: x^ord(y), gps, 0))
@@ -35,7 +35,7 @@ def parsePong(data):
     HVDCTvo = data[23]
     checksum = data[24]
 
-    command = ord(command)
+    command = makeNumber(command)
     internalTime = makeNumber(internalTime)
     externalTime = esraPemit(makeNumber(externalTime))
     height = makeNumber(height)
@@ -113,7 +113,7 @@ def pingPong(port=0,baud=1200, kind='ACM'):
 
         data = c + conn.read(24)
         print parsePong(data)
-        print 'Checksum correct?:', str(not checkChecksum(data)), '\n'
+        print 'Checksum correct?:', str(checkChecksum(data)), '\n'
 
 s = None
 SLEEP_TIME = 1.0
@@ -127,13 +127,24 @@ def sendGPS():
 
 def userCommand():
     while True:
-        try:        
-            comm = int(raw_input('> '),16)
-            with inputLock:
-                s.write(chr(comm) + chr(comm))
-        except ValueError:
-            print comm, "is not a valid value"
-    
+        comm = raw_input('> ')
+            
+        if comm.lower() == "gps":
+            t = raw_input('GPSTime?\t> ')
+            h = raw_input('Height?\t> ')
+            l = raw_input('Fix Type?\t> ')
+            toSend = generateGPS(t,h,l)
+        else:
+            try:
+                comm = int(comm, 16)
+            except ValueError:
+                print comm, "is not a valid value"
+
+            toSend = chr(comm) + chr(comm)
+            
+        with inputLock:
+            s.write(toSend)    
+
 def run(port = 0, baud=1200, kind='ACM'):
     global s
     s = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
