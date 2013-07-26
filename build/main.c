@@ -16,15 +16,14 @@ int main() {
   while(CALBC1_1MHZ==0xFF);
   volatile int local_nQueued;
   void (*action)();
-  startHard();
-  /* startFlash(); */
+  startFlash();
+  globalState.safemode = 1;
+    startHard();
   setupMotors();
   serialStart();
   timerStart();
   adcStart();
   _EINT();
-  
-  globalState.safemode = 1;
   
   while(1) {
     START_ATOMIC();

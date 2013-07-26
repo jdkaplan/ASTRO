@@ -2,7 +2,7 @@
 #define MOTORS_H
 
 #define N_PULSES 90*4
-#define T_PULSE_MS 100
+#define T_PULSE_MS 7
 
 #define DIRONE P1DIR
 #define PORTONE P1OUT

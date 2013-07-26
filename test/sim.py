@@ -137,5 +137,5 @@ def userCommand():
 def run(port = 0, baud=1200, kind='ACM'):
     global s
     s = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
-    threading.Thread(target=sendGPS).start()
+    #threading.Thread(target=sendGPS).start()
     userCommand()

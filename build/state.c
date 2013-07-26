@@ -2,10 +2,9 @@
 #include "state.h"
 
 stateVec globalState;
-char *data = (char *)(&globalState);
 
-char checkChecksum(long, stateVec *);
-long generateChecksum(stateVec *);
+//char checkChecksum(long, stateVec *);
+//long generateChecksum(stateVec *);
 void newStateVec();
 
 #define START_ATOMIC() __bic_SR_register(GIE); __no_operation(); __no_operation();
@@ -150,9 +149,30 @@ void retrieveState() {
 }
 
 void newStateVec() {
-  char i;
-  for(i = 0; i < sizeof(stateVec); ++i) {
-    data[i] = 0;
+  int i;
+  globalState.currentStepOne = 0;
+  globalState.desiredStepOne = 0;
+  globalState.curSignalOne = 0;
+
+  globalState.currentStepTwo = 0;
+  globalState.desiredStepTwo = 0;
+  globalState.curSignalTwo = 0;
+
+  globalState.internalTime = 0;
+  globalState.externalTime = 0;
+
+  globalState.temperature = 0;
+  globalState.heaterOne = 0;
+  globalState.heaterTwo = 0;
+
+  globalState.HVDCOne = 0;
+  globalState.HVDCTwo = 0;
+
+  globalState.safemode = 0;
+
+  globalState.height = 0;
+  for(i = 0; i < N_HEIGHTS; ++i) {
+    globalState.prevHeights[i] = 0;
   }
 }
 

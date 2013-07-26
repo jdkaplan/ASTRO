@@ -9,16 +9,15 @@ int aboveheight(long);
 void temperatureControl();
 
 void logisticalize() {
+  // Safe mode override
+  if(globalState.safemode) {
+    return;
+  }
   turnMotorsOnThreshold();
   temperatureControl();
 }
 
 void turnMotorsOnThreshold() {
-  // safemode override
-  if (globalState.safemode) {
-    return;
-  }
-
   if (aboveHeight(HEIGHT3)) {
     turnOne(CLOSE);
     turnTwo(OPEN);
@@ -63,10 +62,6 @@ int aboveHeight(long threshold) {
 
 void temperatureControl() {
   // safemode override
-  if (globalState.safemode) {
-    return;
-  }
-  
   if (globalState.temperature < TEMP0) {
     turnHeater1On();
     turnHeater2On();
