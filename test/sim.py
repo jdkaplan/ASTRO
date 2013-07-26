@@ -44,7 +44,17 @@ def parsePong(data):
     safemode = makeNumber(safemode)
     checksum = makeNumber(checksum)
     
-    return "command " + str(command) + '\n' + "internalTime " + str(internalTime) + '\n' + "externalTime " + str(externalTime) + '\n' + "height " + str(height) + '\n' + "temperature " + str(temperature) + '\n' + "checksum " + str(checksum)
+    output = "command " + str(command) + '\n'
+    output += "internalTime " + str(internalTime) + '\n'
+    output += "externalTime " + str(externalTime) + '\n'
+    output += "height " + str(height) + '\n'
+    output += "temperature " + str(temperature) + '\n'
+    output += "motorOne" + str(motorOne) + '\n'
+    output += "motorTwo" + str(motorTwo) + '\n'
+    output += "safemode" + str(safemode) + '\n'
+    output += "checksum " + str(checksum)
+    
+    return output
 
 def esraPemit(time): # timeParse backwards
     toH = (60 * 60 * 100)
