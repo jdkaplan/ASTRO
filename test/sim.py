@@ -131,8 +131,8 @@ def userCommand():
             comm = int(raw_input('> '),16)
             with inputLock:
                 s.write(chr(comm) + chr(comm))
-        except:
-            pass
+        except ValueError:
+            print comm, "is not a valid value"
     
 def run(port = 0, baud=1200, kind='ACM'):
     global s
