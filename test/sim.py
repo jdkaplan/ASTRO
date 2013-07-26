@@ -49,9 +49,9 @@ def parsePong(data):
     output += "externalTime " + str(externalTime) + '\n'
     output += "height " + str(height) + '\n'
     output += "temperature " + str(temperature) + '\n'
-    output += "motorOne" + str(motorOne) + '\n'
-    output += "motorTwo" + str(motorTwo) + '\n'
-    output += "safemode" + str(safemode) + '\n'
+    output += "motorOne " + str(motorOne) + '\n'
+    output += "motorTwo " + str(motorTwo) + '\n'
+    output += "safemode " + str(safemode) + '\n'
     output += "checksum " + str(checksum)
     
     return output
