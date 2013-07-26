@@ -15,34 +15,42 @@ void startHard() {
 
 void turnHVDC1On() {
   HVDC1OUT |= HVDC1PIN;
+  globalState.HVDCOne = 1;
 }
 
 void turnHVDC1Off() {
   HVDC1OUT &= ~(HVDC1PIN);
+  globalState.HVDCOne = 0;
 }
 
 void turnHVDC2On() {
   HVDC2OUT |= HVDC2PIN;
+  globalState.HVDCTwo = 1;
 }
 
 void turnHVDC2Off() {
   HVDC2OUT &= ~HVDC2PIN;
+  globalState.HVDCTwo = 0;
 }
 
 void turnHeater1On() {
   HEATER1OUT |= HEATER1PIN;
+  globalState.heaterOne = 1;
 }
 
 void turnHeater1Off() {
   HEATER1OUT &= ~HEATER1PIN;
+  globalState.heaterOne = 0;
 }
 
 void turnHeater2Off() {
   HEATER2OUT &= ~HEATER2PIN;
+  globalState.heaterTwo = 0;
 }
 
 void turnHeater2On() {
   HEATER2OUT |= HEATER2PIN;
+  globalState.heaterTwo = 1;
 }
 
 int temperature = 0;

@@ -6,13 +6,10 @@ inputLock=threading.Lock()
 PORT=0
 FILE="gpsData"
 
-def connect(i):
-    return serial.Serial('/dev/ttyACM'+str(i),baudrate=1200)
+def connect(i, kind="ACM"):
+    return serial.Serial('/dev/tty'+kind+str(i),baudrate=1200)
 
 def checkChecksum(data):
-    # checksum = 0
-    # for i in xrange(len(data)):
-    #     checksum ^= ord(data[i])
     checksum = reduce(lambda x,y: x^ord(y), data, 0)
     return checksum
 
@@ -32,7 +29,11 @@ def parsePong(data):
     motorOne = data[15:17]
     motorTwo = data[17:19]
     safemode = data[19]
-    checksum = data[20]
+    heaterOne = data[20]
+    heaterTwo = data[21]
+    HVDCOne = data[22]
+    HVDCTvo = data[23]
+    checksum = data[24]
 
     command = ord(command)
     internalTime = makeNumber(internalTime)
@@ -42,16 +43,24 @@ def parsePong(data):
     motorOne = makeNumber(motorOne)
     motorTwo = makeNumber(motorTwo)
     safemode = makeNumber(safemode)
+    heaterOne = makeNumber(heaterOne)
+    heaterTwo = makeNumber(heaterTwo)
+    HVDCOne = makeNumber(HVDCOne)
+    HVDCTvo = makeNumber(HVDCTvo)
     checksum = makeNumber(checksum)
     
     output = "command " + str(command) + '\n'
-    output += "internalTime " + str(internalTime) + '\n'
+    output += "internalTime " + str(internalTime) + '\t\t(approx. {:.2f}s)'.format(internalTime/1024.) + '\n'
     output += "externalTime " + str(externalTime) + '\n'
     output += "height " + str(height) + '\n'
     output += "temperature " + str(temperature) + '\n'
     output += "motorOne " + str(motorOne) + '\n'
     output += "motorTwo " + str(motorTwo) + '\n'
     output += "safemode " + str(safemode) + '\n'
+    output += "heaterOne " + str(heaterOne) + '\n'
+    output += "heaterTwo " + str(heaterTwo) + '\n'
+    output += "HVDCOne " + str(HVDCOne) + '\n'
+    output += "HVDCTvo " + str(HVDCTvo) + '\n'
     output += "checksum " + str(checksum)
     
     return output
@@ -95,16 +104,16 @@ data = [
     ('005900.00',1110,1),
     ]
 
-def pingPong(port=0,baud=1200):
-    conn = serial.Serial('/dev/ttyACM'+str(port),baudrate=baud)
+def pingPong(port=0,baud=1200, kind='ACM'):
+    conn = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
     while True:
         c = conn.read()
         while c == '\xff':
             c = conn.read()
 
-        data = c + conn.read(20)
+        data = c + conn.read(24)
         print parsePong(data)
-        print 'Checksum correct?:', str(not checkChecksum(data))
+        print 'Checksum correct?:', str(not checkChecksum(data)), '\n'
 
 s = None
 SLEEP_TIME = 1.0
@@ -125,8 +134,8 @@ def userCommand():
         except:
             pass
     
-def run(port = 0, baud=1200):
+def run(port = 0, baud=1200, kind='ACM'):
     global s
-    s = serial.Serial('/dev/ttyACM'+str(port),baudrate=baud)
+    s = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
     threading.Thread(target=sendGPS).start()
     userCommand()

@@ -6,7 +6,7 @@
 
 #define FORCEON_DIR P2DIR
 #define FORCEON_OUT P2OUT
-#define FORCEON_PIN (0b1)
+#define FORCEON_PIN (0b10)
 
 void serialStart();
 void serialSend(char *,int);

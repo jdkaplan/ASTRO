@@ -17,6 +17,11 @@ typedef struct {
   long externalTime;
 
   short temperature;
+  char heaterOne;
+  char heaterTwo;
+
+  char HVDCOne;
+  char HVDCTwo;
 
   char safemode;
   

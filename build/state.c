@@ -156,26 +156,24 @@ void newStateVec() {
   }
 }
 
-long generateChecksum(stateVec *state) {
-  return
-    state->currentStepOne^
-    state->desiredStepOne^
-    state->curSignalOne^
+/* long generateChecksum(stateVec *state) { */
+/*   return */
+/*     state->currentStepOne^ */
+/*     state->desiredStepOne^ */
+/*     state->curSignalOne^ */
 
-    state->currentStepTwo^
-    state->desiredStepTwo^
-    state->curSignalTwo^
+/*     state->currentStepTwo^ */
+/*     state->desiredStepTwo^ */
+/*     state->curSignalTwo^ */
 
-    state->internalTime^
-    state->externalTime^
+/*     state->internalTime^ */
+/*     state->externalTime^ */
 
-    state->temperature^
+/*     state->temperature^ */
 
-    state->safemode^
+/*     state->safemode; */
+/* } */
 
-    state->temperature;
-}
-
-char checkChecksum(long checksum, stateVec *state) {
-  return (generateChecksum(state) == checksum);
-}
+/* char checkChecksum(long checksum, stateVec *state) { */
+/*   return (generateChecksum(state) == checksum); */
+/* } */

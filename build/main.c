@@ -24,6 +24,8 @@ int main() {
   adcStart();
   _EINT();
 
+  globalState.safemode = 1;
+  
   while(1) {
     START_ATOMIC();
     local_nQueued = nQueued;

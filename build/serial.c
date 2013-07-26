@@ -254,9 +254,17 @@ void sendLog(char command) {
   START_ATOMIC();
   message[19] = (char)((globalState.safemode));
   END_ATOMIC();
+  
+  // heaters
+  message[20] = (char)((globalState.heaterOne));
+  message[21] = (char)((globalState.heaterTwo));
+  
+  // HVDC
+  message[22] = (char)((globalState.HVDCOne));
+  message[23] = (char)((globalState.HVDCTwo));
 
   // checksum
-  char checkbyte = 20;
+  char checkbyte = 24;
   message[checkbyte] = 0;
   char i;
   for (i=0 ; i < checkbyte ; i++) {
@@ -264,10 +272,6 @@ void sendLog(char command) {
   }
 
   // reserved
-  message[21] = 0xFF;
-  message[22] = 0xFF;
-  message[23] = 0xFF;
-  message[24] = 0xFF;
   message[25] = 0xFF;
   message[26] = 0xFF;
   message[27] = 0xFF;
