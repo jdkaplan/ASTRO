@@ -92,7 +92,7 @@ def pingPong(port=0,baud=1200):
         while c == '\xff':
             c = conn.read()
 
-        data = c + conn.read(15)
+        data = c + conn.read(20)
         print parsePong(data)
         print 'Checksum correct?:', str(not checkChecksum(data))
 
