@@ -127,23 +127,31 @@ def sendGPS():
 
 def userCommand():
     while True:
-        comm = raw_input('> ')
+        try:
+            comm = raw_input('> ')
             
-        if comm.lower() == "gps":
-            t = raw_input('GPSTime?\t> ')
-            h = raw_input('Height?\t> ')
-            l = raw_input('Fix Type?\t> ')
-            toSend = generateGPS(t,h,l)
-        else:
-            try:
-                comm = int(comm, 16)
-            except ValueError:
-                print comm, "is not a valid value"
+            if comm.lower() == "gps":
+                t = raw_input('GPSTime?\t> ')
+                h = raw_input('Height?\t> ')
+                l = raw_input('Fix Type?\t> ')
+                toSend = generateGPS(t,h,l)
+            else:
+                try:
+                    comm = int(comm, 16)
+                except ValueError:
+                    print comm, "is not a valid value"
 
-            toSend = chr(comm) + chr(comm)
+                toSend = chr(comm) + chr(comm)
             
-        with inputLock:
-            s.write(toSend)    
+            with inputLock:
+                s.write(toSend)
+        except EOFError: # ^D
+            print
+            return
+        except KeyboardInterrupt: # ^C
+            print 
+            return
+
 
 def run(port = 0, baud=1200, kind='ACM'):
     global s
