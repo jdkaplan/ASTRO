@@ -17,13 +17,13 @@ int main() {
   volatile int local_nQueued;
   void (*action)();
   startHard();
-  startFlash();
+  /* startFlash(); */
   setupMotors();
   serialStart();
   timerStart();
   adcStart();
   _EINT();
-
+  
   globalState.safemode = 1;
   
   while(1) {
