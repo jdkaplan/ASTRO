@@ -213,7 +213,16 @@ void doCommand(char comm) {
     START_ATOMIC();
     globalState.safemode = 1;
     END_ATOMIC();
+    // Turn off Heaters/HVDC
+    turnHVDC1Off();
+    turnHVDC2Off();
+    turnHeater1Off();
+    turnHeater2Off();
+    // Send final report
     sendLog(0x12);
+    while(outTop != outSel);
+    _DINT();
+    __bis_SR_register(LPM3_bits);
     break;
 
   case 0x13:

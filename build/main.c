@@ -17,8 +17,7 @@ int main() {
   volatile int local_nQueued;
   void (*action)();
   startFlash();
-  globalState.safemode = 1;
-    startHard();
+  startHard();
   setupMotors();
   serialStart();
   timerStart();

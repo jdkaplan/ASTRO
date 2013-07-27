@@ -168,7 +168,7 @@ void newStateVec() {
   globalState.HVDCOne = 0;
   globalState.HVDCTwo = 0;
 
-  globalState.safemode = 0;
+  globalState.safemode = 1;
 
   globalState.height = 0;
   for(i = 0; i < N_HEIGHTS; ++i) {

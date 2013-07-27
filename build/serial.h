@@ -12,4 +12,6 @@ void serialStart();
 void serialSend(char *,int);
 void sendLog(char);
 
+extern volatile unsigned char outTop,outSel;
+
 #endif

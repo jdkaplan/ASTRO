@@ -132,26 +132,20 @@ def userCommand():
             
             if comm.lower() == "gps":
                 t = raw_input('GPSTime?\t> ')
-                h = raw_input('Height?\t> ')
+                h = raw_input('Height?\t\t> ')
                 l = raw_input('Fix Type?\t> ')
                 toSend = generateGPS(t,h,l)
+                print toSend
             else:
-                try:
                     comm = int(comm, 16)
-                except ValueError:
-                    print comm, "is not a valid value"
-
-                toSend = chr(comm) + chr(comm)
-            
+                    toSend = chr(comm) + chr(comm)
             with inputLock:
                 s.write(toSend)
-        except EOFError: # ^D
-            print
+        except (ValueError,TypeError):
+            print comm, "is not a valid value"
+        except (EOFError,KeyboardInterrupt): # ^D,^C
+            print "Keyboard kill"
             return
-        except KeyboardInterrupt: # ^C
-            print 
-            return
-
 
 def run(port = 0, baud=1200, kind='ACM'):
     global s
