@@ -209,7 +209,7 @@ void doCommand(char comm) {
     break;
 
   case 0x12:
-    // shutdown = (safemode)
+    // shutdown = safemode with interrupts disabled
     START_ATOMIC();
     globalState.safemode = 1;
     END_ATOMIC();
@@ -233,13 +233,15 @@ void doCommand(char comm) {
     break;
   }
 
-  /* case 0x14: */
-  /*   sendLog(0x14); */
-  /*   break; */
+  case 0x14:
+    turnOne(CLOSE2);
+    sendLog(0x14);
+    break;
 
-  /* case 0x15: */
-  /*   sendLog(0x15); */
-  /*   break; */
+  case 0x15:
+    turnTwo(CLOSE2);
+    sendLog(0x15);
+    break;
 
   /* case 0x16: */
   /*   sendLog(0x16); */
