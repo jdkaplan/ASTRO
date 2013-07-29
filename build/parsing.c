@@ -231,7 +231,6 @@ void doCommand(char comm) {
     END_ATOMIC();
     sendLog(0x13);
     break;
-  }
 
   case 0x14:
     turnOne(CLOSE2);
@@ -242,6 +241,8 @@ void doCommand(char comm) {
     turnTwo(CLOSE2);
     sendLog(0x15);
     break;
+
+  }
 
   /* case 0x16: */
   /*   sendLog(0x16); */
