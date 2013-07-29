@@ -80,8 +80,11 @@ void motorMonitor() {
   portstate &= ~(0xF<<SHIFTONE);
   portstate |= (globalState.curSignalOne<<SHIFTONE);
   PORTONE = portstate;
-  // If we're moving motor one, do not move motor 2.
-  if(globalState.curSignalOne == 0) {
+  // If we're moving motor one, do not move motor 2 and turn off heaters.
+  if(globalState.curSignalOne != 0) {
+    turnHeater1Off();
+    turnHeater2Off();
+    executeAfterMS(T_PULSE_MS, &motorMonitor);
     return;
   }
 
@@ -105,5 +108,10 @@ void motorMonitor() {
   portstate |= (globalState.curSignalTwo<<SHIFTTWO);
   PORTTWO = portstate;
 
+  // If we're moving motor two, turn off heaters.
+  if(globalState.curSignalOne != 0) {
+    turnHeater1Off();
+    turnHeater2Off();
+  }
   executeAfterMS(T_PULSE_MS, &motorMonitor);
 }

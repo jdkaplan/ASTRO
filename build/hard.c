@@ -34,8 +34,14 @@ void turnHVDC2Off() {
 }
 
 void turnHeater1On() {
-  HEATER1OUT |= HEATER1PIN;
-  globalState.heaterOne = 1;
+  if(globalState.curSignalOne == 0 &&
+     globalState.curSignalTwo == 0) {
+    HEATER1OUT |= HEATER1PIN;
+    globalState.heaterOne = 1;
+  }
+  else {
+    turnHeater1Off();
+  }
 }
 
 void turnHeater1Off() {
@@ -44,8 +50,14 @@ void turnHeater1Off() {
 }
 
 void turnHeater2On() {
-  HEATER2OUT |= HEATER2PIN;
-  globalState.heaterTwo = 1;
+  if(globalState.curSignalOne == 0 &&
+     globalState.curSignalTwo == 0) {
+    HEATER2OUT |= HEATER2PIN;
+    globalState.heaterTwo = 1;
+  }
+  else {
+    turnHeater2Off();
+  }
 }
 
 void turnHeater2Off() {
