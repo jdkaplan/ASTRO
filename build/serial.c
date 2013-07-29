@@ -157,7 +157,7 @@ void parseByte() {
 	START_ATOMIC();
 	if (g.height >= 0) {
 	  // store it!
-	  for(i = 1; i < N_HEIGHTS; ++i) {
+	  for(i = N_HEIGHTS-1; i > 0; --i) {
 	    globalState.prevHeights[i] = globalState.prevHeights[i-1];
 	  }
 	  globalState.prevHeights[0] = g.height;
