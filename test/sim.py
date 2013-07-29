@@ -32,7 +32,7 @@ def parsePong(data):
     heaterOne = data[20]
     heaterTwo = data[21]
     HVDCOne = data[22]
-    HVDCTvo = data[23]
+    HVDCTwo = data[23]
     checksum = data[24]
 
     command = makeNumber(command)
@@ -46,7 +46,7 @@ def parsePong(data):
     heaterOne = makeNumber(heaterOne)
     heaterTwo = makeNumber(heaterTwo)
     HVDCOne = makeNumber(HVDCOne)
-    HVDCTvo = makeNumber(HVDCTvo)
+    HVDCTwo = makeNumber(HVDCTwo)
     checksum = makeNumber(checksum)
     
     output = "command " + str(command) + '\n'
@@ -60,7 +60,7 @@ def parsePong(data):
     output += "heaterOne " + str(heaterOne) + '\n'
     output += "heaterTwo " + str(heaterTwo) + '\n'
     output += "HVDCOne " + str(HVDCOne) + '\n'
-    output += "HVDCTvo " + str(HVDCTvo) + '\n'
+    output += "HVDCTwo " + str(HVDCTwo) + '\n'
     output += "checksum " + str(checksum)
     
     return output
