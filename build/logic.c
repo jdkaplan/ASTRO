@@ -38,7 +38,7 @@ void turnMotorsOnThreshold() {
 
     turnHVDC1On();
     turnHVDC2Off();
-  }  
+  }
   else if (aboveHeight(HEIGHT0)) {
     turnOne(CLOSE);
     turnTwo(CLOSE);

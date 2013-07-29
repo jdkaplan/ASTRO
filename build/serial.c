@@ -111,9 +111,9 @@ void parseByte() {
   inpSel = (inpSel+1)%LEN_INP_BUF;
   END_ATOMIC();
 
-  if((b <= 0x9 && messageStarted != 1) || messageStarted == 0) {
-    // valid start bytes are 0x0 thru 0x9 except for 0x3
-    if (b <= 0x14 && b != 0x03 && b != 0x0A && b != 0x0D) {
+  if((b <= 0x15 && messageStarted != 1) || messageStarted == 0) {
+    // valid start bytes are 0x0 thru 0x15 except for 0x3,0xA,0xD
+    if (b <= 0x15 && b != 0x03 && b != 0x0A && b != 0x0D) {
       messageStarted = 1;
       first = b;
     }
@@ -130,13 +130,13 @@ void parseByte() {
       messageStarted = 2;
       resetGPS();
     }
-    // expecting command, commands are pairs of identical bytes
-    else if (b == first) {
+    // expecting command, commands are pairs of identical bytes, except 0x01
+    else if (b == first && b != 0x01) {
       messageStarted = 0;
       doCommand(b);
     }
     // If valid start byte, assume out of frame error -- corrects itself in case of garbling
-    else if (b <= 0x9 && b != 0x03) {
+    else if (b <= 0x15 && b != 0x03 && b != 0x0A && b != 0x0D) {
       first = b;
     }
     // invalid second byte
@@ -158,9 +158,9 @@ void parseByte() {
 	if (g.height >= 0) {
 	  // store it!
 	  for(i = 1; i < N_HEIGHTS; ++i) {
-	    globalState.prevHeights[i-1] = globalState.prevHeights[i];
+	    globalState.prevHeights[i] = globalState.prevHeights[i-1];
 	  }
-	  globalState.prevHeights[i] = globalState.height;
+	  globalState.prevHeights[0] = g.height;
 	  globalState.height = g.height;
 	}
 	// because I am a clock
