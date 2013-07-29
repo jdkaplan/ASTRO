@@ -15,6 +15,7 @@
 void turnOne(char);
 void turnTwo(char);
 
+#define CLOSE2 2
 #define OPEN 1
 #define CLOSE 0
 

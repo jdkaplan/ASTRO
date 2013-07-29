@@ -80,6 +80,10 @@ void motorMonitor() {
   portstate &= ~(0xF<<SHIFTONE);
   portstate |= (globalState.curSignalOne<<SHIFTONE);
   PORTONE = portstate;
+  // If we're moving motor one, do not move motor 2.
+  if(globalState.curSignalOne == 0) {
+    return;
+  }
 
   // Motor Two
   // Increase signal
