@@ -18,37 +18,27 @@ void logisticalize() {
 }
 
 void turnMotorsOnThreshold() {
-  if (aboveHeight(HEIGHT3)) {
-    turnOne(CLOSE);
+  if (aboveHeight(HEIGHT1)) {
+    turnOne(OPEN);
     turnTwo(OPEN);
 
-    turnHVDC1Off();
+    turnHVDC1On();
     turnHVDC2On();
   }
-  else if (aboveHeight(HEIGHT2)) {
-    turnOne(CLOSE);
-    turnTwo(CLOSE);
-
-    turnHVDC1Off();
-    turnHVDC2Off();
-  }
-  else if (aboveHeight(HEIGHT1)) {
+  else if (aboveHeight(HEIGHT0)) {
     turnOne(OPEN);
     turnTwo(CLOSE);
 
     turnHVDC1On();
     turnHVDC2Off();
   }
-  else if (aboveHeight(HEIGHT0)) {
+  else {
     turnOne(CLOSE);
     turnTwo(CLOSE);
 
     turnHVDC1Off();
     turnHVDC2Off();
   } 
-  else {
-    // negative height?
-  }
 }
 
 int aboveHeight(long threshold) {

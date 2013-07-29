@@ -218,6 +218,10 @@ void doCommand(char comm) {
     turnHVDC2Off();
     turnHeater1Off();
     turnHeater2Off();
+    // Close motors
+    turnOne(CLOSE);
+    turnTwo(CLOSE);
+    while(globalState.curSignalOne || globalState.curSignalTwo);
     // Send final report
     sendLog(0x12);
     while(outTop != outSel);
