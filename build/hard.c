@@ -70,7 +70,7 @@ int temperature = 0;
 void adcStart() {
   ADC10CTL0 &= ~ENC;// Disable ADC
   ADC10CTL0 = SREF_0 | ADC10SHT_3 | ADC10ON | ADC10IE; // 64 clock ticks, ADC On, enable ADC interrupt
-  ADC10CTL1 = ADC10SSEL_3 | INCH_2; // Set A0, SMCLK
+  ADC10CTL1 = ADC10SSEL_1 | INCH_2; // Set A0, ACLK
   ADC10CTL0 |= ENC + ADC10SC; // Enable and start conversion
 }
 
