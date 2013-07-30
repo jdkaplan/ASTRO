@@ -1,0 +1,527 @@
+/***********Utilities and Fixes *****************/
+.clearfix:after { /* FF, O, etc. */
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block; /* IE7xhtml*/
+}
+
+html[xmlns] .clearfix { /* O */
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%; /* IE5-6 */
+}
+* {  
+    margin: 0;  
+    padding: 0;  
+}  
+/**************************************/ 
+
+body {
+	background-color: #4c4c4c;
+	text-align:center; 
+	margin: 0 auto; 
+	font-family: 'Verdana';
+	font-size: 13px;
+	height:100%; 
+}
+
+h1 {
+	font-family: Verdana;
+	font-size: medium; 
+	font-weight: bold;
+	text-align: center;	
+}
+
+h2 {
+	font-family: Verdana;
+	font-size: small; 
+	font-weight: bold;
+	text-align: left;	
+
+}
+h4 {
+	font-family: Verdana;
+	font-size: small; 
+	font-weight: bold;
+}
+
+a	{
+	text-decoration: none;
+}
+
+img 	{
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 12px;
+}
+
+td {
+	padding: 10px 10px 10px 10px;
+
+}
+
+table.flightinfo  {
+	clear: both;
+	width: 65%;
+	font-size: inherit;
+	text-align: center;
+	border-style: solid; 
+	border-width: 1px;
+	border-color: black;
+	margin: 10px 0px 10px 50px;
+}
+
+td.flightinfo	{
+	text-align: center;
+	border-style: solid; 
+	border-width: 1px;
+	border-color: black;
+}
+ 
+table.flightdata  {
+	clear: both;
+	width: 90%;
+	border-style: solid; 
+	border-width: 1px;
+	border-color: black;
+
+}
+
+th.flightdata	{
+	text-align: center;
+	border-style: solid; 
+	border-width: 1px;
+	border-color: black;
+	background-color: #00CCFF;
+}
+
+td.flightdata	{
+	text-align: center;
+	border-style: solid; 
+	border-width: 1px;
+	border-color: black;
+	padding: 1px 1px 1px 1px;
+}
+
+
+table.participant_info  {
+	clear: both;
+	width: 65%;
+	border-style: solid; 
+	border-width: 1px; 
+	width: 80%;
+
+}
+
+ul.nodot  {
+	text-align:left;
+	list-style-type: none;
+	padding-left: 50px;
+	font-size: 12px;
+}
+
+li.nodot {
+	padding-left: 40px;
+}
+
+#main {  
+    width: 1000px;
+    margin: 0 auto;  
+    border: 1px solid #000000;   
+    background-color: #FFFFFF; 
+	/*for IE */
+}
+
+.main_body {
+/*	clear: both;   */
+	display: block;
+	font-family: 'Verdana';
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: left;
+
+}
+
+.left_toolbar {
+	display: block;
+	font-family: 'Verdana';
+	padding-left: 0px;
+	padding-right: 0px;
+	text-align: left;
+	float: left;
+
+}
+
+
+.sidebar1 {
+	font-size: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.sitemeter  {
+	float: left;
+
+}
+/**************HEADER*************************/
+
+.header_images	{
+	margin:0;
+	padding:0;
+	border: 0;
+	width:1000px;
+	display:block;
+	
+}
+
+/********TOOLBARS ***************************/
+ul.vista_toolbar_purple {
+background-image:url("hasp_files/back.gif");
+background-repeat:repeat-x;
+float:left;
+color: #FFF;
+font:normal 12px 'Verdana';
+line-height:32px;
+list-style:none;
+margin:0;
+padding:0;
+width:1000px;
+text-align: center;
+clear: both;
+display: block;
+}
+
+ul.vista_toolbar_purple li {
+float:inherit;
+text-align: center;
+display:inline;
+padding:0;
+}
+
+ul.vista_toolbar_purple a {
+display:block;
+color:#FFF; /* need because it will use default link color */
+float:left;
+padding:0 12px 0 12px; /*left 3px  because of left.png image */ 
+text-decoration:none;
+}
+
+ul.vista_toolbar_purple a  span{
+padding:0 8px 0 8px;  
+}
+
+ul.vista_toolbar_purple a.top_bar  span{
+padding:0px 20px 0 20px; 
+}
+
+/* show picture when mouse over link */
+ul.vista_toolbar_purple a:hover{
+background: url("hasp_files/left.png") no-repeat left center; 
+}
+
+ul.vista_toolbar_purple a:hover span {
+display:block;
+background:url("hasp_files/right.png") no-repeat right center;
+}
+
+ul.vista_toolbar_purple a.right {
+float:right; /* for help button - just add class "right" ->  <a class="right"... */
+}
+
+ul#multimedia {
+	width:1000px;
+	text-align: center;
+}
+
+
+/* SECONDARY TOOLBAR  */
+/* ---------------------------------  */
+ul.vista_toolbar_grey {
+background-image:url("hasp_files/back-grey.gif");
+background-repeat:repeat-x;
+float:left;
+color: #FFF;
+font:normal 12px 'Verdana';
+line-height:28px;
+list-style:none;
+margin:0;
+padding:0;
+width:1000px;
+text-align: center;
+clear: both;
+display: block;
+}
+
+ul.vista_toolbar_grey li {
+float:inherit;
+text-align: center;
+display:inline;
+padding:0;
+}
+
+ul.vista_toolbar_grey a {
+display:block;
+color:#FFF; /* need because it will use default link color */
+float:left;
+padding:0 15px 0 15px; /*left 3px  because of left.png image */ 
+text-decoration:none;
+}
+
+ul.vista_toolbar_grey a  span{
+padding:0 10px 0 2px;  
+}
+
+ul.vista_toolbar_grey a.top_bar  span{
+padding:0 20px 0 20px; 
+}
+
+/* show picture when mouse over link */
+ul.vista_toolbar_grey a:hover{
+background: url("hasp_files/left.png") no-repeat left center; 
+}
+
+ul.vista_toolbar_grey a:hover span {
+display:block;
+background:url("hasp_files/right.png") no-repeat right center;
+}
+
+ul.vista_toolbar_grey a.right {
+float:right; /* for help button - just add class "right" ->  <a class="right"... */
+}
+
+ul#multimedia {
+	width:1000px;
+	text-align: center;
+}
+
+ul#multimedia {
+	padding-left: 200px;
+
+}
+/* ----------------------------------------- */
+/*  END SECONDARY TOOLBAR  */
+
+
+/* 3RD TOOLBAR                              */
+/* ----------------------------------------- */
+.Group {
+	display: block;
+	height: 28px;
+	width: 135px;
+	background-image: url('hasp_files/Button.jpg');
+	background-repeat: repeat-x;
+	font-size: 12px;
+	line-height: 27px;
+	padding-left: 15px;
+	color: #dfdfdf;
+	text-decoration: none;
+}
+
+.Group:hover {
+	color: #dfdfdf;
+	text-decoration: underline;
+}
+
+.Option {
+	display: block;
+	height: 28px;
+	width: 140px;
+	background-image: url('hasp_files/Button_Option.jpg');
+	background-repeat: repeat-x;
+	line-height: 27px;
+	padding-left: 10px;
+	color: #dfdfdf;
+	text-decoration: none;
+	font-size: 11px;
+}
+
+.Option:hover {
+	color: #dfdfdf;
+	text-decoration: underline;
+}
+
+.show {
+	display:inline;
+}
+
+.hide {
+	display:none;
+}
+/* END 3RD Toolbar                        */
+/* ---------------------------------------- */
+
+ul.vista_toolbar_multimedia {
+background-image:url("hasp_files/back-grey.gif");
+background-repeat:repeat-x;
+float:left;
+color: #FFF;
+font:normal 12px 'Verdana';
+line-height:28px;
+list-style:none;
+margin:0;
+padding:0;
+width:1000px;
+text-align: center;
+clear: both;
+display: block;
+}
+
+ul.vista_toolbar_multimedia li {
+float:inherit;
+text-align: center;
+display:inline;
+padding:0;
+padding-left: 100px;
+}
+
+ul.vista_toolbar_multimedia a {
+display:block;
+color:#FFF; /* need because it will use default link color */
+float:left;
+padding:0 5px 0 5px; /*left 3px  because of left.png image */ 
+text-align: center;
+text-decoration:none;
+}
+
+ul.vista_toolbar_multimedia a  span{
+padding:0 10px 0 2px;  
+}
+
+ul.vista_toolbar_multimedia a.top_bar  span{
+padding:0 20px 0 20px; 
+}
+
+/* show picture when mouse over link */
+ul.vista_toolbar_multimedia a:hover{
+background: url("hasp_files/left.png") no-repeat left center; 
+}
+
+ul.vista_toolbar_multimedia a:hover span {
+display:block;
+background:url("hasp_files/right.png") no-repeat right center;
+}
+
+ul.vista_toolbar_multimedia a.right {
+float:right; /* for help button - just add class "right" ->  <a class="right"... */
+}
+
+
+
+/************************************************/
+
+/********* FOOTER CSS ************************/
+.footer {
+	font-size: 11px;
+    border-top: 1px solid #000000;
+	height: 50px;
+	clear: both;
+}
+.qnx_footer{
+	float: left;
+	width: 39%;
+	border-right: 1px solid #000000;
+}
+.lsu_footer{
+	float: left;
+	width: 30%;
+}
+
+.info_footer{
+	float: right;
+	width: 30%;
+	border-left: 1px solid #000000;
+	height: 50px;
+}
+/*************************************************/
+
+/************ IMAGE GALLERY *********************/
+table#imagegallery{
+	clear: both;
+	font-size: small;
+	text-align: center;
+
+}
+
+table.index_table
+{
+	clear: both;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td.index_table_cell
+{
+  width: 25%; 
+  padding: 5px;
+  border: solid 1px #000000;
+}
+
+td.index_subcat_table_cell
+{
+  padding: 5px;
+  border: solid 1px #000000;
+}
+
+.gallerytitle {
+  font-size: 18pt;
+  text-align: center;
+}
+
+.thumbnailtitle {
+  font-size: 10pt;
+}
+
+.thumbnail {
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.thumbnail_title {
+
+  text-align: center;
+}
+
+.navigationtext {
+}
+
+.navigationdisabledtext {
+  color: #CCCCCC;
+}
+/********************************************/
+/*************** LIVE VIDEO PAGE ************/
+
+div#video-page   {
+	width:100%;
+	height:550px;
+
+}
+div#video-sidebar   {
+	float:left;
+	width: 250px;
+	height:550px;
+	border-right: solid 1px #000000;
+	text-align: center;
+	overflow: auto;
+}
+
+div#main-video   {
+	float:right;
+	width: 740px;
+	text-align: center;
+
+}
+

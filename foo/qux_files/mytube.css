@@ -1,0 +1,188 @@
+.mytube-div{
+    background-color: #f8f8f8;
+    border-left: 1px solid #b1b1b1;
+    border-right: 1px solid #b1b1b1;
+    border-bottom: 1px solid #b1b1b1;
+    border-collapse: collapse;
+    margin: 1px;
+    padding: 0;
+    position: absolute;
+    z-index: 9999;
+}
+
+.mytube-div table{
+    border-bottom: none;
+    border-collapse: collapse;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    color: #636363;
+    font-family: arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 11px;
+    margin: auto;
+    width: 100%;
+}
+
+.mytube-div input{
+    padding: 0px 3px 0px 2px;
+    vertical-align: middle;
+}
+
+.mytube-div input[type="text"]{
+    border: 1px solid #b1b1b1;
+    border-radius: 0px;
+    color: #636363;
+    font-family: arial, sans-serif;
+    font-size: 11px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.mytube-div .first-td{
+    text-align: center;
+    width: 25px;
+}
+
+.mytube-div td{
+    border: 1px solid #b1b1b1;
+    padding: 2px 5px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.mytube-div tr{
+    border: none;
+    border-collapse: collapse;
+}
+
+.mytube-div .last-tr{
+    border-bottom: none;
+}
+
+.mytube-div .settings-span{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.mytube-div .error-msg{
+    color: red;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.mytube-div .inline{
+    display: inline;
+}
+
+.mytube-div td div{
+    vertical-align: middle;
+    color: #636363;
+    font-family: arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 11px;
+}
+
+.mytube-div label{
+    display: inline;
+    color: #636363;
+    font-family: arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 11px;
+}
+
+.mytube-div .mytube-styled-checkbox{
+    width: 16px;
+    height: 16px;
+    display: block;
+    cursor: pointer;
+}
+
+.mytube-div .mytube-styled-checkbox input{
+    position: absolute;
+    left: -9999px;
+}
+
+.mytube-div .mytube-play,
+.mytube-div .mytube-play:hover,
+.mytube-div .mytube-stop {
+    width: 32px;
+    height: 32px;
+}
+
+.mytube-div .mytube-notification-status{
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.mytube-div .mytube-repeat,
+.mytube-div .mytube-no-repeat{
+    margin-left: 6px;
+}
+
+.mytube-div .mytube-repeat{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/repeat.png');
+}
+
+.mytube-div .mytube-no-repeat{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/no-repeat.png');
+}
+
+.mytube-div .mytube-stop{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/stop.png');
+}
+
+.mytube-div .mytube-stop:hover{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/stop-hover.png');
+}
+
+.mytube-div .mytube-play{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/play.png');
+}
+
+.mytube-div .mytube-play:hover{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/play-hover.png');
+}
+
+.mytube-div .mytube-notification-status-information{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/information.png');
+}
+
+.mytube-div .mytube-notification-status-error{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/error.png');
+}
+
+.mytube-div .mytube-notification-status-exclamation{
+    background-color: transparent;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-image: url('resource://mytube/icons/exclamation.png');
+}
