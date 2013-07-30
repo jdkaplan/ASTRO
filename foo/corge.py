@@ -63,23 +63,24 @@ def randomBytes(num):
 def generateState(): # currently not used
     state = {}
 
-    state["command"] = randomBytes(1)
-    state["internalTime"] = randomBytes(4)
-    state["externalTime"] = randomBytes(4)
-    state["height"] = randomBytes(4)
-    state["temperature"] = randomBytes(2)
-    state["desiredStepOne"] = randomBytes(2)
-    state["desiredStepTwo"] = randomBytes(2)
-    state["safemode"] = randomBytes(1)
-    state["heaterOne"] = randomBytes(1)
-    state["heaterTwo"] = randomBytes(1)
-    state["HVDCOne"] = randomBytes(1)
-    state["HVDCTwo"] = randomBytes(1)
+    state["command"] = int(raw_input("command: "))
+    state["internalTime"] = int(raw_input("internalTime: "))
+    state["externalTime"] = int(raw_input("externalTime: "))
+    state["height"] = int(raw_input("height: "))
+    state["temperature"] = int(raw_input("temperature: "))
+    state["desiredStepOne"] = int(raw_input("desiredStepOne: "))
+    state["desiredStepTwo"] = int(raw_input("desiredStepTwo: "))
+    state["safemode"] = int(raw_input("safemode: "))
+    state["heaterOne"] = int(raw_input("heaterOne: "))
+    state["heaterTwo"] = int(raw_input("heaterTwo: "))
+    state["HVDCOne"] = int(raw_input("HVDCOne: "))
+    state["HVDCTwo"] = int(raw_input("HVDCTwo: "))
 
     return state
 
-def generateFile(name, logCount):
+def generateFile(name, logCount, state=None):
     with open(name,'w') as f:
         for i in xrange(logCount):
-            f.write(generateLog())
+            zeta = generateLog(state)
+            f.write(zeta)
 
