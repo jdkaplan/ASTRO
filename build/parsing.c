@@ -226,7 +226,7 @@ void doCommand(char comm) {
     sendLog(0x12);
     while(outTop != outSel);
     _DINT();
-    __bis_SR_register(LPM3_bits);
+    __bis_SR_register(LPM4_bits);
     break;
 
   case 0x13:
