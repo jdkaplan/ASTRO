@@ -14,11 +14,11 @@ void setupMotors() {
 }
 
 void turnOne(char dir) {
-  globalState.desiredStepOne = dir*N_PULSES;
+  globalState.desiredStepOne = dir*N_PULSES_1;
 }
 
 void turnTwo(char dir) {
-  globalState.desiredStepTwo = dir*N_PULSES;
+  globalState.desiredStepTwo = dir*N_PULSES_2;
 }
 
 /*

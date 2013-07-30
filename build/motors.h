@@ -1,7 +1,8 @@
 #ifndef MOTORS_H
 #define MOTORS_H
 
-#define N_PULSES 90*4
+#define N_PULSES_1 90*2
+#define N_PULSES_2 90*4
 #define T_PULSE_MS 7
 
 #define DIRONE P1DIR
