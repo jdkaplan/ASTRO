@@ -50,9 +50,9 @@ def parsePong(data):
     checksum = makeNumber(checksum)
     
     output = "command " + str(command) + '\n'
-    output += "internalTime " + str(internalTime) + '\t\t(approx. {:.2f}s)'.format(internalTime/1024.) + '\n'
+    output += "internalTime " + str(internalTime) + '\t\t(approx. {:.2f}s)'.format(internalTime / 1024.) + '\n'
     output += "externalTime " + str(externalTime) + '\n'
-    output += "height " + str(height) + '\n'
+    output += "height " + str(height) + '\t\t(approx. {:.2f}ft)'.format(height * 3.28084) + '\n'
     output += "temperature " + str(temperature) + '\n'
     output += "motorOne " + str(motorOne) + '\n'
     output += "motorTwo " + str(motorTwo) + '\n'
