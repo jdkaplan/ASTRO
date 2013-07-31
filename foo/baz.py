@@ -6,9 +6,9 @@ from time import sleep
 # THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
 
 QUEUE = set()
-LASTPARSED = "" # null < every string
+LASTPARSED = "sp6_07-30-13-22-07-55.raw" # null < every string
 ALREADYPARSED = set()
-
+CURRENTLYPARSING = "sp6_07-31-13-13-59-48.raw"
 
 # these are just the same functions we had in sim.py (skip to line 80)
 # start copypaste
@@ -83,18 +83,20 @@ def checkChecksum(data):
 
 def parseFile(file_):
     # this is pretty much just pingPong, but for files
-    with open(file_) as f:
-        c = True
-        while c:
-            c = f.read(1)
-
-            while c == '\xff':
-                c = f.read(1)
+#    with open(file_) as f:
+    f = urllib2.urlopen(file_)
+    c = True
+    while c:
+        c = f.read(1)
         
-            data = c + f.read(24)
-            if data:
-                print parsePong(data)
-                print 'Checksum correct?:', str(checkChecksum(data)), '\n'
+        while c == '\xff':
+            c = f.read(1)
+            
+        data = c + f.read(24)
+        if data:
+            raw_input("ENTER for next: ")
+            print parsePong(data)
+            print 'Checksum correct?:', str(checkChecksum(data)), '\n'
 
 # this is the HTML parser I had to make for this
 class HASPParser(HTMLParser):
@@ -117,7 +119,7 @@ class HASPParser(HTMLParser):
                     
                     # don't parse anything earlier than we parsed before
                     # especially don't parse anything we've already parsed
-                    if a[1] > LASTPARSED:
+                    if a[1][11:] > LASTPARSED:
                         if file_to_parse not in ALREADYPARSED:
                             QUEUE.add(file_to_parse)
                             print '\tAdded'
@@ -132,13 +134,13 @@ class HASPParser(HTMLParser):
 print
 
 year = "2013"
-payload = "11"
+payload = "06"
 
-#base_url = 'http://laspace.lsu.edu/hasp/groups/' + year + '/data/'
-base_url = '/home/jdkaplan/documents/astro/foo/'
+base_url = 'http://laspace.lsu.edu/hasp/groups/' + year + '/data/'
+#base_url = '/home/jdkaplan/documents/astro/foo/'
 
-#url = base_url + 'data.php?pname=Payload_' + payload + '&py=' + year
-url = 'file://' + base_url + 'qux.html'
+url = base_url + 'data.php?pname=Payload_' + payload + '&py=' + year
+#url = 'file://' + base_url + 'qux.html'
 
 html = urllib2.urlopen(url)
 lines = html.readlines()
