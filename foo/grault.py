@@ -4,6 +4,7 @@ class Object(object):
     pass
 
 interp1 = numpy.interp 
+diff = lambda x: x[1]-x[0]
 hasp = Object()
 astro = Object()
 

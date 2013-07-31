@@ -221,7 +221,8 @@ void doCommand(char comm) {
     // Close motors
     turnOne(CLOSE);
     turnTwo(CLOSE);
-    while(globalState.curSignalOne || globalState.curSignalTwo);
+    while(globalState.desiredStepOne != globalState.currentStepOne ||
+	  globalState.desiredStepTwo != globalState.currentStepTwo)
     // Send final report
     sendLog(0x12);
     while(outTop != outSel);

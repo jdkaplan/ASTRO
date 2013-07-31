@@ -2,6 +2,7 @@ import urllib2
 from HTMLParser import HTMLParser
 from htmlentitydefs import name2codepoint
 from time import sleep
+import grault
 
 # THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
 
@@ -62,7 +63,7 @@ def parsePong(data):
     output += "internalTime " + str(internalTime) + '\t\t(approx. {:.2f}s)'.format(internalTime/1024.) + '\n'
     output += "externalTime " + str(externalTime) + '\n'
     output += "height " + str(height) + '\n'
-    output += "temperature " + str(temperature) + '\n'
+    output += "temperature " + str(temperature) + '\t\t(approx. {:.2f} C)'.format(grault.boardTemperature(temperature)) + '\n'
     output += "motorOne " + str(motorOne) + '\n'
     output += "motorTwo " + str(motorTwo) + '\n'
     output += "safemode " + str(safemode) + '\n'
