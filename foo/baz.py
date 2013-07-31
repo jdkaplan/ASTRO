@@ -1,10 +1,17 @@
 import urllib2
 from HTMLParser import HTMLParser
 from htmlentitydefs import name2codepoint
+from time import sleep
+
+# THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
 
 QUEUE = set()
-LASTPARSED = "" # < every string
+LASTPARSED = "" # null < every string
 ALREADYPARSED = set()
+
+
+# these are just the same functions we had in sim.py (skip to line 80)
+# start copypaste
 
 def makeNumber(bytes_):
     rev = bytes_[::-1]
@@ -71,7 +78,11 @@ def checkChecksum(data):
     checksum = reduce(lambda x,y: x^ord(y), data, 0)
     return not checksum
 
+# end copypaste
+
+
 def parseFile(file_):
+    # this is pretty much just pingPong, but for files
     with open(file_) as f:
         c = True
         while c:
@@ -85,25 +96,32 @@ def parseFile(file_):
                 print parsePong(data)
                 print 'Checksum correct?:', str(checkChecksum(data)), '\n'
 
+# this is the HTML parser I had to make for this
 class HASPParser(HTMLParser):
     def __init__(self):
-        HTMLParser.__init__(self)
-        self.useful = False
+        HTMLParser.__init__(self)     # inheritance
+        self.useful = False           # useful is a flag for being in a table
 
     def handle_starttag(self, tag, attrs):
+        # if tag is table, data is useful -> useful = True
         if tag == "table":
             self.useful = True
         
+        # if we're in a table, and there's a link, we should parse this file
         elif tag == "a" and self.useful:
+            # find the link to the *.raw
             for a in attrs:
-                if a[1][-4:] == '.raw': # change to regex
-                    chi = base_url + a[1]
-                    print chi,
+                if a[1][-4:] == '.raw': # TODO: change to regex
+                    file_to_parse = base_url + a[1]
+                    print file_to_parse,
+                    
+                    # don't parse anything earlier than we parsed before
+                    # especially don't parse anything we've already parsed
                     if a[1] > LASTPARSED:
-                        if chi not in ALREADYPARSED:
-                            QUEUE.add(chi)
+                        if file_to_parse not in ALREADYPARSED:
+                            QUEUE.add(file_to_parse)
                             print '\tAdded'
-                            print QUEUE
+
                     else:
                         print '\tSkipped'
 
@@ -132,7 +150,14 @@ p.feed(inp)
 
 print
 
-for item in sorted(list(QUEUE)):
-    parseFile(item)
-    ALREADYPARSED.add(item)
-    LASTPARSED = item
+# this is the actual stuff
+while(True):
+    for item in sorted(list(QUEUE)):
+        print "NEW RECORD"
+        print item
+
+        parseFile(item)
+        ALREADYPARSED.add(item)
+        QUEUE.remove(item)
+        LASTPARSED = item
+    sleep(60)
