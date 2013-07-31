@@ -9,6 +9,7 @@ QUEUE = set()
 LASTPARSED = "sp6_07-30-13-22-07-55.raw" # null < every string
 ALREADYPARSED = set()
 CURRENTLYPARSING = "sp6_07-31-13-13-59-48.raw"
+THISTIMESTAMP = 4702217
 
 # these are just the same functions we had in sim.py (skip to line 80)
 # start copypaste
@@ -30,19 +31,22 @@ def esraPemit(time): # timeParse backwards
     return hour, minute, second, subsecond
 
 def parsePong(data):
-    command = data[0]
-    internalTime = data[1:5]
-    externalTime = data[5:9]
-    height = data[9:13]
-    temperature = data[13:15]
-    motorOne = data[15:17]
-    motorTwo = data[17:19]
-    safemode = data[19]
-    heaterOne = data[20]
-    heaterTwo = data[21]
-    HVDCOne = data[22]
-    HVDCTwo = data[23]
-    checksum = data[24]
+    try:
+        command = data[0]
+        internalTime = data[1:5]
+        externalTime = data[5:9]
+        height = data[9:13]
+        temperature = data[13:15]
+        motorOne = data[15:17]
+        motorTwo = data[17:19]
+        safemode = data[19]
+        heaterOne = data[20]
+        heaterTwo = data[21]
+        HVDCOne = data[22]
+        HVDCTwo = data[23]
+        checksum = data[24]
+    except IndexError:
+        return "IndexError"
 
     command = makeNumber(command)
     internalTime = makeNumber(internalTime)
@@ -72,6 +76,9 @@ def parsePong(data):
     output += "HVDCTwo " + str(HVDCTwo) + '\n'
     output += "checksum " + str(checksum)
     
+    if internalTime < THISTIMESTAMP:
+        output = None
+
     return output
 
 def checkChecksum(data):
@@ -94,9 +101,15 @@ def parseFile(file_):
             
         data = c + f.read(24)
         if data:
-            raw_input("ENTER for next: ")
-            print parsePong(data)
-            print 'Checksum correct?:', str(checkChecksum(data)), '\n'
+            # raw_input("ENTER for next: ")
+            eta = parsePong(data)
+            if eta:
+                kappa = checkChecksum(data)
+                if kappa:
+                    print eta
+                    print 'Checksum correct?:', str(kappa), '\n'
+                else:
+                    print "Bad checksum"
 
 # this is the HTML parser I had to make for this
 class HASPParser(HTMLParser):
@@ -119,7 +132,8 @@ class HASPParser(HTMLParser):
                     
                     # don't parse anything earlier than we parsed before
                     # especially don't parse anything we've already parsed
-                    if a[1][11:] > LASTPARSED:
+                    # if a[1][11:] > LASTPARSED:
+                    if True:
                         if file_to_parse not in ALREADYPARSED:
                             QUEUE.add(file_to_parse)
                             print '\tAdded'
@@ -133,33 +147,33 @@ class HASPParser(HTMLParser):
 
 print
 
-year = "2013"
-payload = "06"
-
-base_url = 'http://laspace.lsu.edu/hasp/groups/' + year + '/data/'
-#base_url = '/home/jdkaplan/documents/astro/foo/'
-
-url = base_url + 'data.php?pname=Payload_' + payload + '&py=' + year
-#url = 'file://' + base_url + 'qux.html'
-
-html = urllib2.urlopen(url)
-lines = html.readlines()
-
-inp = ''.join(lines)
-
-p = HASPParser()
-p.feed(inp)
-
-print
-
-# this is the actual stuff
 while(True):
+    year = "2013"
+    payload = "06"
+    
+    base_url = 'http://laspace.lsu.edu/hasp/groups/' + year + '/data/'
+    #base_url = '/home/jdkaplan/documents/astro/foo/'
+    
+    url = base_url + 'data.php?pname=Payload_' + payload + '&py=' + year
+    #url = 'file://' + base_url + 'qux.html'
+    
+    html = urllib2.urlopen(url)
+    lines = html.readlines()
+    
+    inp = ''.join(lines)
+    
+    p = HASPParser()
+    p.feed(inp)
+    
+    print
+
+    # this is the actual stuff
+
     for item in sorted(list(QUEUE)):
         print "NEW RECORD"
         print item
-
         parseFile(item)
-        ALREADYPARSED.add(item)
         QUEUE.remove(item)
-        LASTPARSED = item
-    sleep(60)
+    
+    print "____________________________"
+    sleep(30)
