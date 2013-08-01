@@ -38,14 +38,14 @@ astro.T = T;
 astro.V = [astro.R_EXT / rho * astro.V_REF for rho in [(r + astro.R_EXT)for r in R]]
 
 def temperatureFinding(motor1, motor2, board): 
-    return motorTemperature(motor1, motor2) + boardTemperature(board)
+    return motorTemperature(motor1, motor2) + [boardTemperature(board)]
 
 def boardTemperature(temperature):
     ADC_ASTRO = temperature
     ADC_ASTRO = float(ADC_ASTRO)
     V_ASTRO = ADC_ASTRO / 2**(astro.A2DBits) * diff(astro.VoltageRange)
     T_ASTRO = interp1(V_ASTRO, astro.V, astro.T)
-    return [T_ASTRO]
+    return T_ASTRO
 
 def motorTemperature(motor1, motor2):
     V_HASP = [motor1, motor2]
