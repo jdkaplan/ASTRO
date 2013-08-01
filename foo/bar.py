@@ -177,4 +177,6 @@ def pingPong(stream):
         data = c + stream.read(24)
         print parsePong(data)
         print 'Checksum correct?:', str(checkChecksum(data)), '\n'
-        raw_input('> ')
+
+dr = dataReader()
+pingPong(dr)
