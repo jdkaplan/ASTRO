@@ -6,7 +6,7 @@ inputLock=threading.Lock()
 PORT=0
 FILE="gpsData"
 
-def connect(i, kind="ACM"):
+def connect(i, kind="USB"):
     return serial.Serial('/dev/tty'+kind+str(i),baudrate=1200)
 
 def checkChecksum(data):
@@ -104,7 +104,7 @@ data = [
     ('005900.00',1110,1),
     ]
 
-def pingPong(port=0,baud=1200, kind='ACM'):
+def pingPong(port=0,baud=1200, kind='USB'):
     conn = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
     while True:
         c = conn.read()
@@ -147,7 +147,7 @@ def userCommand():
             print "Keyboard kill"
             return
 
-def run(port = 0, baud=1200, kind='ACM'):
+def run(port = 0, baud=1200, kind='USB'):
     global s
     s = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
     #threading.Thread(target=sendGPS).start()
