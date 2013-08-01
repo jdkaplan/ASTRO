@@ -75,7 +75,8 @@ gpsOut gpsParse(char b) {
     res.checkedsum ^= b;
   }
   // start calculating checksum
-  if (b == '$') {
+  /* if (b == '$') { */
+  if ((comma_count == 0) && (b == ',')) {
     checking = 1;
     res.checkedsum = 0;
   }
