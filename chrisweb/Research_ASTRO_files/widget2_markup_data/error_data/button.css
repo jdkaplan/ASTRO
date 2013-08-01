@@ -1,0 +1,109 @@
+/* How to use 
+1. Set the width in the head of the document.
+div.btn-flextoolbtn {
+  width:20em;
+}
+2. Copy and paste the code below. 
+<div class="btn-flextoolbtn">
+  <div><p><span>
+  <a href="url">Button text come here</a>
+  </span></p></div>
+  <p class="btn-description">Description here</p>
+</div>
+*/
+
+/* Download button */
+
+div.btn-flextoolbtn {
+  margin: 0.5em 0em 0.5em 0;
+  line-height:1.2;
+  width:80%;
+  background-color:#cadef4;
+  border:1px solid #ccc;
+  padding:15px;
+}
+
+div.btn-flextoolbtn div {
+  background:url("../images/btn-flextoolbtn1.png") no-repeat 0% 0%;
+  font-size:1.3em;
+  margin:0;
+  padding:0;
+}
+div.btn-flextoolbtn div span a {
+  display:block;
+  color:#FFF!important;
+  background:url("../images/btn-flextoolbtn2.gif") no-repeat right bottom;
+  padding:8px 18px 10px 13px;
+  text-decoration:none;
+  font-weight:bold;
+  text-align:center;
+}
+div.btn-flextoolbtn div p {
+  background:none;
+  background:url("../images/btn-flextoolbtn1.png") no-repeat right -400px;
+  margin:0;
+  padding:0;
+  text-align:center;
+}
+div.btn-flextoolbtn div p span {
+  display:block;
+  background:url("../images/btn-flextoolbtn1.png") no-repeat left bottom;
+  margin:0;
+  padding:0;
+}
+p.btn-description {
+  text-align:center;
+  margin:10px 0px 0px 0px;
+}
+ 
+div.btn-flextoolbtn p {
+  padding-bottom:0;
+  margin-bottom:0;
+}
+
+/* Enterprise buttons */
+div.btn-enterprise {
+  margin: 0em 0.5em 0em 0.5em;
+  line-height:1.2;
+  width:90%;
+  background-color:#cadef4;
+  border:1px solid #ccc;
+  padding:5px;
+}
+
+div.btn-enterprise div {
+  background:url("../images/btn-flextoolbtn1.png") no-repeat 0% 0%;
+  font-size:1em;
+  margin:0;
+  padding:0;
+}
+div.btn-enterprise div span a {
+  display:block;
+  color:#FFF!important;
+  background:url("../images/btn-flextoolbtn2.gif") no-repeat right bottom;
+  padding:8px 18px 10px 13px;
+  text-decoration:none;
+  font-weight:bold;
+  text-align:center;
+}
+div.btn-enterprise div p {
+  background:none;
+  background:url("../images/btn-flextoolbtn1.png") no-repeat right -400px;
+  margin:0;
+  padding:0;
+  text-align:center;
+}
+div.btn-enterprise div p span {
+  display:block;
+  background:url("../images/btn-flextoolbtn1.png") no-repeat left bottom;
+  margin:0;
+  padding:0;
+}
+p.btn-description {
+  text-align:center;
+  margin:10px 0px 0px 0px;
+} 
+div.btn-enterprise p {
+  padding-bottom:0;
+  margin-bottom:0;
+}

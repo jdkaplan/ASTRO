@@ -1,0 +1,137 @@
+<html><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <script src="widget2_markup_data/jsapi"></script><link href="Research_ASTRO_files/mytube.css" type="text/css" rel="stylesheet"><script type="text/javascript" src="Research_ASTRO_files/mutationObserver.js"></script><script type="text/javascript" src="Research_ASTRO_files/mytube.js"></script><mytubeelement data="{&quot;bundle&quot;:{&quot;label_delimitor&quot;:&quot;:&quot;,&quot;percentage&quot;:&quot;%&quot;,&quot;smart_buffer&quot;:&quot;Smart Buffer&quot;,&quot;start_playing_when_buffered&quot;:&quot;Start playing when buffered&quot;,&quot;sound&quot;:&quot;Sound&quot;,&quot;desktop_notification&quot;:&quot;Desktop Notification&quot;,&quot;continuation_on_next_line&quot;:&quot;-&quot;,&quot;loop&quot;:&quot;Loop&quot;,&quot;only_notify&quot;:&quot;Only Notify&quot;,&quot;estimated_time&quot;:&quot;Estimated Time&quot;,&quot;global_preferences&quot;:&quot;Global Preferences&quot;,&quot;no_notification_supported_on_your_browser&quot;:&quot;No notification style supported on your browser version&quot;,&quot;video_buffered&quot;:&quot;Video Buffered&quot;,&quot;buffered&quot;:&quot;Buffered&quot;,&quot;hyphen&quot;:&quot;-&quot;,&quot;buffered_message&quot;:&quot;The video has been buffered as requested and is ready to play.&quot;,&quot;not_supported&quot;:&quot;Not Supported&quot;,&quot;on&quot;:&quot;On&quot;,&quot;off&quot;:&quot;Off&quot;,&quot;click_to_enable_for_this_site&quot;:&quot;Click to enable for this site&quot;,&quot;desktop_notification_denied&quot;:&quot;You have denied permission for desktop notification for this site&quot;,&quot;notification_status_delimitor&quot;:&quot;;&quot;,&quot;error&quot;:&quot;Error&quot;,&quot;adblock_interferance_message&quot;:&quot;Adblock (or similar extension) is known to interfere with SmartVideo. Please add this url to adblock whitelist.&quot;,&quot;calculating&quot;:&quot;Calculating&quot;,&quot;waiting&quot;:&quot;Waiting&quot;,&quot;will_start_buffering_when_initialized&quot;:&quot;Will start buffering when initialized&quot;,&quot;will_start_playing_when_initialized&quot;:&quot;Will start playing when initialized&quot;,&quot;completed&quot;:&quot;Completed&quot;,&quot;buffering_stalled&quot;:&quot;Buffering is stalled. Will stop.&quot;,&quot;stopped&quot;:&quot;Stopped&quot;,&quot;hr&quot;:&quot;Hr&quot;,&quot;min&quot;:&quot;Min&quot;,&quot;sec&quot;:&quot;Sec&quot;,&quot;any_moment&quot;:&quot;Any Moment&quot;},&quot;prefs&quot;:{&quot;desktopNotification&quot;:true,&quot;soundNotification&quot;:false,&quot;logLevel&quot;:0,&quot;enable&quot;:true,&quot;loop&quot;:false,&quot;hidePopup&quot;:true,&quot;autoPlay&quot;:false,&quot;autoBuffer&quot;:true,&quot;autoPlayOnBuffer&quot;:true,&quot;autoPlayOnBufferPercentage&quot;:42,&quot;autoPlayOnSmartBuffer&quot;:true,&quot;quality&quot;:&quot;default&quot;,&quot;fshd&quot;:false,&quot;onlyNotification&quot;:true,&quot;enableFullScreen&quot;:true,&quot;saveBandwidth&quot;:true,&quot;hideAnnotations&quot;:true,&quot;turnOffPagedBuffering&quot;:true}}" event="preferencesUpdated" id="myTubeRelayElementToPage"></mytubeelement><mytubeelement data="{&quot;loadBundle&quot;:true}" event="relayPrefs" id="myTubeRelayElementToTab"></mytubeelement>
+    <script>
+      if ('google' in window) {
+        google.load("earth", "1");
+      }
+    </script><script src="widget2_markup_data/a" type="text/javascript"></script><script src="widget2_markup_data/default.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="error_data/gu-util.js"></script>
+    <script type="text/javascript" src="error_data/utils.js"></script>
+    <script type="text/javascript" src="error_data/error.js"></script>
+    <link href="error_data/button.css" rel="stylesheet" type="text/css">
+    <link href="error_data/error.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 7]>
+    <link href="css/ie6.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+  </head>
+  <body onload="init();" style="margin:0px;">
+
+    <img id="google_logo" src="error_data/google_white_33.png">
+
+    <table height="100%;" border="0" width="100%">
+      <tbody><tr>
+        <td style="color:white;" valign="center">
+          <div id="text_wrapper">
+
+            <div id="text_default" style="display: none;">
+              <p class="title-class">There was a problem with the Google Earth Plugin. Please try reloading the page.</p>
+              <p>If that doesn't help, you can <a name="install" href="javascript:clkS();window.google.earth.installViaStub();void(0);"><b>re-install the Google Earth Plugin using this link</b></a>.</p>
+            </div>
+
+            <div id="text_ERR_UNSUPPORTED_BROWSER" style="display: none;">
+              <p class="title-class">Your browser does not support the Google Earth Plugin</p>
+
+              <p class="description-class">
+                Please try again with the latest version of one of these browsers:
+              </p>
+              <div class="list-class" style="text-align:left">
+                <span style="display: none" name="win_supported_browsers">
+                  <ul><b> <li>Google Chrome</li> <li>Internet Explorer</li> <li>Firefox</li> </b></ul>
+                </span>
+                <span style="display: none" name="mac_supported_browsers">
+                  <ul><b> <li>Google Chrome</li> <li>Safari</li> <li>Firefox</li> </b></ul>
+                </span>
+              </div>
+              <p class="description-class">
+                <a target="_top" href="http://earth.google.com/intl/en/plugin/">Learn more »</a>
+              </p>
+            </div>
+
+            <div id="text_ERR_UNSUPPORTED_PLATFORM" style="">
+              <p>The Google Earth Plugin is currently only available on <b>Windows</b> and <b>Mac OS X 10.6+</b>.</p>
+
+              <p><a target="_top" href="http://earth.google.com/intl/en/plugin/">Learn more »</a></p>
+            </div>
+
+            <div id="text_ERR_NOT_INSTALLED" style="display: none;" class="show_installer">
+              <p class="title-class">To view maps in 3D you need the Google Earth Plugin</p>
+            </div>
+
+            <div id="text_INSTALLING" style="display: none;">
+              <p class="title-class">You are now downloading the Google Earth Plugin.</p>
+              <div class="description-class">
+                <p>Please wait a few moments until the download is complete.</p>
+                <p><a target="_top" href="http://earth.google.com/intl/en/plugin/">Learn more »</a></p>
+              </div>
+            </div>
+
+            <div id="text_ERR_CREATE_PLUGIN" style="display: none;">
+              <p class="title-class">There was a problem with the Google Earth Plugin.</p>
+              <p class="description-class">Exit the browser completely (<b>Cmd-Q</b> on Mac; <b>Alt-F x</b> on Windows), then re-open this page to see it in action.</p>
+              <p class="description-class">If that doesn't help, you can <a name="install" href="javascript:clkS();window.google.earth.installViaStub();void(0);"><b>re-install the Google Earth Plugin using this link</b></a>.</p>
+            </div>
+
+            <div id="text_ERR_INIT" style="display: none;">
+              <p class="title-class">There was a problem with the Google Earth Plugin. Please try reloading the page.</p>
+              <p>If that doesn't help, you can <a name="install" href="javascript:clkS();window.google.earth.installViaStub();void(0);"><b>re-install the Google Earth Plugin using this link</b></a>.</p>
+            </div>
+
+            <div id="text_ERR_VERSION" style="display: none;">
+              <p class="title-class">The Google Earth Plugin was recently updated.</p>
+              <p>We recommend restarting the browser and then reloading this page.</p>
+
+              <p><a target="_top" href="http://earth.google.com/intl/en/plugin/">Learn more »</a></p>
+            </div>
+
+            <div id="text_ERR_BRIDGE" style="display: none;">
+              <p class="title-class">The Google Earth Plugin had an internal error.</p>
+              <p>Try reloading the page.</p>
+            </div>
+
+            <div id="text_ERR_API_KEY" style="display: none;">
+              <p>The Google Maps API key used on this web site was 
+registered for a different web site. The developer of this web site can 
+generate a new key <a target="_top" href="http://code.google.com/apis/maps">here</a>.</p>
+            </div>
+
+            <div id="text_ERR_CREATE_EARTH" style="display: none;" class="show_installer">
+              <p>There was a problem with the Google Earth Plugin. Please try installing it again.</p>
+            </div>
+
+            <div id="installer" style="display: none;">
+              <div style="margin:0.5em auto; min-width:35%" class="btn-flextoolbtn">
+                <div><p><span>
+                <a name="install" href="javascript:clkS();window.google.earth.installViaStub();void(0);">Download the Google Earth Plugin</a>
+                </span></p></div>
+
+                <p style="color: black;" class="btn-description">3D maps in your browser</p>
+              </div>
+
+              <p>
+                <a target="_top" href="http://earth.google.com/intl/en/plugin/">Learn more »</a>
+              </p>
+            </div>
+
+            <div id="text_SUCCESS_RECENT_INSTALL_RELOAD" style="display: none;">
+              <p><b>The Google Earth Plugin is now installed!<br>Reload the page to see it in action.</b></p>
+            </div>
+
+            <div id="text_SUCCESS_RECENT_INSTALL_CHROME_RELOAD" style="display: none;">
+              <p><b>Please run the installer that is being downloaded. 
+After installation, restart the browser to see the Google Earth Plugin 
+in action.</b></p>
+            </div>
+
+            <div id="text_SUCCESS_RECENT_INSTALL_RESTART" style="display: none;">
+              <p><b>The Google Earth Plugin is now installed!<br>Restart the browser to see it in action.</b></p>
+            </div>
+          </div>  <!-- shadow wrapper around content -->
+        </td>
+      </tr>
+    </tbody></table>
+  
+
+</body></html>

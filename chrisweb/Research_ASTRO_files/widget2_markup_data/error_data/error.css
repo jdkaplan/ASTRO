@@ -1,0 +1,58 @@
+body {
+  font-family: "Lucida Grande", "Arial Unicode MS", sans-serif;
+  background-image: url(../images/globe_background.jpg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: #000;
+  background-position:50% 40%;
+}
+
+#google_logo {
+  position:absolute;
+  bottom:6px;
+  right:6px;
+}
+
+#text_wrapper {
+  padding: 10px 10px;
+  background-image: url(../images/black50.png);
+  text-align: center;
+}
+
+div.btn-flextoolbtn {
+  width:20em;
+}
+
+a {
+  color: #bbbbff;
+}
+
+p {
+  padding: 5px 0;
+  margin: 0;
+}
+
+a:visited {
+  color: #eebbff;
+}
+
+ul, li {
+  margin: 0 0 0 1em;
+  padding: 0px;
+}
+
+.list-class {
+  font-size:0.9em;
+  width:20em;
+  margin-left:auto;
+  margin-right:auto;
+  align:center
+}
+
+.title-class {
+  font-size:1.1em;
+}
+
+.description-class {
+  font-size:0.9em;
+}

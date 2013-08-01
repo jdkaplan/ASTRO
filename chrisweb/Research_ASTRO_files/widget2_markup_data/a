@@ -1,0 +1,9 @@
+if (window['google'] != undefined && window['google']['loader'] != undefined) {
+if (!window['google']['earth']) {
+window['google']['earth'] = {};
+google.earth.Version = '1.0';
+google.earth.JSHash = '109c7b2bae7fe6cc34ea875176165d81';
+google.earth.LoadArgs = 'file\75earth\46v\0751';
+}
+google.loader.writeLoadTag("script", google.loader.ServiceBase + "/api/earth/1.0/109c7b2bae7fe6cc34ea875176165d81/default.I.js", false);
+}
