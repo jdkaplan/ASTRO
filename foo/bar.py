@@ -178,5 +178,60 @@ def pingPong(stream):
         print parsePong(data)
         print 'Checksum correct?:', str(checkChecksum(data)), '\n'
 
-dr = dataReader()
-pingPong(dr)
+def csvParsePong(data):
+    command = data[0]
+    internalTime = data[1:5]
+    externalTime = data[5:9]
+    height = data[9:13]
+    temperature = data[13:15]
+    motorOne = data[15:17]
+    motorTwo = data[17:19]
+    safemode = data[19]
+    heaterOne = data[20]
+    heaterTwo = data[21]
+    HVDCOne = data[22]
+    HVDCTwo = data[23]
+    checksum = data[24]
+
+    command = makeNumber(command)
+    internalTime = makeNumber(internalTime)
+    externalTime = esraPemit(makeNumber(externalTime))
+    height = makeNumber(height)
+    temperature = makeNumber(temperature)
+    motorOne = makeNumber(motorOne)
+    motorTwo = makeNumber(motorTwo)
+    safemode = makeNumber(safemode)
+    heaterOne = makeNumber(heaterOne)
+    heaterTwo = makeNumber(heaterTwo)
+    HVDCOne = makeNumber(HVDCOne)
+    HVDCTwo = makeNumber(HVDCTwo)
+    checksum = makeNumber(checksum)
+    
+    output = ""
+    output += str(internalTime) + ','
+    output += str(externalTime) + ','
+    output += str(height) + ','
+    output += str(temperature) + ','
+    output += str(motorOne) + ','
+    output += str(motorTwo) + ','
+    output += str(safemode) + ','
+    output += str(heaterOne) + ','
+    output += str(heaterTwo) + ','
+    output += str(HVDCOne) + ','
+    output += str(HVDCTwo) + ','
+    output += str(checksum) + ','
+    
+    return output
+
+def csvPingPong(stream):
+    while True:
+        c = stream.read()
+        while c == '\xff':
+            c = stream.read()
+
+        data = c + stream.read(24)
+        print csvParsePong(data),
+        print str(checkChecksum(data))
+    
+
+csvPingPong(dataReader())
