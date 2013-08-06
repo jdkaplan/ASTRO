@@ -1,11 +1,13 @@
-1	GND
-2	3.3V
-3	Thermistor to ADC
-4-7	Switch stepper 1
+1	    GND
+2	    3.3V
+3	    Thermistor to ADC
+4-7	    Switch stepper 1
 8-11	Switch stepper 2
-12	GND
+12	    GND
 13,14	External Oscillator
-15	RS-232 driver power management
-16	Switch HDVC 1
-17	Switch HDVC 2
-18	Switch heater
+15	    RS-232 driver power management
+16	    Switch HDVC 1
+17	    Switch HDVC 2
+18	    Switch heater
+
+Note: HVDC1 is at ~570V
