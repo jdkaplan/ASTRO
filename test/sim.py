@@ -82,11 +82,11 @@ timeParse = esraPemit
 def generateGPS(gpsTime,height,fix):
     s = '\x01\x30'
     s += str(time.time()) + ','
-    s += '$GPGGA,' + str(gpsTime) +','
+    s += 'GPGGA,' + str(gpsTime) +','
     s += ',,,,' + str(fix) + ','
     s += ',,' + str(height) + ','
     s += ',,,,'
-    checkString = s[s.find('$')+1:]
+    checkString = s[s.find(',')+1:]
     checksum = generateChecksum(checkString)
     s += checksum
     s += ','*(122-len(s))
