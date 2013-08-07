@@ -1,6 +1,7 @@
 import threading
 import serial
 import time
+import grault
 
 inputLock=threading.Lock()
 PORT=0
@@ -53,7 +54,7 @@ def parsePong(data):
     output += "internalTime " + str(internalTime) + '\t\t(approx. {:.2f}s)'.format(internalTime / 1024.) + '\n'
     output += "externalTime " + str(externalTime) + '\n'
     output += "height " + str(height) + '\t\t(approx. {:.2f}ft)'.format(height * 3.28084) + '\n'
-    output += "temperature " + str(temperature) + '\n'
+    output += "temperature " + str(temperature) + '\t\t(approx. {:.2f} C)'.format(grault.boardTemperature(temperature)) + '\n'
     output += "motorOne " + str(motorOne) + '\n'
     output += "motorTwo " + str(motorTwo) + '\n'
     output += "safemode " + str(safemode) + '\n'
