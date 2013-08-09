@@ -4,6 +4,7 @@ from htmlentitydefs import name2codepoint
 import time
 import grault
 import datetime
+import os
 
 # THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
 
@@ -203,9 +204,9 @@ def pingPong(stream):
                 # make datetime obj from current time, convert to human-readable, write to file
                 html.write(datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
                 html.write('</p>\n')
-                html.write('<br />')
+                html.write('<br /><br />')
                 if logfile:
-                    html.write('<p><a href="' + logfile + '">ASTRO log file</a>')
+                    html.write('<p><a href="' + os.path.relpath(logfile,os.path.dirname(htmlfile)) + '">ASTRO log file</a>')
                 html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_gps_v6.2.1.php?py=2013">Flight Tracker</a></p>\n')
                 html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_adc.php?py=2013">Environmental Status</a></p>\n')
                 html.write('</body>\n</html>')
@@ -278,3 +279,5 @@ def csvPingPong(stream):
             logfile.write('\n')            
 
 pingPong(dataReader())
+
+# TODO command line args
