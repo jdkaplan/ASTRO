@@ -1,8 +1,9 @@
 import urllib2
 from HTMLParser import HTMLParser
 from htmlentitydefs import name2codepoint
-from time import sleep
+import time
 import grault
+import datetime
 
 # THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
 
@@ -160,7 +161,7 @@ class dataReader:
         sound = False
         while len(self.buffer) < n:
             self.updateBuffer()
-            sleep(10)
+            time.sleep(10)
             sound = True
         if sound:
             pass
@@ -186,10 +187,10 @@ def pingPong(stream):
 
         if logfile:
             with open(logfile,'a+') as log:
-                logfile.write(parsed)
-                logfile.write('\n')
-                logfile.write(checked)
-                logfile.write('\n')
+                log.write(parsed)
+                log.write('\n')
+                log.write(checked)
+                log.write('\n')
                 
         if htmlfile:
             with open(htmlfile,'w') as html:
@@ -204,7 +205,7 @@ def pingPong(stream):
                 html.write('</p>\n')
                 html.write('<br />')
                 if logfile:
-                    html.write('<p><a href="' + logfile.name + '">ASTRO log file</a>')
+                    html.write('<p><a href="' + logfile + '">ASTRO log file</a>')
                 html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_gps_v6.2.1.php?py=2013">Flight Tracker</a></p>\n')
                 html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_adc.php?py=2013">Environmental Status</a></p>\n')
                 html.write('</body>\n</html>')
@@ -276,4 +277,4 @@ def csvPingPong(stream):
             logfile.write(checked)
             logfile.write('\n')            
 
-csvPingPong(dataReader())
+pingPong(dataReader())
