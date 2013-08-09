@@ -1,0 +1,13 @@
+command 0
+internalTime 3		(approx. 0.00s)
+externalTime (7270, 7, 36, 96)
+height 0		(approx. 0.00ft)
+temperature 3		(approx. -55.00 C)
+motorOne 11776
+motorTwo 0
+safemode 0
+heaterOne 1
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
