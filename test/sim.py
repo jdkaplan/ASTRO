@@ -3,6 +3,8 @@ import serial
 import time
 import grault
 import os
+import datetime
+import time
 
 inputLock=threading.Lock()
 PORT=0
@@ -107,7 +109,11 @@ data = [
     ]
 
 def pingPong(port=0,baud=1200, kind='USB'):
-    logfile = open(raw_input('Logfile? (filepath) > '),'a+') or None
+    logfile = raw_input('Logfile? (filepath) > ') or None
+    # logfile = open(logfile,'a+') if logfile else None
+
+    htmlfile = raw_input('HTML? (filepath) > ') or None
+    # htmlfile = open(htmlfile,'w') if htmlfile else None
 
     conn = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
     while True:
@@ -118,14 +124,34 @@ def pingPong(port=0,baud=1200, kind='USB'):
         data = c + conn.read(24)
 
         parsed = parsePong(data)
-        checked =  'Checksum correct?:', str(checkChecksum(data)), '\n'
+        checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
         print parsed
         print checked
 
         if logfile:
-            logfile.write(parsed)
-            logfile.write('\n')
-            logfile.write(checked)
+            with open(logfile,'a+') as log:
+                log.write(parsed)
+                log.write('\n')
+                log.write(checked)
+                log.write('\n')
+        
+        if htmlfile:
+            with open(htmlfile,'w') as html:
+                html.write("<!DOCTYPE html>\n<html>\n<title>ASTRO HASP</title><head>\n")
+                html.write('<style type="text/css">p{margin:0;}</style>')
+                html.write("</head>\n<body>\n<h1>ASTRO HASP</h1>\n")
+                html.write('<p>' + parsed.replace('\n','</p>\n<p>').replace('\t','&emsp;&emsp;') + '</p>\n')
+                html.write('<p>' + checked + '</p>\n')
+                html.write('<p>Last updated: ')
+                # make datetime obj from current time, convert to human-readable, write to file
+                html.write(datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+                html.write('</p>\n')
+                html.write('<br />')
+                if logfile:
+                    html.write('<p><a href="' + logfile.name + '">ASTRO log file</a>')
+                html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_gps_v6.2.1.php?py=2013">Flight Tracker</a></p>\n')
+                html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_adc.php?py=2013">Environmental Status</a></p>\n')
+                html.write('</body>\n</html>')
 
 s = None
 SLEEP_TIME = 1.0
