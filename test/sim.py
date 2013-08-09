@@ -116,6 +116,7 @@ def pingPong(port=0,baud=1200, kind='USB'):
             c = conn.read()
 
         data = c + conn.read(24)
+
         parsed = parsePong(data)
         checked =  'Checksum correct?:', str(checkChecksum(data)), '\n'
         print parsed
