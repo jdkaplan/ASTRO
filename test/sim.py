@@ -2,6 +2,7 @@ import threading
 import serial
 import time
 import grault
+import os
 
 inputLock=threading.Lock()
 PORT=0
@@ -106,6 +107,8 @@ data = [
     ]
 
 def pingPong(port=0,baud=1200, kind='USB'):
+    logfile = open(raw_input('Logfile? (filepath) > '),'a+') or None
+
     conn = serial.Serial('/dev/tty'+kind+str(port),baudrate=baud)
     while True:
         c = conn.read()
@@ -113,8 +116,15 @@ def pingPong(port=0,baud=1200, kind='USB'):
             c = conn.read()
 
         data = c + conn.read(24)
-        print parsePong(data)
-        print 'Checksum correct?:', str(checkChecksum(data)), '\n'
+        parsed = parsePong(data)
+        checked =  'Checksum correct?:', str(checkChecksum(data)), '\n'
+        print parsed
+        print checked
+
+        if logfile:
+            logfile.write(parsed)
+            logfile.write('\n')
+            logfile.write(checked)
 
 s = None
 SLEEP_TIME = 1.0
