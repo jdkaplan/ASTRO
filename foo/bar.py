@@ -169,14 +169,24 @@ class dataReader:
         return ''.join(out)
         
 def pingPong(stream):
+    logfile = open(raw_input('Logfile? (filepath) > '),'a+') or None
+
     while True:
         c = stream.read()
         while c == '\xff':
             c = stream.read()
 
         data = c + stream.read(24)
-        print parsePong(data)
-        print 'Checksum correct?:', str(checkChecksum(data)), '\n'
+
+        parsed = parsePong(data)
+        checked =  'Checksum correct?:', str(checkChecksum(data)), '\n'
+        print parsed
+        print checked
+
+        if logfile:
+            logfile.write(parsed)
+            logfile.write('\n')
+            logfile.write(checked)
 
 def csvParsePong(data):
     command = data[0]
@@ -224,14 +234,23 @@ def csvParsePong(data):
     return output
 
 def csvPingPong(stream):
+    logfile = open(raw_input('Logfile? (filepath) > '),'a+') or None
+
     while True:
         c = stream.read()
         while c == '\xff':
             c = stream.read()
 
         data = c + stream.read(24)
-        print csvParsePong(data),
-        print str(checkChecksum(data))
-    
+
+        parsed = csvParsePong(data),
+        checked = str(checkChecksum(data))
+        print parsed
+        print checked
+        
+        if logfile:
+            logfile.write(parsed)
+            logfile.write('\n')
+            logfile.write(checked)
 
 csvPingPong(dataReader())
