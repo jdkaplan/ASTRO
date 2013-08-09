@@ -169,7 +169,8 @@ class dataReader:
         return ''.join(out)
         
 def pingPong(stream):
-    logfile = open(raw_input('Logfile? (filepath) > '),'a+') or None
+    logfile = raw_input('Logfile? (filepath) > ') or None
+    htmlfile = raw_input('HTML? (filepath) > ') or None
 
     while True:
         c = stream.read()
@@ -179,14 +180,35 @@ def pingPong(stream):
         data = c + stream.read(24)
 
         parsed = parsePong(data)
-        checked =  'Checksum correct?:', str(checkChecksum(data)), '\n'
+        checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
         print parsed
         print checked
 
         if logfile:
-            logfile.write(parsed)
-            logfile.write('\n')
-            logfile.write(checked)
+            with open(logfile,'a+') as log:
+                logfile.write(parsed)
+                logfile.write('\n')
+                logfile.write(checked)
+                logfile.write('\n')
+                
+        if htmlfile:
+            with open(htmlfile,'w') as html:
+                html.write("<!DOCTYPE html>\n<html>\n<title>ASTRO HASP</title><head>\n")
+                html.write('<style type="text/css">p{margin:0;}</style>')
+                html.write("</head>\n<body>\n<h1>ASTRO HASP</h1>\n")
+                html.write('<p>' + parsed.replace('\n','</p>\n<p>').replace('\t','&emsp;&emsp;') + '</p>\n')
+                html.write('<p>' + checked + '</p>\n')
+                html.write('<p>Last updated: ')
+                # make datetime obj from current time, convert to human-readable, write to file
+                html.write(datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+                html.write('</p>\n')
+                html.write('<br />')
+                if logfile:
+                    html.write('<p><a href="' + logfile.name + '">ASTRO log file</a>')
+                html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_gps_v6.2.1.php?py=2013">Flight Tracker</a></p>\n')
+                html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_adc.php?py=2013">Environmental Status</a></p>\n')
+                html.write('</body>\n</html>')
+
 
 def csvParsePong(data):
     command = data[0]
@@ -250,7 +272,8 @@ def csvPingPong(stream):
         
         if logfile:
             logfile.write(parsed)
-            logfile.write('\n')
+            logfile.write(',')
             logfile.write(checked)
+            logfile.write('\n')            
 
 csvPingPong(dataReader())
