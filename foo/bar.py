@@ -1,8 +1,10 @@
 import urllib2
 from HTMLParser import HTMLParser
 from htmlentitydefs import name2codepoint
-from time import sleep
+import time
 import grault
+import datetime
+import os
 
 
 # THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
@@ -161,7 +163,7 @@ class dataReader:
         sound = False
         while len(self.buffer) < n:
             self.updateBuffer()
-            sleep(10)
+            time.sleep(10)
             sound = True
         if sound:
             pass
@@ -170,14 +172,46 @@ class dataReader:
         return ''.join(out)
         
 def pingPong(stream):
+    logfile = raw_input('Logfile? (filepath) > ') or None
+    htmlfile = raw_input('HTML? (filepath) > ') or None
+
     while True:
         c = stream.read()
         while c == '\xff':
             c = stream.read()
 
         data = c + stream.read(24)
-        print parsePong(data)
-        print 'Checksum correct?:', str(checkChecksum(data)), '\n'
+
+        parsed = parsePong(data)
+        checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
+        print parsed
+        print checked
+
+        if logfile:
+            with open(logfile,'a+') as log:
+                log.write(parsed)
+                log.write('\n')
+                log.write(checked)
+                log.write('\n')
+                
+        if htmlfile:
+            with open(htmlfile,'w') as html:
+                html.write("<!DOCTYPE html>\n<html>\n<title>ASTRO HASP</title><head>\n")
+                html.write('<style type="text/css">p{margin:0;}</style>')
+                html.write("</head>\n<body>\n<h1>ASTRO HASP</h1>\n")
+                html.write('<p>' + parsed.replace('\n','</p>\n<p>').replace('\t','&emsp;&emsp;') + '</p>\n')
+                html.write('<p>' + checked + '</p>\n')
+                html.write('<p>Last updated: ')
+                # make datetime obj from current time, convert to human-readable, write to file
+                html.write(datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+                html.write('</p>\n')
+                html.write('<br /><br />')
+                if logfile:
+                    html.write('<p><a href="' + os.path.relpath(logfile,os.path.dirname(htmlfile)) + '">ASTRO log file</a>')
+                html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_gps_v6.2.1.php?py=2013">Flight Tracker</a></p>\n')
+                html.write('<p><a href="http://laspace.lsu.edu/hasp/xml/data_adc.php?py=2013">Environmental Status</a></p>\n')
+                html.write('</body>\n</html>')
+
 
 def csvParsePong(data):
     command = data[0]
@@ -225,17 +259,28 @@ def csvParsePong(data):
     return output
 
 def csvPingPong(stream):
+    logfile = open(raw_input('Logfile? (filepath) > '),'a+') or None
+
     while True:
         c = stream.read()
         while c == '\xff':
             c = stream.read()
 
         data = c + stream.read(24)
-        print csvParsePong(data),
-        print str(checkChecksum(data))
-    
+
+        parsed = csvParsePong(data),
+        checked = str(checkChecksum(data))
+        print parsed
+        print checked
+        
+        if logfile:
+            logfile.write(parsed)
+            logfile.write(',')
+            logfile.write(checked)
+            logfile.write('\n')
 
 #csvPingPong(dataReader())
+#pingPong(dataReader())
 
 # Through serial
 import serial
@@ -244,3 +289,5 @@ port = 0
 kind = 'USB'
 s = serial.Serial('/dev/tty'+kind+str(port), baudrate=baud)
 pingPong(s)
+
+# TODO command line args

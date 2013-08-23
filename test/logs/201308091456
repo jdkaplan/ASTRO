@@ -1,0 +1,719 @@
+command 179
+internalTime 4294967295		(approx. 4194304.00s)
+externalTime (11930, 27, 52, 95)
+height 4294967295		(approx. 14091100500.13ft)
+temperature 65280		(approx. 150.00 C)
+motorOne 0
+motorTwo 2212
+safemode 0
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
+Checksum correct?: False
+
+command 0
+internalTime 208384		(approx. 203.50s)
+externalTime (0, 0, 0, 1)
+height 0		(approx. 0.00ft)
+temperature 33023		(approx. 150.00 C)
+motorOne 65535
+motorTwo 65535
+safemode 255
+heaterOne 255
+heaterTwo 255
+HVDCOne 255
+HVDCTwo 255
+checksum 255
+Checksum correct?: False
+
+command 0
+internalTime 1		(approx. 0.00s)
+externalTime (10858, 35, 13, 28)
+height 0		(approx. 0.00ft)
+temperature 3		(approx. -55.00 C)
+motorOne 11520
+motorTwo 0
+safemode 0
+heaterOne 1
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
+Checksum correct?: False
+
+command 199
+internalTime 4294967295		(approx. 4194304.00s)
+externalTime (11930, 27, 52, 95)
+height 4294967295		(approx. 14091100500.13ft)
+temperature 65280		(approx. 150.00 C)
+motorOne 0
+motorTwo 763
+safemode 0
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
+Checksum correct?: False
+
+command 0
+internalTime 208128		(approx. 203.25s)
+externalTime (0, 0, 0, 1)
+height 0		(approx. 0.00ft)
+temperature 55039		(approx. 150.00 C)
+motorOne 65535
+motorTwo 65535
+safemode 255
+heaterOne 255
+heaterTwo 255
+HVDCOne 255
+HVDCTwo 255
+checksum 255
+Checksum correct?: False
+
+command 0
+internalTime 1036		(approx. 1.01s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 39
+Checksum correct?: True
+
+command 0
+internalTime 1308		(approx. 1.28s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 54
+Checksum correct?: True
+
+command 0
+internalTime 1534		(approx. 1.50s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 814		(approx. 35.70 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 215
+Checksum correct?: True
+
+command 0
+internalTime 1754		(approx. 1.71s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 814		(approx. 35.70 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 240
+Checksum correct?: True
+
+command 0
+internalTime 2135		(approx. 2.08s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 112
+Checksum correct?: True
+
+command 0
+internalTime 2434		(approx. 2.38s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 164
+Checksum correct?: True
+
+command 0
+internalTime 2763		(approx. 2.70s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 238
+Checksum correct?: True
+
+command 0
+internalTime 3056		(approx. 2.98s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 814		(approx. 35.70 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 215
+Checksum correct?: True
+
+command 4
+internalTime 10043		(approx. 9.81s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 180
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 131
+Checksum correct?: True
+
+command 5
+internalTime 12896		(approx. 12.59s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 120
+Checksum correct?: True
+
+command 6
+internalTime 14818		(approx. 14.47s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 813		(approx. 35.49 C)
+motorOne 0
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 155
+Checksum correct?: True
+
+command 7
+internalTime 18373		(approx. 17.94s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 814		(approx. 35.70 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 169
+Checksum correct?: True
+
+command 0
+internalTime 11		(approx. 0.01s)
+externalTime (3821, 28, 37, 12)
+height 0		(approx. 0.00ft)
+temperature 3		(approx. -55.00 C)
+motorOne 12288
+motorTwo 0
+safemode 0
+heaterOne 1
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
+Checksum correct?: False
+
+command 107
+internalTime 4294967295		(approx. 4194304.00s)
+externalTime (11930, 27, 52, 95)
+height 4294967295		(approx. 14091100500.13ft)
+temperature 65280		(approx. 150.00 C)
+motorOne 0
+motorTwo 3367
+safemode 0
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
+Checksum correct?: False
+
+command 0
+internalTime 208896		(approx. 204.00s)
+externalTime (0, 0, 0, 1)
+height 0		(approx. 0.00ft)
+temperature 6399		(approx. 150.00 C)
+motorOne 65535
+motorTwo 65535
+safemode 255
+heaterOne 255
+heaterTwo 255
+HVDCOne 255
+HVDCTwo 255
+checksum 255
+Checksum correct?: False
+
+command 0
+internalTime 3722		(approx. 3.63s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 817		(approx. 36.34 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 183
+Checksum correct?: True
+
+command 0
+internalTime 4070		(approx. 3.97s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 817		(approx. 36.34 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 218
+Checksum correct?: True
+
+command 0
+internalTime 4417		(approx. 4.31s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 816		(approx. 36.12 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 98
+Checksum correct?: True
+
+command 0
+internalTime 4785		(approx. 4.67s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 816		(approx. 36.12 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 145
+Checksum correct?: True
+
+command 0
+internalTime 5099		(approx. 4.98s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 816		(approx. 36.12 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 202
+Checksum correct?: True
+
+command 0
+internalTime 5481		(approx. 5.35s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 816		(approx. 36.12 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 78
+Checksum correct?: True
+
+command 0
+internalTime 39646		(approx. 38.72s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 816		(approx. 36.12 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 118
+Checksum correct?: True
+
+command 0
+internalTime 39914		(approx. 38.98s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 817		(approx. 36.34 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 66
+Checksum correct?: True
+
+command 0
+internalTime 40126		(approx. 39.19s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 816		(approx. 36.12 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 16
+Checksum correct?: True
+
+command 4
+internalTime 135814		(approx. 132.63s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 818		(approx. 36.56 C)
+motorOne 180
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 22
+Checksum correct?: True
+
+command 6
+internalTime 136120		(approx. 132.93s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 818		(approx. 36.56 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 66
+Checksum correct?: True
+
+command 8
+internalTime 191913		(approx. 187.42s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 818		(approx. 36.56 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 1
+HVDCTwo 0
+checksum 162
+Checksum correct?: True
+
+command 9
+internalTime 195658		(approx. 191.07s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 818		(approx. 36.56 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 80
+Checksum correct?: True
+
+command 8
+internalTime 219597		(approx. 214.45s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 819		(approx. 36.77 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 1
+HVDCTwo 0
+checksum 114
+Checksum correct?: True
+
+command 9
+internalTime 240816		(approx. 235.17s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 819		(approx. 36.77 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 250
+Checksum correct?: True
+
+command 8
+internalTime 248390		(approx. 242.57s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 818		(approx. 36.56 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 1
+HVDCTwo 0
+checksum 107
+Checksum correct?: True
+
+command 9
+internalTime 252561		(approx. 246.64s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 817		(approx. 36.34 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 175
+Checksum correct?: True
+
+command 0
+internalTime 325024		(approx. 317.41s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 819		(approx. 36.77 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 189
+Checksum correct?: True
+
+command 11
+internalTime 355169		(approx. 346.84s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 820		(approx. 36.99 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 1
+checksum 238
+Checksum correct?: True
+
+command 12
+internalTime 357717		(approx. 349.33s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 820		(approx. 36.99 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 194
+Checksum correct?: True
+
+command 14
+internalTime 383605		(approx. 374.61s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 819		(approx. 36.77 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 1
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 73
+Checksum correct?: True
+
+command 15
+internalTime 387982		(approx. 378.89s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 819		(approx. 36.77 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 131
+Checksum correct?: True
+
+command 16
+internalTime 390267		(approx. 381.12s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 818		(approx. 36.56 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 1
+HVDCOne 0
+HVDCTwo 0
+checksum 118
+Checksum correct?: True
+
+command 17
+internalTime 392126		(approx. 382.94s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 820		(approx. 36.99 C)
+motorOne 180
+motorTwo 360
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 186
+Checksum correct?: True
+
+command 0
+internalTime 103		(approx. 0.10s)
+externalTime (186, 24, 48, 64)
+height 0		(approx. 0.00ft)
+temperature 3		(approx. -55.00 C)
+motorOne 12800
+motorTwo 0
+safemode 0
+heaterOne 1
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
+Checksum correct?: False
+
+command 83
+internalTime 4294967295		(approx. 4194304.00s)
+externalTime (11930, 27, 52, 95)
+height 4294967295		(approx. 14091100500.13ft)
+temperature 65280		(approx. 150.00 C)
+motorOne 0
+motorTwo 26652
+safemode 0
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 0
+Checksum correct?: False
+
+command 0
+internalTime 209408		(approx. 204.50s)
+externalTime (0, 0, 0, 1)
+height 0		(approx. 0.00ft)
+temperature 17663		(approx. 150.00 C)
+motorOne 65535
+motorTwo 65535
+safemode 255
+heaterOne 255
+heaterTwo 255
+HVDCOne 255
+HVDCTwo 255
+checksum 255
+Checksum correct?: False
+
+command 0
+internalTime 26925		(approx. 26.29s)
+externalTime (0, 0, 0, 0)
+height 0		(approx. 0.00ft)
+temperature 818		(approx. 36.56 C)
+motorOne 0
+motorTwo 0
+safemode 1
+heaterOne 0
+heaterTwo 0
+HVDCOne 0
+HVDCTwo 0
+checksum 116
+Checksum correct?: True
