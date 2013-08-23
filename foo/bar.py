@@ -4,6 +4,7 @@ from htmlentitydefs import name2codepoint
 from time import sleep
 import grault
 
+
 # THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
 
 QUEUE = set()
@@ -234,4 +235,12 @@ def csvPingPong(stream):
         print str(checkChecksum(data))
     
 
-csvPingPong(dataReader())
+#csvPingPong(dataReader())
+
+# Through serial
+import serial
+baud = 1200
+port = 0
+kind = 'USB'
+s = serial.Serial('/dev/tty'+kind+str(port), baudrate=baud)
+pingPong(s)
