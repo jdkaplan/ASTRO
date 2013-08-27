@@ -120,7 +120,7 @@ class HASPParser(HTMLParser):
             self.useful = False
 
 year = "2013"
-payload = "06"
+payload = "08"
 
 base_url = 'http://laspace.lsu.edu/hasp/groups/' + year + '/data/'
 #base_url = '/home/jdkaplan/documents/astro/foo/'
