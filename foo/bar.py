@@ -62,19 +62,19 @@ def parsePong(data):
     HVDCTwo = makeNumber(HVDCTwo)
     checksum = makeNumber(checksum)
     
-    output = "command " + str(command) + '\n'
-    output += "internalTime " + str(internalTime) + '\t\t(approx. {:.2f}s)'.format(internalTime/1024.) + '\n'
-    output += "externalTime " + str(externalTime) + '\n'
-    output += "height " + str(height) + '\n'
-    output += "temperature " + str(temperature) + '\t\t(approx. {:.2f} C)'.format(grault.boardTemperature(temperature)) + '\n'
-    output += "motorOne " + str(motorOne) + '\n'
-    output += "motorTwo " + str(motorTwo) + '\n'
-    output += "safemode " + str(safemode) + '\n'
-    output += "heaterOne " + str(heaterOne) + '\n'
-    output += "heaterTwo " + str(heaterTwo) + '\n'
-    output += "HVDCOne " + str(HVDCOne) + '\n'
-    output += "HVDCTwo " + str(HVDCTwo) + '\n'
-    output += "checksum " + str(checksum)
+    output = "command\t" + str(command) + '\n'
+    output += "internalTime\t" + str(internalTime) + '\t(approx. {:.2f}s)'.format(internalTime/1024.) + '\n'
+    output += "externalTime\t" + str(externalTime) + '\n'
+    output += "height\t" + str(height) + '\n'
+    output += "temperature\t" + str(temperature) + '\t(approx. {:.2f} C)'.format(grault.boardTemperature(temperature)) + '\n'
+    output += "motorOne\t" + str(motorOne) + '\n'
+    output += "motorTwo\t" + str(motorTwo) + '\n'
+    output += "safemode\t" + str(safemode) + '\n'
+    output += "heaterOne\t" + str(heaterOne) + '\n'
+    output += "heaterTwo\t" + str(heaterTwo) + '\n'
+    output += "HVDCOne\t" + str(HVDCOne) + '\n'
+    output += "HVDCTwo\t" + str(HVDCTwo) + '\n'
+    output += "checksum\t" + str(checksum)
     
     return output
 
@@ -197,14 +197,18 @@ def pingPong(stream):
         if htmlfile:
             with open(htmlfile,'w') as html:
                 html.write("<!DOCTYPE html>\n<html>\n<title>ASTRO HASP</title><head>\n")
-                html.write('<style type="text/css">p{margin:0;}</style>')
+                html.write('<style type="text/css">td{padding:0 1em;}</style>')
+                # html.write('<style type="text/css">p{padding:0;}</style>')
                 html.write("</head>\n<body>\n<h1>ASTRO HASP</h1>\n")
-                html.write('<p>' + parsed.replace('\n','</p>\n<p>').replace('\t','&emsp;&emsp;') + '</p>\n')
-                html.write('<p>' + checked + '</p>\n')
-                html.write('<p>Last updated: ')
-                # make datetime obj from current time, convert to human-readable, write to file
-                html.write(datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
-                html.write('</p>\n')
+                # html.write('<p>' + parsed.replace('\n','</p>\n<p>').replace('\t','&emsp;&emsp;') + '</p>\n')
+                # html.write('<p>' + checked + '</p>\n')
+                # html.write('<p>Last updated: ')
+                # # make datetime obj from current time, convert to human-readable, write to file
+                # html.write(datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
+                # html.write('</p>\n')
+                html.write('<table>')
+                html.write('<tr><td>' + parsed.replace('\n', '<td></tr>\n<tr><td>').replace('\t','</td><td>') + '</td></tr>\n')
+                html.write('</table>')
                 html.write('<br /><br />')
                 if logfile:
                     html.write('<p><a href="' + os.path.relpath(logfile,os.path.dirname(htmlfile)) + '">ASTRO log file</a>')
@@ -279,8 +283,8 @@ def csvPingPong(stream):
             logfile.write(checked)
             logfile.write('\n')
 
-#csvPingPong(dataReader())
-#pingPong(dataReader())
+# csvPingPong(dataReader())
+# pingPong(dataReader())
 
 # Through serial
 import serial
