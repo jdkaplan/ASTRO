@@ -272,7 +272,7 @@ def csvPingPong(stream):
 
         data = c + stream.read(24)
 
-        parsed = csvParsePong(data),
+        parsed = csvParsePong(data)
         checked = str(checkChecksum(data))
         print parsed
         print checked
