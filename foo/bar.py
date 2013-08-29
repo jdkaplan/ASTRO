@@ -272,7 +272,7 @@ def csvPingPong(stream):
 
         data = c + stream.read(24)
 
-        parsed = csvParsePong(data),
+        parsed = csvParsePong(data)
         checked = str(checkChecksum(data))
         print parsed
         print checked
@@ -283,15 +283,15 @@ def csvPingPong(stream):
             logfile.write(checked)
             logfile.write('\n')
 
-# csvPingPong(dataReader())
-# pingPong(dataReader())
+#csvPingPong(dataReader())
+pingPong(dataReader())
 
 # Through serial
-import serial
-baud = 1200
-port = 0
-kind = 'USB'
-s = serial.Serial('/dev/tty'+kind+str(port), baudrate=baud)
-pingPong(s)
+#import serial
+#baud = 1200
+#port = 0
+#kind = 'USB'
+#s = serial.Serial('/dev/tty'+kind+str(port), baudrate=baud)
+#pingPong(s)
 
 # TODO command line args
