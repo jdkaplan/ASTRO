@@ -13,8 +13,9 @@
     body
     {
         background: #f0f0f0 url('images/bg1.png');
-        font-family: 'Open Sans Condensed', sans-serif;
-        font-size: 14pt;
+        /* font-family: 'Open Sans Condensed', sans-serif; */
+	font-family: sans-serif;
+        /* font-size: 14pt; */
         line-height: 1.75em;
         color: #4c4c4c;
     }

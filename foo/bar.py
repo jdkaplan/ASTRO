@@ -63,10 +63,10 @@ def parsePong(data):
     checksum = makeNumber(checksum)
     
     output = "command\t" + str(command) + '\n'
-    output += "internalTime\t" + str(internalTime) + '\t(approx. {:.2f}s)'.format(internalTime/1024.) + '\n'
+    output += "internalTime\t" + str(internalTime) + '\t(approx. {0:.2f}s)'.format(internalTime/1024.) + '\n'
     output += "externalTime\t" + str(externalTime) + '\n'
     output += "height\t" + str(height) + '\n'
-    output += "temperature\t" + str(temperature) + '\t(approx. {:.2f} C)'.format(grault.boardTemperature(temperature)) + '\n'
+    output += "temperature\t" + str(temperature) + '\t(approx. {0:.2f} C)'.format(grault.boardTemperature(temperature)) + '\n'
     output += "motorOne\t" + str(motorOne) + '\n'
     output += "motorTwo\t" + str(motorTwo) + '\n'
     output += "safemode\t" + str(safemode) + '\n'
@@ -284,14 +284,14 @@ def csvPingPong(stream):
             logfile.write('\n')
 
 # csvPingPong(dataReader())
-# pingPong(dataReader())
+pingPong(dataReader())
 
-# Through serial
-import serial
-baud = 1200
-port = 0
-kind = 'USB'
-s = serial.Serial('/dev/tty'+kind+str(port), baudrate=baud)
-pingPong(s)
+# # Through serial
+# import serial
+# baud = 1200
+# port = 0
+# kind = 'USB'
+# s = serial.Serial('/dev/tty'+kind+str(port), baudrate=baud)
+# pingPong(s)
 
 # TODO command line args
