@@ -176,16 +176,21 @@ def pingPong(stream):
     htmlfile = raw_input('HTML? (filepath) > ') or None
 
     while True:
-        c = stream.read()
-        while c == '\xff':
+        try:
             c = stream.read()
+            while c == '\xff':
+                c = stream.read()
 
-        data = c + stream.read(24)
+            data = c + stream.read(24)
 
-        parsed = parsePong(data)
-        checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
-        print parsed
-        print checked
+            parsed = parsePong(data)
+            checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
+            # print parsed
+            # print checked
+
+        except:
+            parsed = 'Error'
+            checked = ''
 
         if logfile:
             with open(logfile,'a+') as log:
