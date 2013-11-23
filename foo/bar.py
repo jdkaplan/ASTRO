@@ -180,13 +180,14 @@ def pingPong(stream):
             c = stream.read()
             while c == '\xff':
                 c = stream.read()
-        
+
             data = c + stream.read(24)
 
             parsed = parsePong(data)
             checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
-            print parsed
-            print checked
+
+            # print parsed
+            # print checked
             
         except:
             print "Unexpected error:", sys.exc_info()[0]
