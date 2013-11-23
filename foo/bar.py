@@ -5,7 +5,7 @@ import time
 import grault
 import datetime
 import os
-
+import sys
 
 # THESE ARE KIND OF IMPORTANT IF YOU WANT TO KNOW WHERE THINGS ARE GOING
 
@@ -176,16 +176,22 @@ def pingPong(stream):
     htmlfile = raw_input('HTML? (filepath) > ') or None
 
     while True:
-        c = stream.read()
-        while c == '\xff':
+        try:
             c = stream.read()
+            while c == '\xff':
+                c = stream.read()
+        
+            data = c + stream.read(24)
 
-        data = c + stream.read(24)
-
-        parsed = parsePong(data)
-        checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
-        print parsed
-        print checked
+            parsed = parsePong(data)
+            checked =  'Checksum correct?: ' + str(checkChecksum(data)) + '\n'
+            print parsed
+            print checked
+            
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
+            parsed = 'error'
+            checked = ''
 
         if logfile:
             with open(logfile,'a+') as log:
@@ -284,7 +290,7 @@ def csvPingPong(stream):
             logfile.write('\n')
 
 # csvPingPong(dataReader())
-pingPong(dataReader())
+# pingPong(dataReader())
 
 # # Through serial
 # import serial
@@ -295,3 +301,26 @@ pingPong(dataReader())
 # pingPong(s)
 
 # TODO command line args
+
+
+contents = ''
+with open('last.raw') as file_:
+    contents = ''.join([line for line in file_])
+
+while True:
+    try:
+        c,contents = contents[0], contents[1:]
+        while c == '\xff':
+            c,contents = contents[0], contents[1:]
+        
+
+        data,contents = c + contents[:24], contents[25:]
+        parsed = parsePong(data)
+        checked = str(checkChecksum(data))
+        print parsed,checked
+        print
+        
+    except IndexError:
+        print data, contents
+        break
+    

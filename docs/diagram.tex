@@ -1,0 +1,78 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows}
+
+\tikzstyle{block} = [rectangle, draw, rounded corners, minimum width=10em]
+\tikzstyle{title} = [text centered,]% minimum width=10em]
+\tikzstyle{field} = [text centered,]% minimum width=10em]
+\tikzstyle{line} = [draw, -latex']
+
+\newcommand\outcolor{red}
+\newcommand\incolor{blue}
+
+\begin{document}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+\begin{tikzpicture}
+  %% internal state representation
+  \node [title]                    (internal) {\underline{\textbf{Internal}}};
+  \node [field, below of=internal]    (intime) {Time since start};
+  \node [field, below of=intime]   (temp)   {Temperature};
+  \node [field, below of=temp]   (extime) {GPS time};
+  \node [field, below of=extime]     (safe)   {Safe mode?};
+  \node [field, below of=safe]     (height) {Altitude};
+  \node [field, below of=height] (motor)  {Motor states};
+  \node [field, below of=motor]   (umhv)   {UMHV states};
+  \node [field, below of=umhv]     (heater) {Heater states};
+
+  %% internal background layer
+  \begin{pgfonlayer}{background}
+    \node [block, minimum height=26em, yshift=-11.5em, fill=\incolor!20] (states) {};
+  \end{pgfonlayer}
+
+
+  %% external
+  %% \node [title, right of=internal, node distance = 15em, yshift=-3em] (external) {\underline{\textbf{External}}};
+  %% \node [field, below of=external]   (time)     {Passage of time};
+  \node [title, left of=internal, node distance = 15em] (input) {\underline{\textbf{Input}}};
+  \node [field, below of=input]   (time)     {Passage of time};
+  \node [field, below of=time]  (adc)      {ADC};
+  \node [field, below of=adc] (serial)   {Serial};
+
+  \begin{pgfonlayer}{background}
+    \node [block, minimum height=11em, yshift=-4.5em, xshift=-15em, fill=\outcolor!20] (outsidein) {};
+  \end{pgfonlayer}
+
+  \node [title, right of=internal, node distance = 15em, yshift=-14.225em] (output) {\underline{\textbf{Output}}};
+  \node [field, below of=output]      (motors)   {Motors};
+  \node [field, below of=motors]     (umhvs)    {UMHVs};
+  \node [field, below of=umhvs]   (heaters)  {Heaters};
+
+  \begin{pgfonlayer}{background}
+    \node [block, minimum height=11em, yshift=-18.625em, xshift=15em, fill=\outcolor!20] (insideout) {};
+  \end{pgfonlayer}
+
+  %% arrows!
+  %% \path [line] (time.east) -- (intime.west);
+  %% \path [line] (adc.east) -- (temp.west);
+  \path [line] (time.east) -| ++(2,0) |- (intime.west);
+  \path [line] (adc.east) -| ++(2,0) |- (temp.west);
+  \path [line] (serial.east) -| ++(2,0) |- (height.west);
+  \path [line] (serial.east) -| ++(2,0) |- (safe.west);
+  \path [line] (serial.east) -| ++(2,0) |- (extime.west);
+
+  %% \path [line] (motor.east) -- (motors.west);
+  %% \path [line] (heater.east) -- (heaters.west);
+  \path [line] (motor.east) -| ++(1,0) |- (motors.west);
+  \path [line] (heater.east) -| ++(1,0) |- (heaters.west);
+  \path [line] (umhv.east) -| ++(1,0) |- (umhvs.west);
+
+
+\end{tikzpicture}
+
+\end{document}
