@@ -172,8 +172,10 @@ class dataReader:
         return ''.join(out)
         
 def pingPong(stream):
-    logfile = raw_input('Logfile? (filepath) > ') or None
-    htmlfile = raw_input('HTML? (filepath) > ') or None
+    # logfile = raw_input('Logfile? (filepath) > ') or None
+    # htmlfile = raw_input('HTML? (filepath) > ') or None
+    logfile = '../web/log.txt'
+    htmlfile = '../web/status.html'
 
     while True:
         try:
