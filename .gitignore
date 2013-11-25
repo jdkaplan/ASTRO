@@ -24,3 +24,7 @@
 
 # makefile-made file
 derpacopter
+
+# LaTeX stuff
+*.aux
+*.log
